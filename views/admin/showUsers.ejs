@@ -72,8 +72,8 @@
                         </div>
                     </div>
                     <a href="/admin/cpanel/showAdmins">
-                    <div class="collapse show" id="collapseAdmin">
-                      <div class="col items selectedMenu">
+                    <div class="collapse" id="collapseAdmin">
+                      <div class="col items">
                         <div class="mt-2 me-4" style="display: inline-block;">
                             <img src="/icons/users.svg" alt="users">
                         </div>
@@ -103,8 +103,8 @@
                             <p>کاربران سایت</p>
                         </div>
                     </div>
-                    <div class="collapse" id="collapseUser">
-                        <div class="col items">
+                    <div class="collapse show" id="collapseUser">
+                        <div class="col items selectedMenu">
                           <div class="mt-2 me-4" style="display: inline-block;">
                               <img src="/icons/users.svg" alt="users">
                           </div>
@@ -222,7 +222,7 @@
             <div class="col-10">
                 <div class="col-11 mx-5 counter">
                     <div class="titleCounter">
-                        <p>پیشخوان  >  مدیران سایت  </p>
+                        <p>پیشخوان  >  کاربران سایت  </p>
                     </div>
                     <div class="d-flex justify-content-start parsianDate">
                        <p><%= persianDate %></p>
@@ -241,21 +241,21 @@
                             <thead>
                               <tr>
                                 <th class="col-1" scope="col">#</th>
+                                <th class="col-3" scope="col">نام </th>
                                 <th class="col-3" scope="col">نام خانوادگی</th>
-                                <th class="col-3" scope="col">ایمیل</th>
-                                <th class="col-2" scope="col">دپارتمان</th>
+                                <th class="col-2" scope="col">ایمیل</th>
                                 <th class="col-4" scope="col">عملیات</th>
                               </tr>
                             </thead>
                             <tbody>
 
-                            <% admins.forEach((admin, i) => {%>
+                            <% users.forEach((user, i) => {%>
                                
                                 <tr>
                                     <td><%= ++i %></td>
-                                    <td><%= admin.lastName %></td>
-                                    <td><%= admin.id %></td>
-                                    <td><%= admin.department %></td>
+                                    <td><%= user.firstName %></td>
+                                    <td><%= user.id %></td>
+                                    <td><%= user.email %></td>
                                     <td>
                                         <div class="container">
                                             <div class="row justify-content-center">
@@ -265,7 +265,7 @@
                                                 </a>   
                                               </div>
                                               <div class="col-4">
-                                                <form action="/admin/cpanel/showAdmins/<%= admin.id %>
+                                                <form action="/admin/cpanel/showAdmins/<%= user.id %>
                                                     ?_method=DELETE" method="post">
                                                     <button type="submit" class="btn btn-danger">
                                                         <img src="/icons/trash-2.svg" alt="remove">

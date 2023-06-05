@@ -1,13 +1,16 @@
 const controller = require('../controller')
 const User = require('models/user')
-const persianDate = require('persian-date')
+const persianDate = require('date/persianDate')
 
 module.exports = new class userController extends controller {
 
     async showAllUsers(req, res, next) {
         try {
             let users = await User.find({})
-            return res.render('')
+            res.locals = {
+                users, persianDate
+            }
+            return res.render('admin/showUsers')
         } catch (err) {
             next(err)
             }        

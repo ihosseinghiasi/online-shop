@@ -13,5 +13,8 @@ router.get('/cpanel/showAdmins', adminController.showAdmins)
 router.delete('/cpanel/showAdmins/:id', adminController.deleteAdmin)
 
 router.get('/cpanel/showUsers', userController.showAllUsers)
+router.delete('/cpanel/showUsers/:id', userController.deleteUser)
+router.get('/cpanel/newUser', userController.newUser)
+router.post('/cpanel/newUser', userController.addNewUser)
 
 module.exports = router

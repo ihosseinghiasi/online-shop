@@ -1,13 +1,14 @@
 const express = require('express')
 const app = express()
-const mongoose = require('mongoose')
+const {default: mongoose} = require('mongoose')
 const cors = require('cors');
 const methodOverride = require('method-override')
 const persianDate = require('persian-date');
+const ObjectID = require("bson-objectid")
 require('dotenv').config()
 require('app-module-path').addPath(__dirname)
 app.use(methodOverride('_method'))
-app.use(express.urlencoded({extended:false}))
+app.use(express.urlencoded({extended:true}))
 app.use(cors())
 app.set('view engine', 'ejs')
 app.use(express.static('public'))

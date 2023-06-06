@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-mongoose.connect('mongodb://127.0.0.1:27017/user');
+mongoose.connect('mongodb://127.0.0.1:27017/onlineShop')
 
 const userSchema = new Schema ({
     firstName: {type: String},
@@ -11,4 +11,4 @@ const userSchema = new Schema ({
     password: {type: String},
 })
 
-module.exports = mongoose.model('User', userSchema, 'User')
+module.exports = mongoose.model('User',userSchema,'User')

@@ -112,14 +112,16 @@
                               <p>کاربران سایت</p>
                           </div>
                         </div>
-                        <div class="col items" >
-                          <div class="mt-2 me-4" style="display: inline-block;">
-                              <img src="/icons/user-plus.svg" alt="addUser">
-                          </div>
-                          <div style="display: inline-block;" class="my-2 mx-1">
-                              <p>افزودن کاربر</p>
-                          </div>
-                        </div>
+                        <a href="/admin/cpanel/newUser">
+                            <div class="col items" >
+                                <div class="mt-2 me-4" style="display: inline-block;">
+                                    <img src="/icons/user-plus.svg" alt="addUser">
+                                </div>
+                                <div style="display: inline-block;" class="my-2 mx-1">
+                                    <p>افزودن کاربر</p>
+                                </div>
+                              </div>
+                        </a>
                     </div>
 
                     <div class="col items" data-bs-toggle="collapse" href="#collapseCategory"
@@ -231,9 +233,9 @@
 
 
                 <div class="addAdmin col-11 my-5 mx-5">
-                    <div class="addtitle my-3 mx-2 col-8">
+                    <div class="addtitle my-3 mx-2 col-9">
                         <img src="/icons/users-black.svg"  alt="مدیران سایت">
-                        مدیران سایت
+                        کاربران سایت
                     </div>
                     
                     <div class="my-3 position-absolute col-9">
@@ -241,10 +243,9 @@
                             <thead>
                               <tr>
                                 <th class="col-1" scope="col">#</th>
-                                <th class="col-3" scope="col">نام </th>
                                 <th class="col-3" scope="col">نام خانوادگی</th>
-                                <th class="col-2" scope="col">ایمیل</th>
-                                <th class="col-4" scope="col">عملیات</th>
+                                <th class="col-3" scope="col">ایمیل</th>
+                                <th class="col-3" scope="col">عملیات</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -253,9 +254,8 @@
                                
                                 <tr>
                                     <td><%= ++i %></td>
-                                    <td><%= user.firstName %></td>
-                                    <td><%= user.id %></td>
-                                    <td><%= user.email %></td>
+                                    <td><%= user.lastName %></td>
+                                    <td><%=user.id%></td>
                                     <td>
                                         <div class="container">
                                             <div class="row justify-content-center">
@@ -265,7 +265,7 @@
                                                 </a>   
                                               </div>
                                               <div class="col-4">
-                                                <form action="/admin/cpanel/showAdmins/<%= user.id %>
+                                                <form action="/admin/cpanel/showUsers/<%=user.id%>
                                                     ?_method=DELETE" method="post">
                                                     <button type="submit" class="btn btn-danger">
                                                         <img src="/icons/trash-2.svg" alt="remove">
@@ -273,7 +273,7 @@
                                                 </form>
                                             </div>
                                             </div>
-                                          </div>
+                                        </div>
                                     </td>
                                 </tr>
                             <% }) %>

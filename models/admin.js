@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-mongoose.createConnection('mongodb://127.0.0.1:27017/admin')
+mongoose.connect('mongodb://127.0.0.1:27017/onlineShop')
 
 const adminSchema = new Schema({
     firstName: {type: String},
@@ -20,4 +20,4 @@ const adminSchema = new Schema({
     issetting: {type: String},
 })
 
-module.exports = mongoose.model('Admin', adminSchema, 'Admin')
+module.exports = mongoose.model('Admin',adminSchema,'Admin')

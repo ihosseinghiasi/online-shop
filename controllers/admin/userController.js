@@ -1,6 +1,7 @@
 const controller = require('../controller')
 const User = require('models/user')
 const persianDate = require('date/persianDate')
+const mongoose = require('mongoose')
 
 module.exports = new class userController extends controller {
 
@@ -19,7 +20,7 @@ module.exports = new class userController extends controller {
 
     async showOneUser(req, res, next) {
         try {
-            let user = await User.findOne({_id: res.params.id})
+            let user = await User.findOne()
             if(!user){
                 console.log('User Not Find')
             }
@@ -30,7 +31,8 @@ module.exports = new class userController extends controller {
         
     }
 
-    async addNewUser(req, res) {
+    async addNewUser(req, res, next) {
+           try {
             let newUser = new User({
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
@@ -39,7 +41,10 @@ module.exports = new class userController extends controller {
                 phone: req.body.phone,
             })
             await newUser.save()
-           return res.redirect('/')
+           return res.redirect('/admin/cpanel/newUser')
+           } catch (err) {
+                next(err)
+           }
     }
 
     async updateUser(req, res, next) {
@@ -48,19 +53,21 @@ module.exports = new class userController extends controller {
 
     async deleteUser(req, res, next) {
         try {
-            let users = await User.deleteOne({_id: req.params.id})
-            res.json({
-                users
-            })
+            const id = (req.params.id).trim()
+            let user = await User.deleteOne({ _id: id })
+            res.redirect('/admin/cpanel/showUsers')
         } catch (err) {
             next(err)
             }        
         
     }
 
-    async userRegister(req, res, next) {
+    async newUser(req, res, next) {
         try {
-            return res.render('users/register')
+            res.locals = {
+                persianDate
+            }
+            return res.render('admin/userRegister')
         } catch (err) {
             next(err)
         }

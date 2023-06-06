@@ -103,23 +103,28 @@
                             <p>کاربران سایت</p>
                         </div>
                     </div>
-                    <div class="collapse" id="collapseUser">
-                        <div class="col items">
-                          <div class="mt-2 me-4" style="display: inline-block;">
-                              <img src="/icons/users.svg" alt="users">
-                          </div>
-                          <div style="display: inline-block;" class="my-2 mx-1">
-                              <p>کاربران سایت</p>
-                          </div>
+                   <a href="/admin/cpanel/showUsers">
+                        <div class="collapse" id="collapseUser">
+                            <div class="col items">
+                            <div class="mt-2 me-4" style="display: inline-block;">
+                                <img src="/icons/users.svg" alt="users">
+                            </div>
+                            <div style="display: inline-block;" class="my-2 mx-1">
+                                <p>کاربران سایت</p>
+                            </div>
                         </div>
-                        <div class="col items" >
-                          <div class="mt-2 me-4" style="display: inline-block;">
-                              <img src="/icons/user-plus.svg" alt="addUser">
-                          </div>
-                          <div style="display: inline-block;" class="my-2 mx-1">
-                              <p>افزودن کاربر</p>
-                          </div>
+                    </a>
                         </div>
+                        <a href="/admin/cpanel/newUser">
+                            <div class="col items" >
+                                <div class="mt-2 me-4" style="display: inline-block;">
+                                    <img src="/icons/user-plus.svg" alt="addUser">
+                                </div>
+                                <div style="display: inline-block;" class="my-2 mx-1">
+                                    <p>افزودن کاربر</p>
+                                </div>
+                              </div>
+                        </a>
                     </div>
 
                     <div class="col items" data-bs-toggle="collapse" href="#collapseCategory"
@@ -216,74 +221,75 @@
                     </div>
                     <div class="col items"></div>
                 </div>
-            </div>
 
-
-            <div class="col-10">
-                <div class="col-11 mx-5 counter">
-                    <div class="titleCounter">
-                        <p>پیشخوان  >  مدیران سایت  </p>
+                <div class="col-10">
+                    <div class="col-11 mx-5 counter">
+                        <div class="titleCounter">
+                            <p>پیشخوان  >  مدیران سایت  </p>
+                        </div>
+                        <div class="d-flex justify-content-start parsianDate">
+                           <p><%= persianDate %></p>
+                        </div>
                     </div>
-                    <div class="d-flex justify-content-start parsianDate">
-                       <p><%= persianDate %></p>
-                    </div>
-                </div>
-
-
-                <div class="addAdmin col-11 my-5 mx-5">
-                    <div class="addtitle my-3 mx-2 col-8">
-                        <img src="/icons/users-black.svg"  alt="مدیران سایت">
-                        مدیران سایت
-                    </div>
-                    
-                    <div class="my-3 position-absolute col-9">
-                        <table class="table table-bordered my-1 mx-2 col-12 text-center align-middle">
-                            <thead>
-                              <tr>
-                                <th class="col-1" scope="col">#</th>
-                                <th class="col-3" scope="col">نام خانوادگی</th>
-                                <th class="col-3" scope="col">ایمیل</th>
-                                <th class="col-2" scope="col">دپارتمان</th>
-                                <th class="col-4" scope="col">عملیات</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-
-                            <% admins.forEach((admin, i) => {%>
-                               
-                                <tr>
-                                    <td><%= ++i %></td>
-                                    <td><%= admin.lastName %></td>
-                                    <td><%= admin.id %></td>
-                                    <td><%= admin.department %></td>
-                                    <td>
-                                        <div class="container">
-                                            <div class="row justify-content-center">
-                                              <div class="col-4">
-                                                <a href="" class="btn btn-success" role="button">
-                                                    <img src="/icons/edit.svg" alt="edit">
-                                                </a>   
+    
+    
+                    <div class="addAdmin col-11 my-5 mx-5">
+                        <div class="addtitle my-3 mx-2 col-8">
+                            <img src="/icons/users-black.svg"  alt="مدیران سایت">
+                            مدیران سایت
+                        </div>
+                        
+                        <div class="my-3 position-absolute col-9">
+                            <table class="table table-bordered my-1 mx-2 col-12 text-center align-middle">
+                                <thead>
+                                  <tr>
+                                    <th class="col-1" scope="col">#</th>
+                                    <th class="col-3" scope="col">نام خانوادگی</th>
+                                    <th class="col-3" scope="col">ایمیل</th>
+                                    <th class="col-2" scope="col">دپارتمان</th>
+                                    <th class="col-3" scope="col">عملیات</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+    
+                                <% admins.forEach((admin, i) => {%>
+                                   
+                                    <tr>
+                                        <td><%= ++i %></td>
+                                        <td><%= admin.lastName %></td>
+                                        <td><%= admin.id %></td>
+                                        <td><%= admin.department %></td>
+                                        <td>
+                                            <div class="container">
+                                                <div class="row justify-content-center">
+                                                  <div class="col-4">
+                                                    <a href="" class="btn btn-success" role="button">
+                                                        <img src="/icons/edit.svg" alt="edit">
+                                                    </a>   
+                                                  </div>
+                                                  <div class="col-4">
+                                                    <form action="/admin/cpanel/showAdmins/<%= admin.id %>
+                                                        ?_method=DELETE" method="post">
+                                                        <button type="submit" class="btn btn-danger">
+                                                            <img src="/icons/trash-2.svg" alt="remove">
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                                </div>
                                               </div>
-                                              <div class="col-4">
-                                                <form action="/admin/cpanel/showAdmins/<%= admin.id %>
-                                                    ?_method=DELETE" method="post">
-                                                    <button type="submit" class="btn btn-danger">
-                                                        <img src="/icons/trash-2.svg" alt="remove">
-                                                    </button>
-                                                </form>
-                                            </div>
-                                            </div>
-                                          </div>
-                                    </td>
-                                </tr>
-                            <% }) %>
-
-                            </tbody>
-                          </table>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+    
+                                </tbody>
+                              </table>
+                        </div>
+                        
                     </div>
-                    
                 </div>
+
             </div>
+
         </div>
        </div>
      </div>

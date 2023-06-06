@@ -2,9 +2,6 @@ const controller = require('../controller')
 let persianDate = require('date/persianDate')
 const persianNumber = require('persian-number')
 const Admin = require('models/admin')
-const { castObject } = require('../../models/admin')
-const mongoose = require('mongoose')
-
 
 module.exports = new class adminController extends controller {
     cPanel(req, res, next) {
@@ -72,11 +69,8 @@ module.exports = new class adminController extends controller {
 
     async deleteAdmin(req, res, next) {
         try {
-            let admin = await Admin.deleteOne({ _id: req.params.id})
-            console.log(typeof(req.params.id))
-            let aaa = new Object()
-            aaa = "sdjjdljsdl"
-            console.log(aaa)
+            let id = (req.params.id).trim()
+            let admin = await Admin.deleteOne({ _id: id})
             return res.redirect('/admin/cpanel/showAdmins')
         } catch (err) {
             next(err)

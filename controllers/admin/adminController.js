@@ -2,6 +2,9 @@ const controller = require('../controller')
 let persianDate = require('date/persianDate')
 const persianNumber = require('persian-number')
 const Admin = require('models/admin')
+const { model } = require('mongoose')
+const admin = require('../../models/admin')
+
 
 module.exports = new class adminController extends controller {
     cPanel(req, res, next) {
@@ -24,20 +27,20 @@ module.exports = new class adminController extends controller {
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 email: req.body.email,
-                ispassword: req.body.password,
                 department: req.body.department,
-                isadmin: req.body.chkAdmin,
-                isproduct: req.body.chkProduct,
-                isorder: req.body.chkOrder,
-                isemail: req.body.chkEmail,
-                isreport: req.body.chkReport,
-                isticket: req.body.chkTicket,
-                iscategory: req.body.chkCategory,
-                isuser: req.body.chkUser,
-                issetting: req.body.chkSetting,
+                isPassword: req.body.password,
+                isAdmin: req.body.isAdmin,
+                isProduct: req.body.isProduct,
+                isOrder: req.body.isOrder,
+                isEmail: req.body.isEmail,
+                isReport: req.body.isReport,
+                isTicket: req.body.isTicket,
+                isCategory: req.body.isCategory,
+                isUser: req.body.isUser,
+                isSetting: req.body.isSetting,
             })
             await newAdmin.save()
-            return res.redirect('/admin/cpanel/newAdmin')
+            return res.redirect('/admin/cpanel/showAdmins')
         } catch (err) {
             next(err)
         }
@@ -62,6 +65,73 @@ module.exports = new class adminController extends controller {
                 persianDate, admins
            }          
            return res.render('admin/showAdmins')
+        } catch (err) {
+            next(err)
+        }
+    }
+
+    async showAdmin(req, res, next) {
+        try {
+            let id = (req.params.id).trim()
+            let admin = await Admin.findOne({ _id: id })
+            res.locals = {
+                persianDate, admin
+            }    
+            res.render('admin/editAdmin')
+        } catch (err) {
+            next(err)
+        }
+    }
+
+    async updateAdmin(req, res, next) {
+        try {
+            let id = (req.params.id).trim()
+            const myadmin = {
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                password: req.body.password,
+                department: req.body.department,
+                isAdmin: "off",
+                isCategory: "off",
+                isUser: "off",
+                isReport: "off",
+                isTicket: "off",
+                isEmail: "off",
+                isProduct: "off",
+                isOrder: "off",
+                isSetting: "off"
+            }
+            
+            if(req.body.isAdmin) {
+                myadmin.isAdmin = "on"
+            }
+            if(req.body.isCategory) {
+                myadmin.isCategory = "on"
+            }
+            if(req.body.isEmail) {
+                myadmin.isEmail = "on"
+            } 
+            if(req.body.isOrder) {
+                myadmin.isOrder = "on"
+            }
+            if(req.body.isProduct) {
+                myadmin.isProduct = "on"
+            }
+            if(req.body.isReport) {
+                myadmin.isReport = "on"
+            }
+            if(req.body.isUser) {
+                myadmin.isUser = "on"
+            }
+            if(req.body.isSetting) {
+                myadmin.isSetting = "on"
+            }
+            if(req.body.isTicket) {
+                myadmin.isTicket = "on"
+            }
+
+            let updateAdmin = await Admin.updateOne({ _id: id }, { $set: myadmin })
+            res.redirect('/admin/cpanel/showAdmins')
         } catch (err) {
             next(err)
         }

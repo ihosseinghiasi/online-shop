@@ -5,10 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/adminPanelshowadmins.css">
+    <link rel="stylesheet" href="/css/adminPanelAddAdmin.css">
     <title>‍ پنل مدیریت </title>
 </head>
-<body>
+<body onload="getcheckBoxes()">
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
      integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
@@ -72,15 +72,15 @@
                         </div>
                     </div>
                     <a href="/admin/cpanel/showAdmins">
-                    <div class="collapse show" id="collapseAdmin">
-                      <div class="col items selectedMenu">
-                        <div class="mt-2 me-4" style="display: inline-block;">
-                            <img src="/icons/users.svg" alt="users">
+                        <div class="collapse show" id="collapseAdmin">
+                            <div class="col items selectedMenu">
+                              <div class="mt-2 me-4" style="display: inline-block;">
+                                  <img src="/icons/users.svg" alt="users">
+                              </div>
+                              <div style="display: inline-block;" class="my-2 mx-1">
+                                  <p>مدیران سایت</p>
+                              </div>
                         </div>
-                        <div style="display: inline-block;" class="my-2 mx-1">
-                            <p>مدیران سایت</p>
-                        </div>
-                      </div>
                     </a>
                       <a href="/admin/cpanel/newAdmin">
                         <div class="col items" >
@@ -103,16 +103,15 @@
                             <p>کاربران سایت</p>
                         </div>
                     </div>
-                   <a href="/admin/cpanel/showUsers">
+                    <a href="/admin/cpanel/showUsers">
                         <div class="collapse" id="collapseUser">
                             <div class="col items">
-                            <div class="mt-2 me-4" style="display: inline-block;">
-                                <img src="/icons/users.svg" alt="users">
-                            </div>
-                            <div style="display: inline-block;" class="my-2 mx-1">
-                                <p>کاربران سایت</p>
-                            </div>
-                        </div>
+                              <div class="mt-2 me-4" style="display: inline-block;">
+                                  <img src="/icons/users.svg" alt="users">
+                              </div>
+                              <div style="display: inline-block;" class="my-2 mx-1">
+                                  <p>کاربران سایت</p>
+                              </div>
                     </a>
                         </div>
                         <a href="/admin/cpanel/newUser">
@@ -221,79 +220,158 @@
                     </div>
                     <div class="col items"></div>
                 </div>
-
-                <div class="col-10">
-                    <div class="col-11 mx-5 counter">
-                        <div class="titleCounter">
-                            <p>پیشخوان  >  مدیران سایت  </p>
-                        </div>
-                        <div class="d-flex justify-content-start parsianDate">
-                           <p><%= persianDate %></p>
-                        </div>
-                    </div>
-    
-    
-                    <div class="addAdmin col-11 my-5 mx-5">
-                        <div class="addtitle my-3 mx-2 col-8">
-                            <img src="/icons/users-black.svg"  alt="مدیران سایت">
-                            مدیران سایت
-                        </div>
-                        
-                        <div class="my-3 position-absolute col-9">
-                            <table class="table table-bordered my-1 mx-2 col-12 text-center align-middle">
-                                <thead>
-                                  <tr>
-                                    <th class="col-1" scope="col">#</th>
-                                    <th class="col-3" scope="col">نام خانوادگی</th>
-                                    <th class="col-3" scope="col">ایمیل</th>
-                                    <th class="col-2" scope="col">دپارتمان</th>
-                                    <th class="col-3" scope="col">عملیات</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-    
-                                <% admins.forEach((admin, i) => {%>
-                                   
-                                    <tr>
-                                        <td><%= ++i %></td>
-                                        <td><%= admin.lastName %></td>
-                                        <td><%= admin.email %></td>
-                                        <td><%= admin.department %></td>
-                                        <td>
-                                            <div class="container">
-                                                <div class="row justify-content-center">
-                                                  <div class="col-4">
-                                                    <a href="/admin/cpanel/editAdmin/<%= admin.id %>" class="btn btn-success" role="button">
-                                                        <img src="/icons/edit.svg" alt="edit">
-                                                    </a>   
-                                                  </div>
-                                                  <div class="col-4">
-                                                    <form action="/admin/cpanel/showAdmins/<%= admin.id %>
-                                                        ?_method=DELETE" method="post">
-                                                        <button type="submit" class="btn btn-danger">
-                                                            <img src="/icons/trash-2.svg" alt="remove">
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                                </div>
-                                              </div>
-                                        </td>
-                                    </tr>
-                                <% }) %>
-    
-                                </tbody>
-                              </table>
-                        </div>
-                        
-                    </div>
-                </div>
-
             </div>
 
-        </div>
-       </div>
+
+            <div class="col-10">
+                <div class="col-11 mx-5 counter">
+                    <div class="titleCounter">
+                        <p>پیشخوان  >  مدیران سایت  >  ویرایش مدیر</p>
+                    </div>
+                    <div class="d-flex justify-content-start parsianDate">
+                       <p><%= persianDate %></p>
+                    </div>
+                </div>
+                <div class="addAdmin col-11 my-5 mx-5">
+                    <div class="addtitle my-3 mx-2 col-8">
+                        <img src="/icons/plus-square-black.svg"  alt="افزودن مدیر ">
+                        ویرایش مدیر
+                    </div>
+               
+                    <div class="addBody col-8 mx-5">
+                        <form action="/admin/cpanel/editAdmin/<%= admin.id %>?_method=PUT" method="post">
+                            <div class="row g-2" >
+                                <div class="mx-3 col-5">  
+                                    <input type="text" class="form-control mt-3"  placeholder="نام" name="firstName" value="<%= admin.firstName %>">
+                                    <input type="text" class="form-control mt-3"  placeholder="نام خانوادگی" name="lastName" value="<%= admin.lastName %>">
+                                    <input type="email" class="form-control mt-3"  placeholder="ایمیل" name="email" value="<%= admin.email %>">
+                                    <select class="form-select mt-3" name="department" value="<%= admin.department %>">
+                                        <option selected>مدیر سایت</option>
+                                        <option value="پشتیبان سایت">پشتیبان سایت</option>
+                                      </select>
+                                    <input type="password" class="form-control mt-3"  placeholder="کلمه عبور" name="password" value="<%= admin.password %>">
+                                    <input type="password" class="form-control mt-3"  placeholder="تکرار کلمه عبور">
+                                </div>
+
+                                <div class="mx-3 col-5">
+                                    دسترسی ها :
+                                    <br><br><br>
+
+                                    <div class="form-check form-switch float-end">
+                                            <input type="checkbox" class="btn-check" id="chkAdmin" name="isAdmin" autocomplete="off">
+                                            <label class="btn btn-outline-success" for="chkAdmin">مدیران</label><br>                                        
+                                          </div>
+                                          <div class="form-check form-switch float-end  my-1">
+                                            <input type="checkbox" class="btn-check" id="chkProduct" name="isProduct" autocomplete="off">
+                                            <label class="btn btn-outline-success" for="chkProduct">محصولات</label><br>                                        
+                                          </div>
+                                          <div class="form-check form-switch float-end my-1 ">
+                                            <input type="checkbox" class="btn-check" id="chkOrder" name="isOrder" autocomplete="off">
+                                            <label class="btn btn-outline-success" for="chkOrder">سفارش ها</label><br>                                        
+                                          </div>
+                                          <div class="form-check form-switch float-end my-1">
+                                            <input type="checkbox" class="btn-check" id="chkEmail" name="isEmail" autocomplete="off">
+                                            <label class="btn btn-outline-success" for="chkEmail">ایمیل ها</label><br>                                        
+                                          </div>
+                                        <div class="form-check form-switch float-end my-1">
+                                            <input type="checkbox" class="btn-check" id="chkReport" name="isReport" autocomplete="off">
+                                            <label class="btn btn-outline-success" for="chkReport">گزارشات</label><br>                                        
+                                          </div>
+                                          <div class="form-check form-switch float-end my-1">
+                                            <input type="checkbox" class="btn-check" id="chkTicket" name="isTicket" autocomplete="off">
+                                            <label class="btn btn-outline-success" for="chkTicket">تیکت ها</label><br>                                        
+                                          </div>
+                                          <div class="form-check form-switch float-end my-1">
+                                            <input type="checkbox" class="btn-check" id="chkCategory" name="isCategory" autocomplete="off">
+                                            <label class="btn btn-outline-success" for="chkCategory">دسته بندی ها</label><br>                                        
+                                          </div>
+                                          <div class="form-check form-switch float-end my-1">
+                                            <input type="checkbox" class="btn-check" id="chkUser" name="isUser" autocomplete="off">
+                                            <label class="btn btn-outline-success" for="chkUser">کاربران</label><br>                                        
+                                          </div>
+                                          <div class="form-check form-switch float-end mt-1 mb-5">
+                                            <input type="checkbox" class="btn-check" id="chkSetting" name="isSetting" autocomplete="off">
+                                            <label class="btn btn-outline-success" for="chkSetting">تنظیمات</label><br>                                        
+                                          </div> 
+                                          <div class="mt-5 mx-5">
+                                            <div class="col-8 mt-5 mx-5">
+                                                <input type="submit" value="ویرایش" class="mt-3 mx-5 btn btn-success btn-lg">
+                                            </div> 
+                                        </div>    
+                                        </div>
+                                    </div>
+                                </form>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
      </div>
     <footer>
+        <h1 id="test"></h1>
+        <input type="checkbox" name="test" id="chktest" value="" onchange="setValue()">
     </footer>
+    <script>
+
+        function setValue() {
+            let check = document.getElementById("chkAdmin")
+            if(check.checked == true) {
+               let x = document.getElementById('chkAdmin').value = JSON.parse(JSON.stringify("on"))
+               document.getElementById('test').innerHTML = x
+            }else {
+                let x = document.getElementById('chkAdmin').value = JSON.parse(JSON.stringify("off"))
+                document.getElementById('test').innerHTML = x
+            }
+        }
+
+        function getcheckBoxes() {
+            const checkAdmin = "<%= JSON.parse(JSON.stringify(admin.isAdmin)) %>"
+            if (checkAdmin === "on") {
+                document.getElementById('chkAdmin').checked = true
+            }
+
+            const checkProduct = "<%= JSON.parse(JSON.stringify(admin.isProduct)) %>"
+            if (checkProduct === "on") {
+                document.getElementById('chkProduct').checked = true
+            }
+
+            let checkOrder = "<%= JSON.parse(JSON.stringify(admin.isOrder)) %>"
+            if (checkOrder === "on") {
+                document.getElementById('chkOrder').checked = true
+            }
+
+            let checkEmail = "<%= JSON.parse(JSON.stringify(admin.isEmail)) %>"
+            if (checkEmail === "on") {
+                document.getElementById('chkEmail').checked = true
+            }
+
+            let checkReport = "<%= JSON.parse(JSON.stringify(admin.isReport)) %>"
+            if (checkReport === "on") {
+                document.getElementById('chkReport').checked = true
+            }
+
+            let checkTicket = "<%= JSON.parse(JSON.stringify(admin.isTicket)) %>"
+            if (checkTicket === "on") {
+                document.getElementById('chkTicket').checked = true
+            }
+
+            let checkCategory = "<%= JSON.parse(JSON.stringify(admin.isCategory)) %>"
+            if (checkCategory === "on") {
+                document.getElementById('chkCategory').checked = true
+            }
+
+            let checkUser = "<%= JSON.parse(JSON.stringify(admin.isUser)) %>"
+            if (checkUser === "on") {
+                document.getElementById('chkUser').checked = true
+            }
+
+            let checkSetting = "<%= JSON.parse(JSON.stringify(admin.isSetting)) %>"
+            if (checkSetting === "on") {
+                document.getElementById('chkSetting').checked = true
+            }
+        }
+
+    </script>
+   
 </body>
 </html

@@ -4,6 +4,7 @@ const adminController = require('controllers/admin/adminController')
 const Admin = require('models/admin')
 const User = require('models/user')
 const userController = require('controllers/admin/userController')
+const userValidation = require('validations/userValidation')
 
 
 router.get('/cpanel', adminController.cPanel ) 
@@ -17,6 +18,8 @@ router.put('/cpanel/editAdmin/:id', adminController.updateAdmin)
 router.get('/cpanel/showUsers', userController.showAllUsers)
 router.delete('/cpanel/showUsers/:id', userController.deleteUser)
 router.get('/cpanel/newUser', userController.newUser)
-router.post('/cpanel/newUser', userController.addNewUser)
+router.post('/cpanel/newUser', userValidation.userHandle(), userController.addNewUser)
+router.get('/cpanel/editUser/:id', userController.showUser)
+router.put('/cpanel/editUser/:id', userController.updateUser)
 
 module.exports = router

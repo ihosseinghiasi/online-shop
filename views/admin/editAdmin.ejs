@@ -144,14 +144,16 @@
                             <p>دسته بندی ها</p>
                           </div>
                         </div>
-                        <div class="col items" >
-                          <div class="mt-2 me-4" style="display: inline-block;">
-                              <img src="/icons/plus-square.svg" alt="addCategory">
-                          </div>
-                          <div style="display: inline-block;" class="my-2 mx-1">
-                              <p>افزودن دسته بندی</p>
-                          </div>
-                        </div>
+                        <a href="/admin/cpanel/newCategoty">
+                            <div class="col items" >
+                                <div class="mt-2 me-4" style="display: inline-block;">
+                                    <img src="/icons/plus-square.svg" alt="addCategory">
+                                </div>
+                                <div style="display: inline-block;" class="my-2 mx-1">
+                                    <p>افزودن دسته بندی</p>
+                                </div>
+                              </div>
+                        </a>
                     </div>
 
                     <div class="col items" data-bs-toggle="collapse" href="#collapseProduct"
@@ -308,21 +310,8 @@
             </div>
      </div>
     <footer>
-        <h1 id="test"></h1>
-        <input type="checkbox" name="test" id="chktest" value="" onchange="setValue()">
     </footer>
     <script>
-
-        function setValue() {
-            let check = document.getElementById("chkAdmin")
-            if(check.checked == true) {
-               let x = document.getElementById('chkAdmin').value = JSON.parse(JSON.stringify("on"))
-               document.getElementById('test').innerHTML = x
-            }else {
-                let x = document.getElementById('chkAdmin').value = JSON.parse(JSON.stringify("off"))
-                document.getElementById('test').innerHTML = x
-            }
-        }
 
         function getcheckBoxes() {
             const checkAdmin = "<%= JSON.parse(JSON.stringify(admin.isAdmin)) %>"

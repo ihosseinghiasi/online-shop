@@ -1,0 +1,150 @@
+.sample_farsi_digits {
+    font-feature-settings: "ss01";
+}
+
+@font-face {
+    font-family: VazirmatnPersian;
+    src: url('/fonts/vazir/misc/Farsi-Digits/fonts/webfonts/Vazirmatn-FD-Medium.woff2') format('woff2');
+  }
+
+
+body {
+    direction: rtl;
+    margin: 0px;
+    font-size: 13px;
+    font-family: VazirmatnPersian;
+}
+
+a{
+    color: white;
+}
+
+.container {
+    width: 100%;
+    max-width: 1800px;
+    margin: 0px auto;
+    font-size: 1em;
+}
+
+
+.imageSize {
+    width: 60px;
+    height: 60px;
+}
+
+.navbarPanel {
+    direction: ltr;
+    height: 80px;
+    box-shadow: 5px 5px 20px lightgray;
+}
+
+.navbarItems {
+    margin-left: 40px;
+    float: left;
+    height: 100%;
+    padding-right: 30px ;
+}
+
+.iconSize {
+    height: 30px;
+    width: 30px;
+}
+
+.title {
+    float: right;
+    margin: 0 590px 0 0;
+}
+
+.sideMenu {
+    display: inline-block;
+}
+
+.sideMenu .items {
+    height: 50px;
+    width: 100%;
+    border-bottom: 1px solid gray;
+    border: 0.5px solid gray;
+    display: inline-block;
+}
+
+.sideMenu .items:hover {
+    background-color: darkslategray;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.selectedMenu {
+    background-color: darkslategray;
+}
+
+.sideMenu .picureLogo {
+    height: 150px;
+    width: 100%;
+    border-bottom: 1px solid gray;
+}
+
+.profileLogo {
+    height: 140px;
+    width: 140px;
+    margin: 5px 25px;
+}
+
+.counter {
+    position: relative;;
+    height: 70px;
+    margin: 30px 90px 0px 0px;
+    font-size: 1.1em;
+    box-shadow: 1px 1px 70px lightgray;
+}
+
+.titleCounter {
+    position: absolute;
+    margin: 25px 30px 0 0;
+    height: 50%;
+    width: 300px;
+    float: right;
+}
+
+.parsianDate {
+    height: 50%;
+    width: 180px;
+    float: left;
+    margin: 25px 0 0 0;
+}
+
+.addAdmin {
+    height: 800px;
+    box-shadow: 1px 1px 70px lightgray;
+}
+
+.addtitle {
+    position: absolute;
+}
+
+.addBody {
+    position: absolute;
+    margin-top: 80px;
+
+}
+
+.nemeAddressBadge {
+    font-size: 1em;
+    direction: ltr;
+    float: left;
+    margin: 5px 0 0 10px;
+}
+
+.imageUpload {
+    background: url("../pictures/unimage.png") no-repeat;
+    background-size: cover;
+}
+
+.btnSubmit {
+    margin-right: 26%;
+}
+
+.fileUloadArea {
+    padding: 5px;
+    border-bottom: 2px solid gray;
+    border-radius: 25px;
+}

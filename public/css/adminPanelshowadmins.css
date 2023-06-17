@@ -111,3 +111,18 @@ a{
     float: left;
     margin: 25px 0 0 0;
 }
+
+.addAdmin {
+    height: 500px;
+    box-shadow: 1px 1px 70px lightgray;
+}
+
+.addtitle {
+    position: absolute;
+}
+
+.addBody {
+    position: absolute;
+    margin-top: 80px;
+
+}

@@ -4,6 +4,7 @@ const persianNumber = require('persian-number')
 const Admin = require('models/admin')
 const { model } = require('mongoose')
 const admin = require('../../models/admin')
+const { validationResult } = require('express-validator')
 
 
 module.exports = new class adminController extends controller {
@@ -23,6 +24,11 @@ module.exports = new class adminController extends controller {
             persianDate
        }
         try {
+            const errors = validationResult(req)
+            if(!errors.isEmpty()) {
+                req.flash('errors', errors.array())
+                return res.redirect('/admin/cpanel/newAdmin')
+            }
             let newAdmin = new Admin({
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
@@ -49,7 +55,8 @@ module.exports = new class adminController extends controller {
     newAdmin(req, res, next) {
         try {
             res.locals = {
-                persianDate
+                persianDate,
+                errors: req.flash('errors')
            }
             return res.render('admin/adminRegister')
         } catch (err) {

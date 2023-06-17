@@ -12,7 +12,6 @@
     "app-module-path": "^2.2.0",
     "auto-bind": "^5.0.1",
     "axios": "^1.4.0",
-    "bson-objectid": "^2.0.4",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -23,7 +22,9 @@
     "express-validation": "^4.1.0",
     "express-validator": "^7.0.1",
     "method-override": "^3.0.0",
+    "mkdirp": "^3.0.1",
     "mongoose": "^7.1.1",
+    "multer": "^1.4.5-lts.1",
     "persian-number": "^1.5.1"
   },
   "devDependencies": {

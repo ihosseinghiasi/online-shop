@@ -165,7 +165,7 @@
                             <p>دسته بندی ها</p>
                           </div>
                         </div>
-                        <a href="/admin/cpanel/newCategoty">
+                        <a href="/admin/cpanel/newCategory">
                             <div class="col items selectedMenu" >
                                 <div class="mt-2 me-4" style="display: inline-block;">
                                     <img src="/icons/plus-square.svg" alt="addCategory">
@@ -256,6 +256,17 @@
                     </div>
                 </div>
 
+                <% if(locals.errors) { %>
+                    <div class="col-5 mx-5 mt-3">
+                        <% Object.values(errors).forEach((error) =>{ %>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <%= error.msg %>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <% }) %>
+                    </div>
+                    <% } %> 
+
 
                 <div class="addAdmin col-11 my-5 mx-5">
                     <div class="addtitle my-3 mx-2 col-8">
@@ -264,7 +275,7 @@
                     </div>
                
                     <div class="addBody col-8 mx-5">
-                        <form action="/admin/cpanel/newCategoty" enctype="multipart/form-data" method="post">
+                        <form action="/admin/cpanel/newCategory" enctype="multipart/form-data" method="post">
                           <div class="row">
                             <div class="col-8">
                                 <input type="text" name="categoryName" class="form-control mt-3" placeholder="نامک دسته بندی">
@@ -277,26 +288,30 @@
                                 </p>
                             </div>
                             <div class="col-4 fileUloadArea">
-                                <div class="imageUpload mx-auto" id="file" style="height: 200px; width: 200px;"></div>
-                                <input type="file" name="file" class="form-control" hidden></input>
+                                <div class="imageUpload mx-auto" id="file" >
+                                    <img class="categoryImage" id="output" >
+                                </div>
+                                <input type="file" name="image" class="form-control" onchange="loadFile(event)" hidden></input>
                                 <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
                                 <script type="text/javascript">
                                 let wrapper = $('<div/>').css({'overflow':'hidden'});
                                 let fileInput = $(':file').wrap(wrapper);
-
-                                fileInput.change(function(){
-                                    $this = $(this);
-                                    $('#file').text($this.val());
-                                })
 
                                 $('#file').click(function(){
                                     fileInput.click();
                                 }).show();
                                 </script>
 
+                                <script>
+                                var loadFile = function(event) {
+                                var image = document.getElementById('output');
+                                image.src = URL.createObjectURL(event.target.files[0]);
+                                    };
+                                </script>
+
                                 <input type="submit" class="btn btn-success mt-2 btnSubmit" value="ذخیره دسته بندی">
                             </div>
-                            <div class="row mt-5">
+                            <div class="row mt-3">
                                 <input type="text" name="title" class="form-control" id="categoryTitle" placeholder="عنوان دسته بندی">
                                 <div class="form-group mt-3">
                                     <textarea name="description" id="editor" class="form-control" cols="30" rows="10"></textarea>

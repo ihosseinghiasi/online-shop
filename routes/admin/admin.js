@@ -4,10 +4,11 @@ const adminController = require('controllers/admin/adminController')
 const Admin = require('models/admin')
 const User = require('models/user')
 const userController = require('controllers/admin/userController')
-const userValidation = require('validations/userValidation')
+const userValidator = require('validations/userValidator')
 const adminValidator = require('validations/adminValidator')
 const categoryController = require('controllers/admin/categoryController')
 const uploadImageCategory = require('upload/uploadImageCategory')
+const categoryValidator = require('validations/categoryValidator')
 
 router.get('/cpanel', adminController.cPanel ) 
 router.get('/cpanel/newAdmin', adminController.newAdmin)
@@ -20,10 +21,20 @@ router.put('/cpanel/editAdmin/:id', adminController.updateAdmin)
 router.get('/cpanel/showUsers', userController.showAllUsers)
 router.delete('/cpanel/showUsers/:id', userController.deleteUser)
 router.get('/cpanel/newUser', userController.newUser)
-router.post('/cpanel/newUser', userValidation.userHandle(), userController.addNewUser)
+router.post('/cpanel/newUser', userValidator.userHandle(), userController.addNewUser)
 router.get('/cpanel/editUser/:id', userController.showUser)
 router.put('/cpanel/editUser/:id', userController.updateUser)
 
-router.get('/cpanel/newCategoty', categoryController.newCategoty)
+router.get('/cpanel/newCategory', categoryController.newCategory)
+router.post('/cpanel/newCategory', uploadImageCategory.single('image'),
+    (req, res, next) => {
+        if(!req.file) {
+            req.body.image = null
+        } else {
+            req.body.image = req.file.filename
+        }
+        next()
+    }
+,categoryValidator.categoryHandle(), categoryController.addNewCategory)
 
 module.exports = router

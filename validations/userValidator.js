@@ -1,4 +1,4 @@
-const validation = require('./validation')
+const validation = require('./validator')
 const { checkSchema } = require('express-validator')
 
 module.exports = new class userValidation extends validation {

@@ -9,6 +9,7 @@ const adminValidator = require('validations/adminValidator')
 const categoryController = require('controllers/admin/categoryController')
 const uploadImageCategory = require('upload/uploadImageCategory')
 const categoryValidator = require('validations/categoryValidator')
+const dynamicAddress = "mtnIrancell"
 
 router.get('/cpanel', adminController.cPanel ) 
 router.get('/cpanel/newAdmin', adminController.newAdmin)
@@ -36,5 +37,11 @@ router.post('/cpanel/newCategory', uploadImageCategory.single('image'),
         next()
     }
 ,categoryValidator.categoryHandle(), categoryController.addNewCategory)
+
+router.get('/cpanel/:dynamicAddress', (req, res, next) => {
+    console.log("Dynamic Address Is OK . . . ")
+    console.log(dynamicAddress)
+    next()
+})
 
 module.exports = router

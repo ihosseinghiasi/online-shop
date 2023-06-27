@@ -9,7 +9,7 @@ module.exports = new class adminController extends controller {
 
     async addNewCategory(req, res, next) {
         res.locals = {
-            persianDate
+            persianDate,
        }
         try {
             const errors = validationResult(req)
@@ -17,13 +17,15 @@ module.exports = new class adminController extends controller {
                 let myErrors = errors.array()
                 req.flash('errors', myErrors)
             }
-           const categoryImage = req.file.path.replace(/\\/g, '/').substring(6)
-            // Category.categoryName = req.body.categoryName
-            // Category.title = req.body.title
-            // Category.description = req.body.description
-            // Category.image = categoryImage
-            console.log(req.file.path)
-            console.log(categoryImage)
+
+            const categoryImage = req.file.path.replace(/\\/g, '/').substring(6)
+            const newCategory = new Category({
+                categoryName: req.body.categoryName,
+                title: req.body.title,
+                description: req.body.description,
+                image: categoryImage
+            }) 
+            await newCategory.save()
             return res.redirect('/admin/cpanel/newCategory')
         } catch (err) {
             next(err)
@@ -44,7 +46,6 @@ module.exports = new class adminController extends controller {
 
     async showCategories(req, res, next) {
 
-        let admins = await Admin.find({})
         try {
             res.locals = {
                 persianDate, 

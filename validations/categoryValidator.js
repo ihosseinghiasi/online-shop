@@ -8,13 +8,19 @@ module.exports = new class categoryValidator extends validator {
                 isLength: { options: { min: 3 } },
                 errorMessage: " نامک باید حداقل 3 کاراکتر باشد "
              },
-             title: {isLength: { options: { min: 3 } },
-             errorMessage: " عنوان دسته بندی باید حداقل  3 کاراکتر باشد "
+             title: {
+                isLength: { options: { min: 3 } },
+                errorMessage: " عنوان دسته بندی باید حداقل  3 کاراکتر باشد "
             },
             description: {
                 isLength: { options: { min: 10 } },
                 errorMessage: " توضیحات باید حداقل 10 کاراکتر باشد "
-            }
+            },
+            image: { 
+                isLength: { options: { min: 0 } },
+                errorMessage: " وجود عکس الزامی است "
+             },
+             
         })
     }
 }

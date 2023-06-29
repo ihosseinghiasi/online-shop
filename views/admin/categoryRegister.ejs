@@ -289,8 +289,18 @@
                             </div>
                             <div class="col-4 fileUloadArea">
                                 <div class="imageUpload mx-auto" id="file" >
-                                    <img class="categoryImage" id="output" >
+                                    <img class="categoryImage" id="output"  >
                                 </div>
+
+                                <script>
+                                    document.getElementById("output").addEventListener("load", () => {
+                                    document.getElementById("submit").disabled = false
+                                       })
+                                    addEventListener("DOMContentLoaded", (load) => {
+                                        document.getElementById("submit").disabled = true
+                                    })   
+                                </script>
+
                                 <input type="file" name="image" class="form-control" onchange="loadFile(event)" hidden></input>
                                 <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
                                 <script type="text/javascript">
@@ -309,7 +319,7 @@
                                     };
                                 </script>
 
-                                <input type="submit" class="btn btn-success mt-2 btnSubmit" value="ذخیره دسته بندی">
+                                <input type="submit" id="submit" class="btn btn-success mt-2 btnSubmit" value="ذخیره دسته بندی">
                             </div>
                             <div class="row mt-3">
                                 <input type="text" name="title" class="form-control" id="categoryTitle" placeholder="عنوان دسته بندی">

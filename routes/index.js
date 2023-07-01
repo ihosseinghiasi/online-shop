@@ -3,7 +3,7 @@ const router = express.Router()
 let persianDate = require('persian-date');
 
 router.use('/user', require('./user/user'))
-router.use('/admin', require('./admin/admin'))
+router.use('/admin-cPanel', require('./admin/admin-cPanel'))
 
 
 router.use('/', (req, res, next)=> {

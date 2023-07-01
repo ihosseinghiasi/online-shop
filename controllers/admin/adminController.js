@@ -8,16 +8,6 @@ const { validationResult } = require('express-validator')
 
 
 module.exports = new class adminController extends controller {
-    cPanel(req, res, next) {
-        try {
-            res.locals = {
-                persianDate
-           }
-            res.render('admin/counter')
-        } catch (err) {
-            next(err)
-        }
-    }
     
     async addNewAdmin(req, res, next) {
         res.locals = {
@@ -27,7 +17,7 @@ module.exports = new class adminController extends controller {
             const errors = validationResult(req)
             if(!errors.isEmpty()) {
                 req.flash('errors', errors.array())
-                return res.redirect('/admin/cpanel/newAdmin')
+                return res.redirect('/admin-cPanel/admin/newAdmin')
             }
             let newAdmin = new Admin({
                 firstName: req.body.firstName,
@@ -46,7 +36,7 @@ module.exports = new class adminController extends controller {
                 isSetting: req.body.isSetting,
             })
             await newAdmin.save()
-            return res.redirect('/admin/cpanel/showAdmins')
+            return res.redirect('/admin-cPanel/admin/showAdmins')
         } catch (err) {
             next(err)
         }
@@ -138,7 +128,7 @@ module.exports = new class adminController extends controller {
             }
 
             let updateAdmin = await Admin.updateOne({ _id: id }, { $set: myadmin })
-            res.redirect('/admin/cpanel/showAdmins')
+            res.redirect('/admin-cPanel/admin/showAdmins')
         } catch (err) {
             next(err)
         }
@@ -148,7 +138,7 @@ module.exports = new class adminController extends controller {
         try {
             let id = (req.params.id).trim()
             let admin = await Admin.deleteOne({ _id: id})
-            return res.redirect('/admin/cpanel/showAdmins')
+            return res.redirect('/admin-cPanel/admin/showAdmins')
         } catch (err) {
             next(err)
         }

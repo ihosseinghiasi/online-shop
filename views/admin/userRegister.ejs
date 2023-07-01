@@ -51,7 +51,7 @@
                         <img src="/pictures/menProfile.svg" alt="profile" class="profileLogo">
                     </div>
 
-                    <a href="/admin/cpanel">
+                    <a href="/admin-cPanel/counter">
                         <div class="col items">
                             <div class="mt-2 mx-1" style="display: inline-block;">
                                 <img src="/icons/home.svg" alt="home">
@@ -71,7 +71,7 @@
                             <p>مدیران سایت</p>
                         </div>
                     </div>
-                    <a href="/admin/cpanel/showAdmins">
+                    <a href="/admin-cPanel/admin/showAdmins">
                         <div class="collapse" id="collapseAdmin">
                             <div class="col items ">
                               <div class="mt-2 me-4" style="display: inline-block;">
@@ -82,7 +82,7 @@
                               </div>
                             </div>
                     </a>
-                      <a href="/admin/cpanel/newAdmin">
+                      <a href="/admin-cPanel/admin/newAdmin">
                         <div class="col items" >
                         <div class="mt-2 me-4" style="display: inline-block;">
                             <img src="/icons/user-plus.svg" alt="addAdmin">
@@ -103,7 +103,7 @@
                             <p>کاربران سایت</p>
                         </div>
                     </div>
-                    <a href="/admin/cpanel/showUsers">
+                    <a href="/admin-cPanel/user/showUsers">
                         <div class="collapse show" id="collapseUser">
                             <div class="col items">
                               <div class="mt-2 me-4" style="display: inline-block;">
@@ -114,7 +114,7 @@
                               </div>
                     </a>
                         </div>
-                        <a href="/admin/cpanel/newUser">
+                        <a href="/admin-cPanel/user/newUser">
                             <div class="col items selectedMenu" >
                                 <div class="mt-2 me-4" style="display: inline-block;">
                                     <img src="/icons/user-plus.svg" alt="addUser">
@@ -172,7 +172,7 @@
                             <p>محصولات</p>
                           </div>
                         </div>
-                        <a href="/admin/cpanel/newCategoty">
+                        <a href="/admin-cPanel/admin/newCategoty">
                             <div class="col items" >
                                 <div class="mt-2 me-4" style="display: inline-block;">
                                     <img src="/icons/plus-square.svg" alt="addProduct">
@@ -253,7 +253,7 @@
                     </div>  
                
                     <div class="addBody col-8 mx-5">
-                        <form action="/admin/cpanel/newUser" method="post" class="mx-5">
+                        <form action="/admin-cPanel/user/newUser" method="post" class="mx-5">
                             <div class="row" >
                                 <div class="col-5">  
                                     <input type="text" class="form-control form-control-sm mt-3"  placeholder="نام" name="firstName">
@@ -279,11 +279,7 @@
      </div>
     <footer>
     </footer>
-    <script type="text/javascript">
-        setTimeout(function () {
-            $('#alert').alert('close');
-        }, 3000);
-    </script>
+
 </body>
 </html
 

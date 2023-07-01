@@ -51,7 +51,7 @@
                         <img src="/pictures/menProfile.svg" alt="profile" class="profileLogo">
                     </div>
 
-                    <a href="/admin/cpanel">
+                    <a href="/admin-cPanel/counter">
                         <div class="col items">
                             <div class="mt-2 mx-1" style="display: inline-block;">
                                 <img src="/icons/home.svg" alt="home">
@@ -72,7 +72,7 @@
                         </div>
                     </div>
                     <div class="collapse show" id="collapseAdmin">
-                        <a href="/admin/cpanel/showAdmins">
+                        <a href="/admin-cPanel/admin/showAdmins">
                       <div class="col items selectedMenu">
                         <div class="mt-2 me-4" style="display: inline-block;">
                             <img src="/icons/users.svg" alt="users">
@@ -82,7 +82,7 @@
                         </div>
                       </div>
                     </a>
-                      <a href="/admin/cpanel/newAdmin">
+                      <a href="/admin-cPanel/admin/newAdmin">
                         <div class="col items" >
                         <div class="mt-2 me-4" style="display: inline-block;">
                             <img src="/icons/user-plus.svg" alt="addAdmin">
@@ -104,7 +104,7 @@
                         </div>
                     </div>
                     <div class="collapse" id="collapseUser">
-                        <a href="/admin/cpanel/showUsers">
+                        <a href="/admin-cPanel/user/showUsers">
                             <div class="col items">
                             <div class="mt-2 me-4" style="display: inline-block;">
                                 <img src="/icons/users.svg" alt="users">
@@ -115,7 +115,7 @@
                         </div>
                     </a>
                     
-                        <a href="/admin/cpanel/newUser">
+                        <a href="/admin-cPanel/user/newUser">
                             <div class="col items" >
                                 <div class="mt-2 me-4" style="display: inline-block;">
                                     <img src="/icons/user-plus.svg" alt="addUser">
@@ -145,7 +145,7 @@
                             <p>دسته بندی ها</p>
                           </div>
                         </div>
-                        <a href="/admin/cpanel/newCategoty">
+                        <a href="/admin-cPanel/category/newCategoty">
                             <div class="col items" >
                                 <div class="mt-2 me-4" style="display: inline-block;">
                                     <img src="/icons/plus-square.svg" alt="addCategory">
@@ -265,12 +265,12 @@
                                             <div class="container">
                                                 <div class="row justify-content-center">
                                                   <div class="col-4">
-                                                    <a href="/admin/cpanel/editAdmin/<%= admin.id %>" class="btn btn-success" role="button">
+                                                    <a href="/admin-cPanel/admin/editAdmin/<%= admin.id %>" class="btn btn-success" role="button">
                                                         <img src="/icons/edit.svg" alt="edit">
                                                     </a>   
                                                   </div>
                                                   <div class="col-4">
-                                                    <form action="/admin/cpanel/showAdmins/<%= admin.id %>
+                                                    <form action="/admin-cPanel/admin/showAdmins/<%= admin.id %>
                                                         ?_method=DELETE" method="post">
                                                         <button type="submit" class="btn btn-danger">
                                                             <img src="/icons/trash-2.svg" alt="remove">

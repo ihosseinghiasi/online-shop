@@ -1,6 +1,5 @@
 const controller = require('../controller')
 let persianDate = require('date/persianDate')
-const persianNumber = require('persian-number')
 const Category = require('models/category')
 const { validationResult } = require('express-validator')
 
@@ -26,7 +25,7 @@ module.exports = new class adminController extends controller {
                 image: categoryImage
             }) 
             await newCategory.save()
-            return res.redirect('/admin/cpanel/newCategory')
+            return res.redirect('/admin-cPanel/category/newCategory')
         } catch (err) {
             next(err)
         }
@@ -47,10 +46,12 @@ module.exports = new class adminController extends controller {
     async showCategories(req, res, next) {
 
         try {
+            let categories = await Category.find({})
             res.locals = {
-                persianDate, 
+                persianDate,
+                categories 
            }          
-
+           return res.render('admin/showCategories')
         } catch (err) {
             next(err)
         }

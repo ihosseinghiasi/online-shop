@@ -36,7 +36,7 @@ module.exports = new class userController extends controller {
                 let errors = validationResult(req)
             if (!errors.isEmpty()) {
                 req.flash('errors', errors.array())
-                return res.redirect('/admin/cpanel/newUser')
+                return res.redirect('/admin-cPanel/user/newUser')
             }
             const newUser = new User({
                 firstName: req.body.firstName,
@@ -46,43 +46,42 @@ module.exports = new class userController extends controller {
                 phone: req.body.phone,
             })
             await newUser.save()
-            return res.redirect('/admin/cpanel/showUsers')
+            return res.redirect('/admin-cPanel/user/showUsers')
            } catch (err) {
                 next(err)
            }
     }
 
-    async updateUser(req, res, next) {
-      try {
-        const id = (req.params.id).trim()
-        let user = await User.updateOne({ _id: id }, { $set: req.body })
-        res.redirect('/admin/cpanel/showUsers')
-      } catch (err) {
-        next(err)
-      }
-    }
-
-    async deleteUser(req, res, next) {
-        try {
-            const id = (req.params.id).trim()
-            let user = await User.deleteOne({ _id: id })
-            res.redirect('/admin/cpanel/showUsers')
-        } catch (err) {
-            next(err)
-            }        
-        
-    }
-
-    async newUser(req, res, next) {
-        try {
-            res.locals = {
-                persianDate,
-                errors: req.flash('errors'),
+            async updateUser(req, res, next) {
+            try {
+                const id = (req.params.id).trim()
+                let user = await User.updateOne({ _id: id }, { $set: req.body })
+                res.redirect('/admin-cPanel/user/showUsers')
+            } catch (err) {
+                next(err)
             }
-            return res.render('admin/userRegister')
-        } catch (err) {
-            next(err)
-        }
-    }
+            }
+
+            async deleteUser(req, res, next) {
+                try {
+                    const id = (req.params.id).trim()
+                    let user = await User.deleteOne({ _id: id })
+                    res.redirect('/admin-cPanel/user/showUsers')
+                } catch (err) {
+                    next(err)
+                    }                        
+            }
+
+            async newUser(req, res, next) {
+                try {
+                    res.locals = {
+                        persianDate,
+                        errors: req.flash('errors'),
+                    }
+                    return res.render('admin/userRegister')
+                } catch (err) {
+                    next(err)
+                }
+            }
 
 }

@@ -51,7 +51,7 @@
                         <img src="/pictures/menProfile.svg" alt="profile" class="profileLogo">
                     </div>
 
-                    <a href="/admin/cpanel">
+                    <a href="/admin-cPanel/counter">
                         <div class="col items">
                             <div class="mt-2 mx-1" style="display: inline-block;">
                                 <img src="/icons/home.svg" alt="home">
@@ -71,7 +71,7 @@
                             <p>مدیران سایت</p>
                         </div>
                     </div>
-                    <a href="/admin/cpanel/showAdmins">
+                    <a href="/admin-cPanel/admin/showAdmins">
                     <div class="collapse" id="collapseAdmin">
                       <div class="col items">
                         <div class="mt-2 me-4" style="display: inline-block;">
@@ -82,7 +82,7 @@
                         </div>
                       </div>
                     </a>
-                      <a href="/admin/cpanel/newAdmin">
+                      <a href="/admin-cPanel/admin/newAdmin">
                         <div class="col items" >
                         <div class="mt-2 me-4" style="display: inline-block;">
                             <img src="/icons/user-plus.svg" alt="addAdmin">
@@ -112,7 +112,7 @@
                               <p>کاربران سایت</p>
                           </div>
                         </div>
-                        <a href="/admin/cpanel/newUser">
+                        <a href="/admin-cPanel/user/newUser">
                             <div class="col items" >
                                 <div class="mt-2 me-4" style="display: inline-block;">
                                     <img src="/icons/user-plus.svg" alt="addUser">
@@ -142,7 +142,7 @@
                             <p>دسته بندی ها</p>
                           </div>
                         </div>
-                      <a href="/admin/cpanel/newCategoty">
+                      <a href="/admin-cPanel/category/newCategory">
                         <div class="col items" >
                             <div class="mt-2 me-4" style="display: inline-block;">
                                 <img src="/icons/plus-square.svg" alt="addCategory">
@@ -262,12 +262,12 @@
                                         <div class="container">
                                             <div class="row justify-content-center">
                                               <div class="col-4">
-                                                <a href="/admin/cpanel/editUser/<%= user.id %>" class="btn btn-success" role="button">
+                                                <a href="/admin-cPanel/user/editUser/<%= user.id %>" class="btn btn-success" role="button">
                                                     <img src="/icons/edit.svg" alt="edit">
                                                 </a>   
                                               </div>
                                               <div class="col-4">
-                                                <form action="/admin/cpanel/showUsers/<%=user.id%>
+                                                <form action="/admin-cPanel/user/showUsers/<%=user.id%>
                                                     ?_method=DELETE" method="post">
                                                     <button type="submit" class="btn btn-danger">
                                                         <img src="/icons/trash-2.svg" alt="remove">

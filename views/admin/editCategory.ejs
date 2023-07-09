@@ -5,7 +5,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/adminPanelshowadmins.css">
+    <link rel="stylesheet" href="/css/category.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js" integrity="sha512-BmM0/BQlqh02wuK5Gz9yrbe7VyIVwOzD1o40yi1IsTjriX/NGF37NyXHfmFzIlMmoSIBXgqDiG1VNU6kB5dBbA==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdn.tiny.cloud/1/80x3erofelj42tetslrvjmzbgw88p0b4e1ry5ipmkcc4ycfs/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+      tinymce.init({
+        selector: 'textarea#editor',
+        directionality: "rtl",
+        skin: 'bootstrap',
+        plugins: 'lists, link, image, media',
+        toolbar: 'h1 h2 bold italic alignleft aligncenter alignright alignjustify | outdent indent | removeformat help',
+        menubar: false,
+      });
+      
+    </script>        
+        <script>
+          tinymce.init({
+            selector: 'textarea#editor',
+          });
+        </script>
+
     <title>‍ پنل مدیریت </title>
 </head>
 <body>
@@ -63,7 +85,7 @@
                     </a>
 
                     <div class="col items" data-bs-toggle="collapse" href="#collapseAdmin"
-                     role="button" aria-expanded="true" aria-controls="collapseAdmin">
+                     role="button" aria-expanded="false" aria-controls="collapseAdmin">
                         <div class="mt-2 mx-1" style="display: inline-block;">
                             <img src="/icons/user-check.svg" alt="admin">
                         </div>
@@ -72,15 +94,15 @@
                         </div>
                     </div>
                     <a href="/admin-cPanel/admin/showAdmins">
-                    <div class="collapse" id="collapseAdmin">
-                      <div class="col items">
-                        <div class="mt-2 me-4" style="display: inline-block;">
-                            <img src="/icons/users.svg" alt="users">
-                        </div>
-                        <div style="display: inline-block;" class="my-2 mx-1">
-                            <p>مدیران سایت</p>
-                        </div>
-                      </div>
+                        <div class="collapse" id="collapseAdmin">
+                            <div class="col items ">
+                              <div class="mt-2 me-4" style="display: inline-block;">
+                                  <img src="/icons/users.svg" alt="users">
+                              </div>
+                              <div style="display: inline-block;" class="my-2 mx-1">
+                                  <p>مدیران سایت</p>
+                              </div>
+                            </div>
                     </a>
                       <a href="/admin-cPanel/admin/newAdmin">
                         <div class="col items" >
@@ -103,14 +125,16 @@
                             <p>کاربران سایت</p>
                         </div>
                     </div>
-                    <div class="collapse show" id="collapseUser">
-                        <div class="col items selectedMenu">
-                          <div class="mt-2 me-4" style="display: inline-block;">
-                              <img src="/icons/users.svg" alt="users">
-                          </div>
-                          <div style="display: inline-block;" class="my-2 mx-1">
-                              <p>کاربران سایت</p>
-                          </div>
+                    <a href="/admin-cPanel/user/showUsers">
+                        <div class="collapse" id="collapseUser">
+                            <div class="col items">
+                              <div class="mt-2 me-4" style="display: inline-block;">
+                                  <img src="/icons/users.svg" alt="users">
+                              </div>
+                              <div style="display: inline-block;" class="my-2 mx-1">
+                                  <p>کاربران سایت</p>
+                              </div>
+                    </a>
                         </div>
                         <a href="/admin-cPanel/user/newUser">
                             <div class="col items" >
@@ -125,7 +149,7 @@
                     </div>
 
                     <div class="col items" data-bs-toggle="collapse" href="#collapseCategory"
-                    role="button" aria-expanded="false" aria-controls="collapseCategory">
+                    role="button" aria-expanded="true" aria-controls="collapseCategory">
                         <div class="mt-2 mx-1" style="display: inline-block;">
                             <img src="/icons/category.svg" alt="category">
                         </div>    
@@ -133,27 +157,27 @@
                             <p>دسته بندی ها</p>
                         </div>
                     </div>
-                    <div class="collapse" id="collapseCategory">
-                        <a href="/admin-cPanel/category/showCategories">
-                            <div class="col items">
+                    <div class="collapse show" id="collapseCategory">
+                       <a href="/admin-cPanel/category/showCategories">
+                        <div class="col items selectedMenu">
+                            <div class="mt-2 me-4" style="display: inline-block;">
+                                <img src="/icons/categoryMini.svg" alt="users">
+                            </div>
+                            <div style="display: inline-block;" class="my-2 mx-1">
+                              <p>دسته بندی ها</p>
+                            </div>
+                          </div>
+                       </a>
+                        <a href="/admin-cPanel/category/newCategory">
+                            <div class="col items" >
                                 <div class="mt-2 me-4" style="display: inline-block;">
-                                    <img src="/icons/categoryMini.svg" alt="users">
+                                    <img src="/icons/plus-square.svg" alt="addCategory">
                                 </div>
                                 <div style="display: inline-block;" class="my-2 mx-1">
-                                  <p>دسته بندی ها</p>
+                                    <p>افزودن دسته بندی</p>
                                 </div>
                               </div>
                         </a>
-                      <a href="/admin-cPanel/category/newCategory">
-                        <div class="col items" >
-                            <div class="mt-2 me-4" style="display: inline-block;">
-                                <img src="/icons/plus-square.svg" alt="addCategory">
-                            </div>
-                            <div style="display: inline-block;" class="my-2 mx-1">
-                                <p>افزودن دسته بندی</p>
-                            </div>
-                          </div>
-                      </a>
                     </div>
 
                     <div class="col items" data-bs-toggle="collapse" href="#collapseProduct"
@@ -188,7 +212,7 @@
                         <div class="mt-2 mx-1" style="display: inline-block;">
                             <img src="/icons/inbox.svg" alt="email">
                         </div>
-                 
+
                         <div style="display: inline-block;" class="my-3 mx-1">
                             <p>ایمیل ها</p>
                         </div>
@@ -228,70 +252,108 @@
             <div class="col-10">
                 <div class="col-11 mx-5 counter">
                     <div class="titleCounter">
-                        <p>پیشخوان  >  کاربران سایت  </p>
+                        <p>پیشخوان  >  دسته بندی ها >  ویرایش دسته بندی</p>
                     </div>
                     <div class="d-flex justify-content-start parsianDate">
                        <p><%= persianDate %></p>
                     </div>
                 </div>
 
+                <% if(locals.errors) { %>
+                    <div class="col-5 mx-5 mt-3">
+                        <% Object.values(errors).forEach((error) =>{ %>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <%= error.msg %>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <% }) %>
+                    </div>
+                    <% } %> 
+
 
                 <div class="addAdmin col-11 my-5 mx-5">
-                    <div class="addtitle my-3 mx-2 col-9">
-                        <img src="/icons/users-black.svg"  alt="مدیران سایت">
-                        کاربران سایت
+                    <div class="addtitle my-3 mx-2 col-8">
+                        <img src="/icons/plus-square-black.svg"  alt="افزودن دسته بندی ">
+                        ویرایش دسته بندی
                     </div>
-                    
-                    <div class="my-3 position-absolute col-8">
-                        <table class="table table-bordered my-5 mx-5 col-12 text-center align-middle">
-                            <thead>
-                              <tr>
-                                <th class="col-1" scope="col">#</th>
-                                <th class="col-3" scope="col">نام خانوادگی</th>
-                                <th class="col-3" scope="col">ایمیل</th>
-                                <th class="col-3" scope="col">عملیات</th>
-                              </tr>
-                            </thead>
-                            <tbody>
+               
+                    <div class="addBody col-8 mx-5">
+                        <form action="/admin-cPanel/category/editCategory/<%= category.id %>?_method=PUT" method="post" enctype="multipart/form-data" >
+                          <div class="row">
+                            <div class="col-8">
+                                <input type="text" name="categoryName" class="form-control mt-3"
+                                 placeholder="نامک دسته بندی" value="<%= category.categoryName %>">
+                                <span class="badge bg-secondary nemeAddressBadge">http://localhost/admin-cPanel/category/***</span>
+                                <p class="mt-5 text-secondary">
+                                    از نامک دسته بندی برای ساخت آدرس صفحه دسته بندی استفاده میشود .
+                                </p>
+                                <p class="text-secondary">
+                                    این موضوع  با توجه به باکس رنگی بهتر نمایان میشود .
+                                </p>
+                            </div>
+                            <div class="col-4 fileUloadArea">
+                                <div class="imageUpload mx-auto" id="file" >
+                                    <img class="categoryImage" id="output" src="<%= category.image %>">
+                                </div>
 
-                            <% users.forEach((user, i) => {%>
-                               
-                                <tr>
-                                    <td><%= ++i %></td>
-                                    <td><%= user.lastName %></td>
-                                    <td><%=user.email%></td>
-                                    <td>
-                                        <div class="container">
-                                            <div class="row justify-content-center">
-                                              <div class="col-4">
-                                                <a href="/admin-cPanel/user/editUser/<%= user.id %>" class="btn btn-success" role="button">
-                                                    <img src="/icons/edit.svg" alt="edit">
-                                                </a>   
-                                              </div>
-                                              <div class="col-4">
-                                                <form action="/admin-cPanel/user/showUsers/<%=user.id%>
-                                                    ?_method=DELETE" method="post">
-                                                    <button type="submit" class="btn btn-danger">
-                                                        <img src="/icons/trash-2.svg" alt="remove">
-                                                    </button>
-                                                </form>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <% }) %>
-
-                            </tbody>
-                          </table>
+                                <input type="file" name="image" class="form-control"
+                                 onchange="loadFile(event)" hidden></input>
+                                <input type="submit" id="submit" class="btn btn-success mt-2 btnSubmit" 
+                                 value="ذخیره دسته بندی">
+                            </div>
+                            <div class="row mt-3">
+                                <input type="text" name="title" class="form-control" id="categoryTitle"
+                                 placeholder="عنوان دسته بندی" value="<%= category.title %>">
+                                <div class="form-group mt-3">
+                                    <textarea name="description" id="editor" class="form-control" cols="30" rows="10"
+                                    ><%= category.description %></textarea>
+                                </div>
+                            </div>
+                          </div>
+                        </form>
+                             </div>
+                        </div>
                     </div>
-                    
                 </div>
             </div>
-        </div>
-       </div>
      </div>
     <footer>
     </footer>
 </body>
-</html
+</html>
+
+<!-- <script>
+    document.getElementById("output").addEventListener("load", () => {
+    document.getElementById("submit").disabled = false
+       })
+    addEventListener("DOMContentLoaded", (load) => {
+        document.getElementById("submit").disabled = true
+    })   
+</script> -->
+
+<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+
+<script type="text/javascript">
+let wrapper = $('<div/>').css({'overflow':'hidden'});
+let fileInput = $(':file').wrap(wrapper);
+
+$('#file').click(function(){
+    fileInput.click();
+}).show();
+</script>
+
+<script>
+var loadFile = function(event) {
+var image = document.getElementById('output');
+image.src = URL.createObjectURL(event.target.files[0]);
+    };
+</script>
+
+<!-- <script>
+    addEventListener("DOMContentLoaded", (load) => {
+        let val = "<%= JSON.stringify(category.description) %>"
+
+        document.getElementById("editor").innerHTML = val
+
+    })
+</script> -->

@@ -25,7 +25,7 @@ module.exports = new class adminController extends controller {
                 image: categoryImage
             }) 
             await newCategory.save()
-            return res.redirect('/admin-cPanel/category/newCategory')
+            return res.redirect('/admin-cPanel/category/showCategories')
         } catch (err) {
             next(err)
         }
@@ -59,10 +59,13 @@ module.exports = new class adminController extends controller {
 
     async showCategory(req, res, next) {
         try {
+            const id = (req.params.id).trim()
+            let category = await Category.findOne({ _id: id })
             res.locals = {
-                persianDate, 
-            }    
-
+                persianDate,
+                category 
+            }
+            res.render('admin/editCategory')
         } catch (err) {
             next(err)
         }
@@ -70,7 +73,20 @@ module.exports = new class adminController extends controller {
 
     async updateCategory(req, res, next) {
         try {
-
+            const id = (req.params.id).trim()
+            const m = await Category.findOne({ _id: id })
+            const data = {
+                categoryName: req.body.categoryName,
+                title: req.body.title,
+                description: req.body.description
+            }
+            if(req.file) {
+                data.image = req.file.path.replace(/\\/g, '/').substring(6)
+            } else {
+                data.image = m.image
+            }
+            let category = await Category.updateOne({ _id: id }, { $set: data })
+            return res.redirect('/admin-cPanel/category/showCategories')
         } catch (err) {
             next(err)
         }
@@ -78,6 +94,9 @@ module.exports = new class adminController extends controller {
 
     async deleteCategory(req, res, next) {
         try {
+            const id = (req.params.id).trim()
+            let category = await Category.deleteOne({ _id: id })
+            return res.redirect('/admin-cPanel/category/showCategories')
         } catch (err) {
             next(err)
         }

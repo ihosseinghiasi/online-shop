@@ -3,11 +3,10 @@ const router = express.Router()
 const categoryController = require('controllers/admin/categoryController')
 const uploadImageCategory = require('upload/uploadImageCategory')
 const categoryValidator = require('validations/categoryValidator')
-const dynamicAddress = "mtnIrancell"
 
 
 router.get('/newCategory', categoryController.newCategory)
-router.post('/newCategory', uploadImageCategory.single('image'),
+router.post('/newCategory', uploadImageCategory.single('image') ,
     (req, res, next) => {
         if(!req.file) {
             req.body.image = null
@@ -16,12 +15,20 @@ router.post('/newCategory', uploadImageCategory.single('image'),
         }
         next()
     }
-,categoryValidator.categoryHandle(), categoryController.addNewCategory)
+    ,categoryValidator.categoryHandle(), categoryController.addNewCategory)
 
-router.get('/:dynamicAddress', (req, res, next) => {
-    console.log("Dynamic Address Is OK . . . ")
-    console.log(dynamicAddress)
+router.get('/showCategories', categoryController.showCategories)
+router.delete('/showCategories/:id', categoryController.deleteCategory)
+router.get('/editCategory/:id', categoryController.showCategory)
+router.put('/editCategory/:id', uploadImageCategory.single('image') ,
+(req, res, next) => {
+    if(!req.file) {
+        req.body.image = null
+    } else {
+        req.body.image = req.file.filename
+    }
     next()
-})
+}
+    , categoryController.updateCategory)
 
 module.exports = router

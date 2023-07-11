@@ -29,6 +29,8 @@ router.put('/editCategory/:id', uploadImageCategory.single('image') ,
     }
     next()
 }
-    , categoryController.updateCategory)
+    ,categoryValidator.categoryHandle(), categoryController.updateCategory)
+
+router.get('/:categoryName/:id', categoryController.categoryPage)
 
 module.exports = router

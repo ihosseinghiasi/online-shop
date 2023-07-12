@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <link rel="stylesheet" href="/css/categoryPage.css">
-    <title>category ***</title>
+    <title><%= category.title%></title>
 </head>
 <body>
     <div class="container">
@@ -23,13 +23,11 @@
 
 <script>
     window.addEventListener("load", (event) => {
-        let description = "<%= JSON.stringify(category.description) %>"
-        description = description.toString()
-        let txtdescription = description.replace(/^"|"$/g, '')
+        let description = `<%= String(category.description) %>`
         $('#description').html(
   // create an element where the html content as the string
   $('<div/>', {
-    html: txtdescription
+    html: description
   // get text content from element for decoded text  
   }).text()
 )

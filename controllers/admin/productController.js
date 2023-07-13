@@ -1,18 +1,18 @@
 const controller = require('../controller')
 let persianDate = require('date/persianDate')
-const Category = require('models/category')
+const Product = require('models/product')
 const { validationResult } = require('express-validator')
 
 
-module.exports = new class categoryController extends controller {
+module.exports = new class productController extends controller {
 
-    async addNewCategory(req, res, next) {
+    async addNewproduct(req, res, next) {
         try {
             const errors = validationResult(req)
             if(!errors.isEmpty()) {
                 let myErrors = errors.array()
                 req.flash('errors', myErrors)
-                return res.redirect('/admin-cPanel/category/newCategory')
+                return res.redirect('/admin-cPanel/product/newProduct')
             }
             
             res.locals = {
@@ -20,61 +20,61 @@ module.exports = new class categoryController extends controller {
                 errors: req.flash('errors')
            }
             const categoryImage = req.file.path.replace(/\\/g, '/').substring(6)
-            const newCategory = new Category({
+            const newProduct = new Product({
                 categoryName: req.body.categoryName,
                 title: req.body.title,
                 description: req.body.description,
                 image: categoryImage
             }) 
-            await newCategory.save()
-            return res.redirect('/admin-cPanel/category/showCategories')
+            await newProduct.save()
+            return res.redirect('/admin-cPanel/product/showProducts')
         } catch (err) {
             next(err)
         }
 }
 
-    async newCategory(req, res, next) {
+    async newProduct(req, res, next) {
         try {
             res.locals = {
                 persianDate,
                 errors: req.flash('errors')
            }
-            return res.render('admin/categoryRegister')
+            return res.render('admin/productRegister')
         } catch (err) {
             next(err)
         }
     }
 
-    async showCategories(req, res, next) {
+    async showProducts(req, res, next) {
 
         try {
-            let categories = await Category.find({})
+            let products = await Product.find({})
             res.locals = {
                 persianDate,
-                categories,
+                products,
            }          
-           return res.render('admin/showCategories')
+           return res.render('admin/showProducts')
         } catch (err) {
             next(err)
         }
     }
 
-    async showCategory(req, res, next) {
+    async showProduct(req, res, next) {
         try {
             const id = (req.params.id).trim()
-            let category = await Category.findOne({ _id: id })
+            let product = await Product.findOne({ _id: id })
             res.locals = {
                 persianDate,
-                category,
+                product,
                 errors: req.flash('errors') 
             }
-            res.render('admin/editCategory')
+            res.render('admin/editProduct')
         } catch (err) {
             next(err)
         }
     }
 
-    async updateCategory(req, res, next) {
+    async updateProduct(req, res, next) {
         try {
             res.locals = {
                 persianDate,
@@ -86,10 +86,10 @@ module.exports = new class categoryController extends controller {
            if(!errors.isEmpty()) {
                let myErrors = errors.array()
                req.flash('errors', myErrors)
-               return res.redirect(`/admin-cPanel/category/editCategory/${id}`)
+               return res.redirect(`/admin-cPanel/product/editProduct/${id}`)
             }
 
-            const m = await Category.findOne({ _id: id })
+            const m = await Product.findOne({ _id: id })
             const data = {
                 categoryName: req.body.categoryName,
                 title: req.body.title,
@@ -100,34 +100,34 @@ module.exports = new class categoryController extends controller {
             } else {
                 data.image = m.image
             }
-            let category = await Category.updateOne({ _id: id }, { $set: data })
-            return res.redirect('/admin-cPanel/category/showCategories')
+            let product = await Product.updateOne({ _id: id }, { $set: data })
+            return res.redirect('/admin-cPanel/product/showProducts')
         } catch (err) {
             next(err)
         }
     }
 
-    async deleteCategory(req, res, next) {
+    async deleteProduct(req, res, next) {
         try {
             res.locals = {
                 persianDate,
            }
             const id = (req.params.id).trim()
-            let category = await Category.deleteOne({ _id: id })
-            return res.redirect('/admin-cPanel/category/showCategories')
+            let product = await Product.deleteOne({ _id: id })
+            return res.redirect('/admin-cPanel/product/showProducts')
         } catch (err) {
             next(err)
         }
     }
 
-    async categoryPage(req, res, next) {
+    async productPage(req, res, next) {
         try {
             const id = (req.params.id).trim()
-            const category = await Category.findOne({ _id: id })
+            const product = await Product.findOne({ _id: id })
             res.locals = {
-                category
+                product
             }
-            res.render('shop/category')
+            res.render('shop/product')
         } catch (err) {
             next(err)
         }

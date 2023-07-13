@@ -1,7 +1,7 @@
 const express  = require('express')
 const router = express.Router()
 const categoryController = require('controllers/admin/categoryController')
-const uploadImageCategory = require('upload/uploadImageCategory')
+const uploadImageCategory = require('upload/uploadImage')
 const categoryValidator = require('validations/categoryValidator')
 
 

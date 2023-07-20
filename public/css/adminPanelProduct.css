@@ -113,7 +113,7 @@ a{
 }
 
 .addAdmin {
-    height: 850px;
+    height: 1700px;
     box-shadow: 1px 1px 70px lightgray;
 }
 
@@ -160,7 +160,39 @@ a{
     border-radius: 25px;
 }
 
+label {
+    font-size: 1.2em;
+}
+
+.productOptions1 {
+    height: 170px;
+    padding: 30px 0;
+    box-shadow: 3px 3px 10px lightgray;
+}
+
+.productOptions2 {
+    height: 260px;
+    padding: 30px 0;
+    box-shadow: 3px 3px 10px lightgray;
+}
+
+.productOptions3 {
+    height: 360px;
+    padding: 30px 0;
+    box-shadow: 3px 3px 10px lightgray;
+}
+
 .selectCategory {
-    margin: 30px;
-    background-color: red;
+    display: block;
+    margin-top: 15px;
+    height: 35px;
+    width: 200px;
+}
+
+.textPrice {
+    width: 200px;
+}
+
+.textNumber {
+    width: 135px;
 }

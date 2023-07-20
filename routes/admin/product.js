@@ -17,9 +17,9 @@ router.get('/newProduct', productController.newProduct)
 //     }
 //     , productController.addNewProduct)
 
-router.get('/showProducts', productController.showProducts)
-router.delete('/showProducts/:id', productController.deleteProduct)
-router.get('/editProduct/:id', productController.showProduct)
+// router.get('/showProducts', productController.showProducts)
+// router.delete('/showProducts/:id', productController.deleteProduct)
+// router.get('/editProduct/:id', productController.showProduct)
 // router.put('/editProduct/:id', uploadImageProduct.single('image') ,
 // (req, res, next) => {
 //     if(!req.file) {
@@ -31,6 +31,6 @@ router.get('/editProduct/:id', productController.showProduct)
 // }
 //     , productController.updateProduct)
 
-router.get('/:productName/:id', productController.productPage)
+// router.get('/:productName/:id', productController.productPage)
 
 module.exports = router

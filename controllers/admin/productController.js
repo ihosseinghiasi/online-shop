@@ -1,19 +1,20 @@
 const controller = require('../controller')
 let persianDate = require('date/persianDate')
 const Product = require('models/product')
+const Category = require('models/category')
 const { validationResult } = require('express-validator')
 
 
 module.exports = new class productController extends controller {
 
-    async addNewproduct(req, res, next) {
-        // try {
-        //     const errors = validationResult(req)
-        //     if(!errors.isEmpty()) {
-        //         let myErrors = errors.array()
-        //         req.flash('errors', myErrors)
-        //         return res.redirect('/admin-cPanel/product/newProduct')
-        //     }
+    async addNewProduct(req, res, next) {
+        try {
+            const errors = validationResult(req)
+            if(!errors.isEmpty()) {
+                let myErrors = errors.array()
+                req.flash('errors', myErrors)
+                return res.redirect('/admin-cPanel/product/newProduct')
+            }
             
         //     res.locals = {
         //         persianDate,
@@ -24,19 +25,31 @@ module.exports = new class productController extends controller {
         //         categoryName: req.body.categoryName,
         //         title: req.body.title,
         //         description: req.body.description,
+        //         category: req.body.category,
+        //         price: req.body.price,
+        //         NOP: req.body.NOP,
+        //         POT: req.body.POT,
+        //         accessible: req.body.accessible,
         //         image: categoryImage
         //     }) 
         //     await newProduct.save()
-        //     return res.redirect('/admin-cPanel/product/showProducts')
-        // } catch (err) {
-        //     next(err)
-        // }
+
+
+        const fields = req.body.fields
+        console.log(fields.length)
+
+            return res.redirect('/admin-cPanel/product/newProduct')
+        } catch (err) {
+            next(err)
+        }
 }
 
     async newProduct(req, res, next) {
         try {
+            const categoryTitles = await Category.find({}).select('title')
             res.locals = {
                 persianDate,
+                categoryTitles,
                 errors: req.flash('errors')
            }
             return res.render('admin/productRegister')

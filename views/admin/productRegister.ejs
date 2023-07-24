@@ -281,7 +281,7 @@
                         <form action="/admin-cPanel/product/newProduct" enctype="multipart/form-data" method="post">
                           <div class="row">
                             <div class="col-8">
-                                <input type="text" name="categoryName" class="form-control mt-3" placeholder="نامک محصول">
+                                <input type="text" name="productName" class="form-control mt-3" placeholder="نامک محصول">
                                 <span class="badge bg-secondary nemeAddressBadge">http://localhost/admin-cPanel/product/***</span>
                                 <p class="mt-5 text-secondary">
                                     از نامک محصول برای ساخت آدرس صفحه محصول استفاده میشود .
@@ -307,10 +307,10 @@
                             <div class="row ">
                                 <div class="col-4 mt-4 me-3 productOptions1">
                                     <label class="me-5" for="selectCategory">انتخاب دسته بندی :</label>
-                                    <select id="selectCategory" name="category" class="selectCategory me-5 form-control">
-                                         <option value="">دسته بندی</option> 
-                                         <option value="">hfgshfjgjhs</option> 
-                                         <option value="">hfgsgfjgsjfgjs</option> 
+                                    <select id="selectCategory" name="category" class="selectCategory me-5 form-select">
+                                         <% Object.values(categoryTitles).forEach((category) => { %>
+                                            <option> <%= category.title %> </option>
+                                        <% }) %>
                                     </select>  
                                 </div>
                                 
@@ -321,7 +321,7 @@
                                 </div>
                                 <div class="col-3 mt-4 me-3 productOptions1">
                                     <label class="me-5" for="numberOfProduct">تعداد محصول :</label>
-                                    <input type="text" name="numberOfProduct" class="form-control me-5 mt-3 textNumber" id="numberOfProduct">
+                                    <input type="text" name="NOP" class="form-control me-5 mt-3 textNumber" id="numberOfProduct">
                                 </div>
                             </div>
                             <div class="row">
@@ -329,19 +329,19 @@
                                     <label class="me-5" for="productPrice"> اکانت مدت دار : </label>
                                     <p class="mx-5 mt-2"> درصورتی که میخواهید مدت زمان فعال داشته باشد و پس از مدت مشخصی غیرفعال شود ، تعداد روز های مورد نظر را وارد کنید مثلا برای اکانت ماهانه بر روی 30 بگذارید.</p>
                                     <p class="mx-5"> در صورتی که نمیخواهید از این قابلیت استفاده کنید آن را بر روی 0 تنظیم کنید. </p>
-                                    <input type="text" class="me-5 form-control textPrice" name="price" id="productPrice">
+                                    <input type="text" class="me-5 form-control textPrice" name="POT" id="productPrice">
                                 </div>
                                 <div class="col-5 mt-4 me-3 productOptions2">
                                     <label class="me-5" for="productPrice"> دسترسی در سایت : </label>
                                     <p class="mx-5 mt-2">با انتخاب گزینه غیرقابل دسترسی ، بازدیدکنندگان نمیتوانند به این صفحه دسترسی پیدا کنند.</p>
-                                    <input type="radio" class="btn-check me-5" name="accessible" id="success-outlined" autocomplete="off" checked>
-                                    <label class="btn btn-outline-success me-5" for="success-outlined">فعال</label>
-                                    <input type="radio" class="btn-check me-5" name="accessible" id="danger-outlined" autocomplete="off">
-                                    <label class="btn btn-outline-danger me-1" for="danger-outlined">غیرفعال</label>
+                                    <input type="radio" class="btn-check me-5" name="accessible" id="accessible" autocomplete="off" checked>
+                                    <label class="btn btn-outline-success me-5" for="accessible">فعال</label>
+                                    <input type="radio" class="btn-check me-5" name="accessible" id="unaccessible" autocomplete="off">
+                                    <label class="btn btn-outline-danger me-1" for="unaccessible">غیرفعال</label>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 mt-4 me-3 productOptions3">
+                                <div class="col-12 mt-4 me-3 productOptions3" id="addField">
                                     <label class="me-5" for="newfild"> تنظیمات مربوط به فیلد های کارت های محصول : </label>
                                     <p class="mx-5 mt-2"> در این بخش فیلد های مرتبط با کارت های این محصول را انتخاب میکنید ، مثلا درصورتی که قصد فروش اکانت های کریو را دارید میتوانید سه فیلد آدرس سرور ، نام کاربری ، پسورد را قرار دهید. </p>
                                     <div class="my-3 position-absolute col-10">
@@ -355,8 +355,9 @@
                                             <tr>
                                                 <div class="container">
                                                 <td>
-                                                    <div id="formField">
-                                                        <input type="text" name="textField" class="form-control" placeholder="نام فیلد">
+                                                    <div class="form-floating" id="formField">
+                                                        <input type="text" name="fields[]" id="fields" class="form-control" placeholder="مقدار فیلد">
+                                                        <label for="fields">skhfkhsfhfsk</label>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -425,22 +426,42 @@ image.src = URL.createObjectURL(event.target.files[0]);
 </script>
 
 <script>
-    var formField = document.getElementById('formField')
+    let formField = document.getElementById('formField')
 
     function addNewField() {
-        var newfield = document.createElement('input')
+        const firstFieldValue = document.getElementById('fields').value
+        let lastfieldValue = formField.lastChild.value
+        if(firstFieldValue !== "" && lastfieldValue !== ""){
+        let newfield = document.createElement('input')
         newfield.setAttribute('type', 'text')
-        newfield.setAttribute('name', 'textField')
+        newfield.setAttribute('name', 'fields[]')
         newfield.setAttribute('class', 'form-control')
-        newfield.setAttribute('placeholder', 'نام فیلد')
+        newfield.setAttribute('id', 'fields')
+        newfield.setAttribute('placeholder', 'مقدار فیلد')
         formField.appendChild(newfield)
+
+        let newLable = document.createElement('label')
+        newfield.setAttribute('for', 'fields')
+        newfield.setAttribute('value', 'aaaaa')
+        formField.appendChild(newLable)
+
+        let divHeight = document.getElementById('addField').offsetHeight
+        document.getElementById('addField').style.height = divHeight + 37 + 'px'
+        }
     }
 
     function removeNewField() {
-        var inputTag = formField.getElementsByTagName('input')
+        let inputTag = formField.getElementsByTagName('input')
         if( inputTag.length > 1 ) {
             formField.removeChild(inputTag[(inputTag.length) - 1])
+
+            let divHeight = document.getElementById('addField').offsetHeight
+            document.getElementById('addField').style.height = divHeight - 37 + 'px'
+        } else {
+            document.getElementById('fields').value = ""
         }
     }
+
 </script>
+
 

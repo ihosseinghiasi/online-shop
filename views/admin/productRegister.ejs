@@ -281,8 +281,8 @@
                         <form action="/admin-cPanel/product/newProduct" enctype="multipart/form-data" method="post">
                           <div class="row">
                             <div class="col-8">
-                                <input type="text" name="productName" class="form-control mt-3" placeholder="نامک محصول">
-                                <span class="badge bg-secondary nemeAddressBadge">http://localhost/admin-cPanel/product/***</span>
+                                <input type="text" name="productName" id="productName" list="productNameList" class="form-control mt-3 list" placeholder="نامک محصول">
+                                <span class="badge bg-secondary nameAddressBadge" id="namak">http://localhost/admin-cPanel/product/</span>
                                 <p class="mt-5 text-secondary">
                                     از نامک محصول برای ساخت آدرس صفحه محصول استفاده میشود .
                                 </p>
@@ -305,7 +305,7 @@
                                 </div>
                             </div>
                             <div class="row ">
-                                <div class="col-4 mt-4 me-3 productOptions1">
+                                <div class="col-5 mt-4 me-3 productOptions1">
                                     <label class="me-5" for="selectCategory">انتخاب دسته بندی :</label>
                                     <select id="selectCategory" name="category" class="selectCategory me-5 form-select">
                                          <% Object.values(categoryTitles).forEach((category) => { %>
@@ -314,16 +314,13 @@
                                     </select>  
                                 </div>
                                 
-                                <div class="col-4 mt-4 me-3 productOptions1">
+                                <div class="col-5 mt-4 me-3 productOptions1">
                                     <label class="me-5" for="productPrice">قیمت محصول :</label>
                                     <p class="me-5 mt-1">قیمت محصول بر حسب تومان می باشد .</p>
                                     <input type="text" class="me-5 form-control textPrice" name="price" id="productPrice">
                                 </div>
-                                <div class="col-3 mt-4 me-3 productOptions1">
-                                    <label class="me-5" for="numberOfProduct">تعداد محصول :</label>
-                                    <input type="text" name="NOP" class="form-control me-5 mt-3 textNumber" id="numberOfProduct">
-                                </div>
                             </div>
+
                             <div class="row">
                                 <div class="col-6 mt-4 me-3 productOptions2">
                                     <label class="me-5" for="productPrice"> اکانت مدت دار : </label>
@@ -348,16 +345,21 @@
                                     <table class="table table-bordered mx-5 col-12 text-center align-middle">
                                         <thead>
                                           <tr>
-                                            <th class="col-5" scope="col"> فیلد های محصول </th>
+                                            <th class="col-8" scope="col"> فیلد های محصول </th>
+                                            <th class="col-1" scope="col">  </th>
                                           </tr>
                                         </thead>
                                         <tbody>
+                                            <div class="container">
                                             <tr>
-                                                <div class="container">
-                                                <td>
-                                                    <div class="form-floating" id="formField">
+                                                <td class="col-8">
+                                                    <div id="formField">
                                                         <input type="text" name="fields[]" id="fields" class="form-control" placeholder="مقدار فیلد">
-                                                        <label for="fields">skhfkhsfhfsk</label>
+                                                    </div>
+                                                </td>
+                                                <td class="col-1">
+                                                    <div id="fieldId">
+                                                        <input type="text" class="form-control" value="field1" disabled>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -378,21 +380,22 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                            </div>
+                                                <td>
+
+                                                </td>
                                             </tr>
-                                        </tbody>
-                                      </table>
+                                        </div>
+                                    </tbody>
+                                </table>
+                            </div>
                                     </div>
                                 </div>
                             </div>
-                          </div>
                         </form>
+                    </div>
                              </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-     </div>
+
     <footer>
     </footer>
 </body>
@@ -427,6 +430,8 @@ image.src = URL.createObjectURL(event.target.files[0]);
 
 <script>
     let formField = document.getElementById('formField')
+    let fieldId = document.getElementById('fieldId')
+    const fieldsLength = formField.getElementsByTagName('input')
 
     function addNewField() {
         const firstFieldValue = document.getElementById('fields').value
@@ -435,15 +440,18 @@ image.src = URL.createObjectURL(event.target.files[0]);
         let newfield = document.createElement('input')
         newfield.setAttribute('type', 'text')
         newfield.setAttribute('name', 'fields[]')
-        newfield.setAttribute('class', 'form-control')
+        newfield.setAttribute('class', 'form-control mt-1')
         newfield.setAttribute('id', 'fields')
         newfield.setAttribute('placeholder', 'مقدار فیلد')
         formField.appendChild(newfield)
 
-        let newLable = document.createElement('label')
-        newfield.setAttribute('for', 'fields')
-        newfield.setAttribute('value', 'aaaaa')
-        formField.appendChild(newLable)
+        let newFieldId = document.createElement('input')
+        newFieldId.setAttribute('value', `field${fieldsLength.length}`)
+        newFieldId.setAttribute('id', 'fields')
+        newFieldId.setAttribute('class', 'form-control mt-1')
+        newFieldId.setAttribute('disabled', '')
+        fieldId.appendChild(newFieldId)
+
 
         let divHeight = document.getElementById('addField').offsetHeight
         document.getElementById('addField').style.height = divHeight + 37 + 'px'
@@ -452,8 +460,11 @@ image.src = URL.createObjectURL(event.target.files[0]);
 
     function removeNewField() {
         let inputTag = formField.getElementsByTagName('input')
+        let inputid = fieldId.getElementsByTagName('input')
+        
         if( inputTag.length > 1 ) {
             formField.removeChild(inputTag[(inputTag.length) - 1])
+            fieldId.removeChild(inputid[(inputid.length) - 1])
 
             let divHeight = document.getElementById('addField').offsetHeight
             document.getElementById('addField').style.height = divHeight - 37 + 'px'
@@ -462,6 +473,18 @@ image.src = URL.createObjectURL(event.target.files[0]);
         }
     }
 
+</script>
+
+<script>
+    const productName = document.getElementById('productName')
+    const namak = document.getElementById('namak')
+
+    const namakHandeler = function(text) {
+        namak.innerText = 'http://localhost/admin-cPanel/product/' + text.target.value
+    }
+
+    productName.addEventListener('input', namakHandeler)
+    productName.addEventListener('propertychange', namakHandeler)
 </script>
 
 

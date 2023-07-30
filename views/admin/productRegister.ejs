@@ -271,7 +271,7 @@
                     <% } %> 
 
 
-                <div class="addAdmin col-11 my-5 mx-5">
+                <div class="addProduct col-11 my-5 mx-5" id="main">
                     <div class="addtitle my-3 mx-2 col-8">
                         <img src="/icons/plus-square-black.svg"  alt="افزودن محصول ">
                         افزودن محصول
@@ -338,7 +338,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-12 mt-4 me-3 productOptions3" id="addField">
+                                <div class="col-11 mt-4 me-3 productOptions3" id="addField">
                                     <label class="me-5" for="newfild"> تنظیمات مربوط به فیلد های کارت های محصول : </label>
                                     <p class="mx-5 mt-2"> در این بخش فیلد های مرتبط با کارت های این محصول را انتخاب میکنید ، مثلا درصورتی که قصد فروش اکانت های کریو را دارید میتوانید سه فیلد آدرس سرور ، نام کاربری ، پسورد را قرار دهید. </p>
                                     <div class="my-3 position-absolute col-10">
@@ -346,7 +346,6 @@
                                         <thead>
                                           <tr>
                                             <th class="col-8" scope="col"> فیلد های محصول </th>
-                                            <th class="col-1" scope="col">  </th>
                                           </tr>
                                         </thead>
                                         <tbody>
@@ -354,12 +353,7 @@
                                             <tr>
                                                 <td class="col-8">
                                                     <div id="formField">
-                                                        <input type="text" name="fields[]" id="fields" class="form-control" placeholder="مقدار فیلد">
-                                                    </div>
-                                                </td>
-                                                <td class="col-1">
-                                                    <div id="fieldId">
-                                                        <input type="text" class="form-control" value="field1" disabled>
+                                                        <input type="text" name="fields[]" id="fields" class="form-control" placeholder="نام فیلد">
                                                     </div>
                                                 </td>
                                             </tr>
@@ -380,10 +374,6 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td>
-
-                                                </td>
-                                            </tr>
                                         </div>
                                     </tbody>
                                 </table>
@@ -430,7 +420,6 @@ image.src = URL.createObjectURL(event.target.files[0]);
 
 <script>
     let formField = document.getElementById('formField')
-    let fieldId = document.getElementById('fieldId')
     const fieldsLength = formField.getElementsByTagName('input')
 
     function addNewField() {
@@ -442,32 +431,27 @@ image.src = URL.createObjectURL(event.target.files[0]);
         newfield.setAttribute('name', 'fields[]')
         newfield.setAttribute('class', 'form-control mt-1')
         newfield.setAttribute('id', 'fields')
-        newfield.setAttribute('placeholder', 'مقدار فیلد')
+        newfield.setAttribute('placeholder', 'نام فیلد')
         formField.appendChild(newfield)
 
-        let newFieldId = document.createElement('input')
-        newFieldId.setAttribute('value', `field${fieldsLength.length}`)
-        newFieldId.setAttribute('id', 'fields')
-        newFieldId.setAttribute('class', 'form-control mt-1')
-        newFieldId.setAttribute('disabled', '')
-        fieldId.appendChild(newFieldId)
-
-
-        let divHeight = document.getElementById('addField').offsetHeight
-        document.getElementById('addField').style.height = divHeight + 37 + 'px'
+        let divAddFieldHeight = document.getElementById('addField').offsetHeight
+        document.getElementById('addField').style.height = divAddFieldHeight + 42 + 'px'
+        let divMainHeight = document.getElementById('main').offsetHeight
+        document.getElementById('main').style.height = divMainHeight + 42 + 'px'
         }
     }
 
     function removeNewField() {
         let inputTag = formField.getElementsByTagName('input')
-        let inputid = fieldId.getElementsByTagName('input')
         
         if( inputTag.length > 1 ) {
             formField.removeChild(inputTag[(inputTag.length) - 1])
-            fieldId.removeChild(inputid[(inputid.length) - 1])
 
             let divHeight = document.getElementById('addField').offsetHeight
-            document.getElementById('addField').style.height = divHeight - 37 + 'px'
+            document.getElementById('addField').style.height = divHeight - 42 + 'px'
+            let divMainHeight = document.getElementById('main').offsetHeight
+            document.getElementById('main').style.height = divMainHeight - 42 + 'px'
+
         } else {
             document.getElementById('fields').value = ""
         }

@@ -9,10 +9,11 @@ const productSchema = new Schema({
     description: {type: String},
     price: {type: Number},
     POT: {type: Number}, // Period Of Time
-    accessible: {type: Boolean, default: true},
-    filds: {},
+    accessible: {type: String},
+    fields: [],
     image: {type: String},
     counter: {type: Number, default: 0},
+    categoryTitle: {type: String},
     category: {type: Schema.Types.ObjectId, ref: 'Category'}
 })
 

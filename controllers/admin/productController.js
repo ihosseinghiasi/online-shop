@@ -9,40 +9,40 @@ module.exports = new class productController extends controller {
 
     async addNewProduct(req, res, next) {
         try {
-            // const errors = validationResult(req)
-            // if(!errors.isEmpty()) {
-            //     let myErrors = errors.array()
-            //     req.flash('errors', myErrors)
-            //     return res.redirect('/admin-cPanel/product/newProduct')
-            // }
-            
-        //     res.locals = {
-        //         persianDate,
-        //         errors: req.flash('errors')
-        //    }
+                const errors = validationResult(req)
+                if(!errors.isEmpty()) {
+                    let myErrors = errors.array()
+                    req.flash('errors', myErrors)
+                    return res.redirect('/admin-cPanel/product/newProduct')
+                }
+                
+                res.locals = {
+                    persianDate,
+                    errors: req.flash('errors')
+            }
                 const newFields = req.body.fields
                 const newFieldsNumbers = newFields.length
                 if(newFields[0] !== "") {
-                    for(let i = 0; i < newFieldsNumbers; i++ ) {
-                        let field = newFields[i]
-                        db.Product.aggregate([
-                            { $addFields: { field : "" } }
+                    const fields = Object.fromEntries(
+                        newFields.map(fieldName => [fieldName, 
+                            {fieldName: "hossien ghiasi"}
                         ])
-                    }      
+                        )
                 }
-               //     const categoryImage = req.file.path.replace(/\\/g, '/').substring(6)
-        //     const newProduct = new Product({
-        //         categoryName: req.body.categoryName,
-        //         title: req.body.title,
-        //         description: req.body.description,
-        //         category: req.body.category,
-        //         price: req.body.price,
-        //         NOP: req.body.NOP,
-        //         POT: req.body.POT,
-        //         accessible: req.body.accessible,
-        //         image: categoryImage
-        //     }) 
-        //     await newProduct.save()
+
+                const productImage = req.file.path.replace(/\\/g, '/').substring(6)
+                const newProduct = new Product({
+                categoryName: req.body.categoryName,
+                title: req.body.title,
+                description: req.body.description,
+                categoryTitle: req.body.category,
+                price: req.body.price,
+                POT: req.body.POT,
+                accessible: req.body.accessible,
+                image: productImage,
+                fields: fields
+            })  
+                await newProduct.save()
 
 
             return res.redirect('/admin-cPanel/product/newProduct')

@@ -33,18 +33,6 @@ module.exports = new class productValidator extends validator {
                 isLength: { options: { min: 1 } },
                 errorMessage: "  ورورد مدت اکانت الزامی میباشد "
             },
-            NOP: {
-                isDecimal: true,
-                errorMessage: "  تعداد محصولات نمیتواند غیر عدد باشد "
-            },
-            NOP: {
-                isLength: { options: { min: 1 } },
-                errorMessage: " ورورد تعداد محصولات الزامی میباشد "
-            },
-            fields: {
-                isLength: { options: { min: 1 } },
-                errorMessage: " ورود فبلد محصولات الزامی است "
-            },
             image: { 
                 isLength: { options: { min: 1 } },
                 errorMessage: " وجود عکس الزامی است "

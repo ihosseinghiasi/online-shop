@@ -8,27 +8,24 @@ const { validationResult } = require('express-validator')
 module.exports = new class productController extends controller {
 
     async addNewProduct(req, res, next) {
-        try {
-                const errors = validationResult(req)
-                if(!errors.isEmpty()) {
-                    let myErrors = errors.array()
-                    req.flash('errors', myErrors)
-                    return res.redirect('/admin-cPanel/product/newProduct')
-                }
-                
+        try {   
                 res.locals = {
                     persianDate,
-                    errors: req.flash('errors')
             }
+               function createFields() {
                 const newFields = req.body.fields
                 const newFieldsNumbers = newFields.length
+                let fields = {}
                 if(newFields[0] !== "") {
-                    const fields = Object.fromEntries(
+                    fields = Object.fromEntries(
                         newFields.map(fieldName => [fieldName, 
                             {fieldName: "hossien ghiasi"}
                         ])
                         )
                 }
+                return fields
+               }
+                const fields = createFields()
 
                 const productImage = req.file.path.replace(/\\/g, '/').substring(6)
                 const newProduct = new Product({
@@ -40,7 +37,7 @@ module.exports = new class productController extends controller {
                 POT: req.body.POT,
                 accessible: req.body.accessible,
                 image: productImage,
-                fields: fields
+                fields
             })  
                 await newProduct.save()
 

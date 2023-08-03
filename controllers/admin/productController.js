@@ -9,37 +9,37 @@ module.exports = new class productController extends controller {
 
     async addNewProduct(req, res, next) {
         try {   
-                res.locals = {
-                    persianDate,
-            }
-               function createFields() {
-                const newFields = req.body.fields
-                const newFieldsNumbers = newFields.length
-                let fields = {}
-                if(newFields[0] !== "") {
-                    fields = Object.fromEntries(
-                        newFields.map(fieldName => [fieldName, 
-                            {fieldName: "hossien ghiasi"}
-                        ])
-                        )
-                }
-                return fields
-               }
-                const fields = createFields()
+            //     res.locals = {
+            //         persianDate,
+            // }
+            //    function createFields() {
+            //     const newFields = req.body.fields
+            //     const newFieldsNumbers = newFields.length
+            //     let fields = {}
+            //     if(newFields[0] !== "") {
+            //         fields = Object.fromEntries(
+            //             newFields.map(fieldName => [fieldName, 
+            //                 {fieldName: "hossien ghiasi"}
+            //             ])
+            //             )
+            //     }
+            //     return fields
+            //    }
+            //     const fields = createFields()
 
-                const productImage = req.file.path.replace(/\\/g, '/').substring(6)
-                const newProduct = new Product({
-                categoryName: req.body.categoryName,
-                title: req.body.title,
-                description: req.body.description,
-                categoryTitle: req.body.category,
-                price: req.body.price,
-                POT: req.body.POT,
-                accessible: req.body.accessible,
-                image: productImage,
-                fields
-            })  
-                await newProduct.save()
+            //     const productImage = req.file.path.replace(/\\/g, '/').substring(6)
+            //     const newProduct = new Product({
+            //     productName: req.body.categoryName,
+            //     title: req.body.title,
+            //     description: req.body.description,
+            //     categoryTitle: req.body.category,
+            //     price: req.body.price,
+            //     POT: req.body.POT,
+            //     accessible: req.body.accessible,
+            //     image: productImage,
+            //     fields
+            // })  
+            //     await newProduct.save()
 
 
             return res.redirect('/admin-cPanel/product/newProduct')
@@ -64,16 +64,16 @@ module.exports = new class productController extends controller {
 
     async showProducts(req, res, next) {
 
-        // try {
-        //     let products = await Product.find({})
-        //     res.locals = {
-        //         persianDate,
-        //         products,
-        //    }          
-        //    return res.render('admin/showProducts')
-        // } catch (err) {
-        //     next(err)
-        // }
+        try {
+            let products = await Product.find({})
+            res.locals = {
+                persianDate,
+                products,
+           }          
+           return res.render('admin/showProducts')
+        } catch (err) {
+            next(err)
+        }
     }
 
     async showProduct(req, res, next) {

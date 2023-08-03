@@ -17,7 +17,7 @@ router.post('/newProduct', uploadImageProduct.single('image') ,
     }
     , productValidator.productHandle() ,productController.addNewProduct)
 
-// router.get('/showProducts', productController.showProducts)
+router.get('/showProducts', productController.showProducts)
 // router.delete('/showProducts/:id', productController.deleteProduct)
 // router.get('/editProduct/:id', productController.showProduct)
 // router.put('/editProduct/:id', uploadImageProduct.single('image') ,

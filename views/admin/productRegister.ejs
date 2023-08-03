@@ -181,7 +181,7 @@
                     </div>
 
                     <div class="col items" data-bs-toggle="collapse" href="#collapseProduct"
-                    role="button" aria-expanded="false" aria-controls="collapseProduct">
+                    role="button" aria-expanded="true" aria-controls="collapseProduct">
                         <div class="mt-2 mx-1" style="display: inline-block;">
                             <img src="/icons/product.svg" alt="product">
                         </div>
@@ -190,20 +190,22 @@
                         </div>
                     </div>
                     <div class="collapse show" id="collapseProduct">
-                        <div class="col items">
-                          <div class="mt-2 me-4" style="display: inline-block;">
-                              <img src="/icons/productMini.svg" alt="products">
-                          </div>
-                          <div style="display: inline-block;" class="my-2 mx-1">
-                            <p>محصولات</p>
-                          </div>
-                        </div>
+                        <a href="/admin-cPanel/product/showProducts">
+                            <div class="col items">
+                                <div class="mt-2 me-4" style="display: inline-block;">
+                                    <img src="/icons/productMini.svg" alt="products">
+                                </div>
+                                <div style="display: inline-block;" class="my-2 mx-1">
+                                  <p>محصولات</p>
+                                </div>
+                              </div>
+                        </a>
                         <div class="col items selectedMenu" >
                           <div class="mt-2 me-4" style="display: inline-block;">
                               <img src="/icons/plus-square.svg" alt="addProduct">
                           </div>
                           <div style="display: inline-block;" class="my-2 mx-1">
-                              <p>افزودن محصولات</p>
+                              <p>افزودن محصول</p>
                           </div>
                         </div>
                     </div>
@@ -330,12 +332,17 @@
                                 </div>
                                 <div class="col-5 mt-4 me-3 productOptions2">
                                     <label class="me-5" for="productPrice"> دسترسی در سایت : </label>
-                                    <p class="mx-5 mt-2">با انتخاب گزینه غیرقابل دسترسی ، بازدیدکنندگان نمیتوانند به این صفحه دسترسی پیدا کنند.</p>
-                                    <input type="radio" class="btn-check me-5" name="accessible" id="accessible" autocomplete="off" checked>
-                                    <label class="btn btn-outline-success me-5" for="accessible">فعال</label>
-                                    <input type="radio" class="btn-check me-5" name="accessible" id="unaccessible" autocomplete="off">
-                                    <label class="btn btn-outline-danger me-1" for="unaccessible">غیرفعال</label>
+                                    <p class="mx-5 mt-2">با انتخاب گزینه غیرقابل دسترسی ، بازدیدکنندگان نمیتوانند به این صفحه دسترسی پیدا کنند.</p>                                    
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input me-5 float-end" onclick="checkAccessible()" style="width: 60px; height: 30px;" type="checkbox" id="mySwitch" name="accessible" value="on" checked>
+                                      </div>
                                 </div>
+                                <script>
+                                   function checkAccessible() {
+                                   document.getElementsByName('accessible').value = document.getElementById('mySwitch').checked
+                                   document.getElementById('mySwitchLable').innerText = document.getElementsByName('accessible').value
+                                }
+                                </script>
                             </div>
                             <div class="row">
                                 <div class="col-11 mt-4 me-3 productOptions3" id="addField">

@@ -9,38 +9,42 @@ module.exports = new class productController extends controller {
 
     async addNewProduct(req, res, next) {
         try {   
-            //     res.locals = {
-            //         persianDate,
-            // }
-            //    function createFields() {
-            //     const newFields = req.body.fields
-            //     const newFieldsNumbers = newFields.length
-            //     let fields = {}
-            //     if(newFields[0] !== "") {
-            //         fields = Object.fromEntries(
-            //             newFields.map(fieldName => [fieldName, 
-            //                 {fieldName: "hossien ghiasi"}
-            //             ])
-            //             )
-            //     }
-            //     return fields
-            //    }
-            //     const fields = createFields()
+                res.locals = {
+                    persianDate,
+            }
+               function createFields() {
+                const newFields = req.body.fields
+                const newFieldsNumbers = newFields.length
+                let fields = {}
+                if(newFields[0] !== "") {
+                    fields = Object.fromEntries(
+                        newFields.map((fieldName, index) => [`field${[index]}`, 
+                            {"id": index ,"fieldName": fieldName, "fieldValue": "hossien ghiasi"}
+                        ])
+                        )
+                }
+                return fields
+               }
+                const fields = createFields()
 
-            //     const productImage = req.file.path.replace(/\\/g, '/').substring(6)
-            //     const newProduct = new Product({
-            //     productName: req.body.categoryName,
-            //     title: req.body.title,
-            //     description: req.body.description,
-            //     categoryTitle: req.body.category,
-            //     price: req.body.price,
-            //     POT: req.body.POT,
-            //     accessible: req.body.accessible,
-            //     image: productImage,
-            //     fields
-            // })  
-            //     await newProduct.save()
-
+                let accessible = "false"
+                if (req.body.accessible === "true") {
+                    accessible = "true"
+                }
+                console.log(accessible)
+                const productImage = req.file.path.replace(/\\/g, '/').substring(6)
+                const newProduct = new Product({
+                productName: req.body.productName,
+                title: req.body.title,
+                description: req.body.description,
+                categoryTitle: req.body.category,
+                price: req.body.price,
+                POT: req.body.POT,
+                accessible,
+                image: productImage,
+                fields
+            })  
+                await newProduct.save()
 
             return res.redirect('/admin-cPanel/product/newProduct')
         } catch (err) {
@@ -77,18 +81,20 @@ module.exports = new class productController extends controller {
     }
 
     async showProduct(req, res, next) {
-        // try {
-        //     const id = (req.params.id).trim()
-        //     let product = await Product.findOne({ _id: id })
-        //     res.locals = {
-        //         persianDate,
-        //         product,
-        //         errors: req.flash('errors') 
-        //     }
-        //     res.render('admin/editProduct')
-        // } catch (err) {
-        //     next(err)
-        // }
+        try {
+            const id = (req.params.id).trim()
+            const categoryTitles = await Category.find({}).select('title')
+            let product = await Product.findOne({ _id: id })
+            res.locals = {
+                persianDate,
+                product,
+                categoryTitles,
+                errors: req.flash('errors') 
+            }
+            res.render('admin/editProduct')
+        } catch (err) {
+            next(err)
+        }
     }
 
     async updateProduct(req, res, next) {

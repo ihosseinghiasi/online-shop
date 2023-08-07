@@ -252,6 +252,7 @@
                                     <th class="col-2" scope="col"> نامک محصول</th>
                                     <th class="col-2" scope="col">  دسته بندی </th>
                                     <th class="col-1" scope="col"> دسترسی  </th>
+                                    <th class="col-1" scope="col"> تعداد  </th>
                                     <th class="col-2" scope="col"> عملیات </th>
                                   </tr>
                                 </thead>
@@ -268,18 +269,42 @@
                                             <div class="container">
                                                 <div class="row justify-content-center">
                                                   <div class="">
-                                                   
+                                                    <% if(product.accessible === "true") { %>
+                                                        <span class="btn btn-info">
+                                                            <img src="/icons/check-circle.svg" alt="accessible">
+                                                        </span>
+                                                        <% } else { %>
+                                                            <span class="btn btn-danger">
+                                                                <img src="/icons/x.svg" alt="unAcceddible">
+                                                            </span>
+                                                            <% } %>
                                                   </div>
                                         </td>
+                                        <td> <%= product.counter %> </td>
                                         <td>
                                             <div class="container">
                                                 <div class="row justify-content-center">
-                                                  <div class="col-4">
+                                                  <div class="col-4" style="margin-right: -18px;">
+                                                    <a href="/admin-cPanel/product/<%= product.productName %>/<%= product.id %>" class="btn btn-success" role="button">
+                                                        <img src="/icons/eye.svg" alt="edit">
+                                                    </a>   
                                                   </div>
                                                   <div class="col-4">
-                                                    
+                                                    <a href="/admin-cPanel/product/editProduct/<%= product.id %>">
+                                                        <span class="btn btn-warning">
+                                                            <img src="/icons/edit.svg" alt="edit">
+                                                        </span>
+                                                    </a>
                                                 </div>
+                                                <div class="col-4">
+                                                    <form action="/admin-cPanel/product/showProducts/<%= product.id %>"
+                                                        _method="DELETE" method="post">
+                                                    <button type="submit" class="btn btn-danger">
+                                                        <img src="/icons/trash-2.svg" alt="remove">
+                                                    </button>
+                                                </form>
                                                 </div>
+                                            </div>
                                               </div>
                                         </td>
                                     </tr>

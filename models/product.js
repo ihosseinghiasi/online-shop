@@ -10,7 +10,7 @@ const productSchema = new Schema({
     price: {type: Number},
     POT: {type: Number}, // Period Of Time
     accessible: {type: String},
-    fields: [],
+    fields: {},
     image: {type: String},
     counter: {type: Number, default: 0},
     categoryTitle: {type: String},

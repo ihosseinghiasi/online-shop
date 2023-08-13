@@ -9,6 +9,12 @@ module.exports = new class productController extends controller {
 
     async addNewProduct(req, res, next) {
         try {   
+                const errors = validationResult(req)
+                if (!errors.isEmpty()) {
+                    let myErrors = errors.array()
+                    req.flash('errors', myErrors)
+                    res.redirect('admin-cPanel/product/newProduct')
+                }
                 res.locals = {
                     persianDate,
             }
@@ -31,7 +37,6 @@ module.exports = new class productController extends controller {
                 if (req.body.accessible === "true") {
                     accessible = "true"
                 }
-                console.log(accessible)
                 const productImage = req.file.path.replace(/\\/g, '/').substring(6)
                 const newProduct = new Product({
                 productName: req.body.productName,
@@ -46,7 +51,7 @@ module.exports = new class productController extends controller {
             })  
                 await newProduct.save()
 
-            return res.redirect('/admin-cPanel/product/newProduct')
+            return res.redirect('/admin-cPanel/product/showProducts')
         } catch (err) {
             next(err)
         }
@@ -85,10 +90,26 @@ module.exports = new class productController extends controller {
             const id = (req.params.id).trim()
             const categoryTitles = await Category.find({}).select('title')
             let product = await Product.findOne({ _id: id })
+
+            const productFields = await Product.findOne({_id: id}).select('fields')
+            const pureFields = productFields.fields
+            const fieldNames = Object.values(pureFields)
+
+            var purefieldNames = []
+
+            for (const value of Object.values(fieldNames)) {
+                for (let v in value) {
+                    if(v === "fieldName") {
+                        purefieldNames.push(value[v])
+                    }
+                }
+            }
+            
             res.locals = {
                 persianDate,
                 product,
                 categoryTitles,
+                purefieldNames,
                 errors: req.flash('errors') 
             }
             res.render('admin/editProduct')
@@ -131,16 +152,16 @@ module.exports = new class productController extends controller {
     }
 
     async deleteProduct(req, res, next) {
-        // try {
-        //     res.locals = {
-        //         persianDate,
-        //    }
-        //     const id = (req.params.id).trim()
-        //     let product = await Product.deleteOne({ _id: id })
-        //     return res.redirect('/admin-cPanel/product/showProducts')
-        // } catch (err) {
-        //     next(err)
-        // }
+        try {
+            res.locals = {
+                persianDate,
+           }
+            const id = (req.params.id).trim()
+            let product = await Product.deleteOne({ _id: id })
+            return res.redirect('/admin-cPanel/product/showProducts')
+        } catch (err) {
+            next(err)
+        }
     }
 
     async productPage(req, res, next) {

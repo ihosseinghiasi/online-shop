@@ -191,7 +191,7 @@
                     </div>
                     <div class="collapse show" id="collapseProduct">
                         <a href="/admin-cPanel/product/showProducts">
-                            <div class="col items">
+                            <div class="col items selectedMenu">
                                 <div class="mt-2 me-4" style="display: inline-block;">
                                     <img src="/icons/productMini.svg" alt="products">
                                 </div>
@@ -200,7 +200,7 @@
                                 </div>
                               </div>
                         </a>
-                        <div class="col items selectedMenu" >
+                        <div class="col items" >
                           <div class="mt-2 me-4" style="display: inline-block;">
                               <img src="/icons/plus-square.svg" alt="addProduct">
                           </div>
@@ -280,7 +280,7 @@
                     </div>
                
                     <div class="addBody col-8 mx-5">
-                        <form action="/admin-cPanel/product/newProduct" enctype="multipart/form-data" method="post">
+                        <form action="/admin-cPanel/product/editProduct" enctype="multipart/form-data" method="post">
                           <div class="row">
                             <div class="col-8">
                                 <input type="text" name="productName" value="<%= product.productName %>" id="productName" list="productNameList" class="form-control mt-3 list" placeholder="نامک محصول">
@@ -309,7 +309,7 @@
                             <div class="row ">
                                 <div class="col-5 mt-4 me-3 productOptions1">
                                     <label class="me-5" for="selectCategory">انتخاب دسته بندی :</label>
-                                    <select id="selectCategory" name="category" value="<%= product.categoryTitle %>" class="selectCategory me-5 form-select">
+                                <select id="selectCategory" name="category" class="selectCategory me-5 form-select">
                                          <% Object.values(categoryTitles).forEach((category) => { %>
                                             <option> <%= category.title %> </option>
                                         <% }) %>
@@ -355,10 +355,51 @@
                                             <tr>
                                                 <td class="col-8">
                                                     <div id="formField">
-                                                        <input type="text" name="fields" value="" id="fields" class="form-control" placeholder="نام فیلد">
+                                                        <input type="text" name="fields" id="fields" class="form-control" placeholder="نام فیلد">
                                                     </div>
                                                 </td>
                                             </tr>
+                                           <tr>
+                                            <script>
+                                                const fields = "<%= purefieldNames %>"
+                                                const arrayF = fields.split(",")
+                                                const lengthFields = "<%= purefieldNames.length %>"
+
+                                                window.addEventListener('load', async ()=> {
+                                                    
+                                                     if(lengthFields == 1) {
+                                                        document.getElementById('fields').value
+                                                         = arrayF[0]
+                                                    } else {
+                                                        document.getElementById('fields').value
+                                                         = arrayF[0]
+                                                        for (var i = 1; i< lengthFields; i++) {
+                                                            let formField = document.getElementById('formField')
+                                                            const fieldsLength = formField.getElementsByTagName('input')
+
+                                                                const firstFieldValue = document.getElementById('fields').value
+                                                                let lastfieldValue = formField.lastChild.value
+                                                                if(firstFieldValue !== "" && lastfieldValue !== ""){
+                                                                let newfield = document.createElement('input')
+                                                                newfield.setAttribute('type', 'text')
+                                                                newfield.setAttribute('name', 'fields')
+                                                                newfield.setAttribute('class', 'form-control mt-1')
+                                                                newfield.setAttribute('id', 'fields')
+                                                                newfield.setAttribute('value', `${arrayF[i]}`)
+                                                                newfield.setAttribute('placeholder', 'نام فیلد')
+                                                                formField.appendChild(newfield)
+
+                                                                let divAddFieldHeight = document.getElementById('addField').offsetHeight
+                                                                document.getElementById('addField').style.height = divAddFieldHeight + 42 + 'px'
+                                                                let divMainHeight = document.getElementById('main').offsetHeight
+                                                                document.getElementById('main').style.height = divMainHeight + 42 + 'px'
+                                                                }
+
+                                                        }
+                                                    }
+                                                })
+                                            </script>
+                                           </tr>
                                             <tr>
                                                 <td>
                                                     <div class="row justify-content-center">
@@ -405,6 +446,13 @@
 </script>
 
 <script>
+    window.addEventListener('load', (event)=> {
+        const selectedItem = String("<%= product.categoryTitle %>")
+        document.getElementById('selectCategory').value = selectedItem
+    })
+</script>
+
+<script>
     function checkAccessible() {
     document.getElementsByName('mySwitch').value = document.getElementById('mySwitch').checked
     const switchValue = document.getElementsByName('mySwitch').value
@@ -416,14 +464,14 @@
  }
  </script>
 
-<script>
+<!-- <script>
     document.getElementById("output").addEventListener("load", () => {
     document.getElementById("submit").disabled = false
        })
     addEventListener("DOMContentLoaded", (load) => {
         document.getElementById("submit").disabled = true
     })   
-</script>
+</script> -->
 
 <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 
@@ -453,9 +501,10 @@ image.src = URL.createObjectURL(event.target.files[0]);
         if(firstFieldValue !== "" && lastfieldValue !== ""){
         let newfield = document.createElement('input')
         newfield.setAttribute('type', 'text')
-        newfield.setAttribute('name', 'fields[]')
+        newfield.setAttribute('name', 'fields')
         newfield.setAttribute('class', 'form-control mt-1')
         newfield.setAttribute('id', 'fields')
+        newfield.setAttribute('value', 'fffffffff')
         newfield.setAttribute('placeholder', 'نام فیلد')
         formField.appendChild(newfield)
 

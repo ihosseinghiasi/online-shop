@@ -93,17 +93,17 @@ module.exports = new class productController extends controller {
 
             const productFields = await Product.findOne({_id: id}).select('fields')
             const pureFields = productFields.fields
-            const fieldNames = Object.values(pureFields)
+            // const fieldNames = Object.values(pureFields)
 
             var purefieldNames = []
 
-            for (const value of Object.values(fieldNames)) {
-                for (let v in value) {
-                    if(v === "fieldName") {
-                        purefieldNames.push(value[v])
-                    }
-                }
-            }
+            // for (const value of Object.values(fieldNames)) {
+            //     for (let v in value) {
+            //         if(v === "fieldName") {
+            //             purefieldNames.push(value[v])
+            //         }
+            //     }
+            // }
             
             res.locals = {
                 persianDate,
@@ -119,36 +119,60 @@ module.exports = new class productController extends controller {
     }
 
     async updateProduct(req, res, next) {
-        // try {
-        //     res.locals = {
-        //         persianDate,
-        //     }
+        try {
+            res.locals = {
+                persianDate,
+            }
 
-        //     const id = (req.params.id).trim()
+           const errors = validationResult(req)
+           if(!errors.isEmpty()) {
+               let myErrors = errors.array()
+               req.flash('errors', myErrors)
+               return res.redirect(`/admin-cPanel/product/editProduct/${id}`)
+            }
 
-        //    const errors = validationResult(req)
-        //    if(!errors.isEmpty()) {
-        //        let myErrors = errors.array()
-        //        req.flash('errors', myErrors)
-        //        return res.redirect(`/admin-cPanel/product/editProduct/${id}`)
-        //     }
+            function createFields() {
+                const newFields = req.body.fields
+                const newFieldsNumbers = newFields.length
+                let fields = {}
+                if(newFields[0] !== "") {
+                    fields = Object.fromEntries(
+                        newFields.map((fieldName, index) => [`field${[index]}`, 
+                            {"id": index ,"fieldName": fieldName, "fieldValue": ""}
+                        ])
+                        )
+                }
+                return fields
+               }
+            const fields = createFields()
 
-        //     const m = await Product.findOne({ _id: id })
-        //     const data = {
-        //         categoryName: req.body.categoryName,
-        //         title: req.body.title,
-        //         description: req.body.description
-        //     }
-        //     if(req.file) {
-        //         data.image = req.file.path.replace(/\\/g, '/').substring(6)
-        //     } else {
-        //         data.image = m.image
-        //     }
-        //     let product = await Product.updateOne({ _id: id }, { $set: data })
-        //     return res.redirect('/admin-cPanel/product/showProducts')
-        // } catch (err) {
-        //     next(err)
-        // }
+            let accessible = "false"
+            if (req.body.accessible === "true") {
+                accessible = "true"
+            }
+
+            const id = (req.params.id).trim()
+            const productResult = await Product.findOne({ _id: id })
+            const data = {
+                productName: req.body.productName,
+                title: req.body.title,
+                description: req.body.description,
+                categoryTitle: req.body.category,
+                price: req.body.price,
+                POT: req.body.POT,
+                accessible,
+                fields
+            }
+            if(req.file) {
+                data.image = req.file.path.replace(/\\/g, '/').substring(6)
+            } else {
+                data.image = productResult.image
+            }
+            const product = await Product.updateOne({ _id: id }, { $set: data })
+            return res.redirect('/admin-cPanel/product/showProducts')
+        } catch (err) {
+            next(err)
+        }
     }
 
     async deleteProduct(req, res, next) {

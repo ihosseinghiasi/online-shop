@@ -206,7 +206,7 @@
                                     <img src="/icons/plus-square.svg" alt="addProduct">
                                 </div>
                                 <div style="display: inline-block;" class="my-2 mx-1">
-                                    <p>افزودن محصول/p>
+                                    <p>افزودن محصول</p>
                                 </div>
                               </div>
                         </a>
@@ -285,8 +285,8 @@
                         <form action="/admin-cPanel/category/newCategory" enctype="multipart/form-data" method="post">
                           <div class="row">
                             <div class="col-8">
-                                <input type="text" name="categoryName" class="form-control mt-3" placeholder="نامک دسته بندی">
-                                <span class="badge bg-secondary nemeAddressBadge">http://localhost/admin-cPanel/category/***</span>
+                                <input type="text" name="categoryName" id="categoryName" class="form-control mt-3" placeholder="نامک دسته بندی">
+                                <span class="badge bg-secondary nemeAddressBadge" id="namak">http://localhost/admin-cPanel/category/</span>
                                 <p class="mt-5 text-secondary">
                                     از نامک دسته بندی برای ساخت آدرس صفحه دسته بندی استفاده میشود .
                                 </p>
@@ -346,4 +346,16 @@ var loadFile = function(event) {
 var image = document.getElementById('output');
 image.src = URL.createObjectURL(event.target.files[0]);
     };
+</script>
+
+<script>
+    const categoryName = document.getElementById('categoryName')
+    const namak = document.getElementById('namak')
+
+    const namakHandeler = function(text) {
+        namak.innerText = 'http://localhost/admin-cPanel/category/' + text.target.value
+    }
+
+    categoryName.addEventListener('input', namakHandeler)
+    categoryName.addEventListener('propertychange', namakHandeler)
 </script>

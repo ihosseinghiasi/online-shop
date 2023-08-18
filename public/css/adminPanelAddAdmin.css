@@ -7,6 +7,11 @@
     src: url('/fonts/vazir/misc/Farsi-Digits/fonts/webfonts/Vazirmatn-FD-Medium.woff2') format('woff2');
   }
 
+@font-face {
+    font-family: VazirmatnEngilish;
+    src: url('../fonts/vazir/fonts/webfonts/Vazirmatn-Medium.woff2');
+}
+
 
 body {
     direction: rtl;
@@ -125,4 +130,8 @@ a{
     position: absolute;
     margin-top: 80px;
 
+}
+
+.enField {
+    font-family: VazirmatnEngilish;
 }

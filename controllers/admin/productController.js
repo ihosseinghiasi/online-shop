@@ -25,14 +25,13 @@ module.exports = new class productController extends controller {
                 if(newFields[0] !== "") {
                     fields = Object.fromEntries(
                         newFields.map((fieldName, index) => [`field${[index]}`, 
-                            {"id": index ,"fieldName": fieldName, "fieldValue": "hossien ghiasi"}
+                            {"id": index ,"fieldName": fieldName, "fieldValue": ""}
                         ])
                         )
                 }
                 return fields
                }
                 const fields = createFields()
-
                 let accessible = "false"
                 if (req.body.accessible === "true") {
                     accessible = "true"
@@ -89,22 +88,23 @@ module.exports = new class productController extends controller {
         try {
             const id = (req.params.id).trim()
             const categoryTitles = await Category.find({}).select('title')
-            let product = await Product.findOne({ _id: id })
+            const product = await Product.findOne({ _id: id })
 
             const productFields = await Product.findOne({_id: id}).select('fields')
             const pureFields = productFields.fields
-            // const fieldNames = Object.values(pureFields)
-
             var purefieldNames = []
+            if(pureFields) {
+                const fieldNames = Object.values(pureFields)
 
-            // for (const value of Object.values(fieldNames)) {
-            //     for (let v in value) {
-            //         if(v === "fieldName") {
-            //             purefieldNames.push(value[v])
-            //         }
-            //     }
-            // }
-            
+                for (const value of Object.values(fieldNames)) {
+                    for (let v in value) {
+                        if(v === "fieldName") {
+                            purefieldNames.push(value[v])
+                        }
+                    }
+                }
+            }
+
             res.locals = {
                 persianDate,
                 product,

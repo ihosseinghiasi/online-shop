@@ -335,8 +335,8 @@
                                     <label class="me-5" for="productPrice"> دسترسی در سایت : </label>
                                     <p class="mx-5 mt-2">با انتخاب گزینه غیرقابل دسترسی ، بازدیدکنندگان نمیتوانند به این صفحه دسترسی پیدا کنند.</p>                                    
                                     <div class="form-check form-switch mt-1">
-                                        <input class="form-check-input me-5 float-end" onclick="checkAccessible()" style="width: 60px; height: 30px;" type="checkbox" id="mySwitch" name="accessible">
-                                        <label class="me-5 mt-1 float-end" id="mySwitchLable" for="mySwitch">در دسترس</label>
+                                        <input class="form-check-input me-5 float-end" onclick="checkAccessible()" style="width: 60px; height: 30px;" type="checkbox" id="mySwitch" name="accessible" value="true">
+                                        <label class="me-5 mt-1 float-end" id="mySwitchLable" for="mySwitch"></label>
                                     </div>
                                 </div>
                             </div>
@@ -364,9 +364,10 @@
                                             <script>
                                                 const fields = "<%= purefieldNames %>"
                                                 const arrayF = fields.split(",")
-                                                const lengthFields = "<%= purefieldNames.length %>"
+                                                if(fields){
+                                                    const lengthFields = "<%= purefieldNames.length %>"
 
-                                                window.addEventListener('load', async ()=> {
+                                                     window.addEventListener('load', async ()=> {
                                                     
                                                      if(lengthFields == 1) {
                                                         document.getElementById('fields').value
@@ -399,6 +400,7 @@
                                                         }
                                                     }
                                                 })
+                                            }
                                             </script>
                                            </tr>
                                             <tr>
@@ -440,8 +442,10 @@
         const checkValue = "<%= JSON.parse(JSON.stringify(product.accessible)) %>"
         if(checkValue === "true") {
             document.getElementById('mySwitch').checked = true
+            document.getElementById('mySwitchLable').innerText = "در دسترس"
         } else {
             document.getElementById('mySwitch').checked = false
+            document.getElementById('mySwitchLable').innerText = "خارج از دسترس"
         }
     }
 </script>
@@ -459,8 +463,10 @@
     const switchValue = document.getElementsByName('mySwitch').value
     if(switchValue) {
      document.getElementById('mySwitchLable').innerText = "در دسترس"
+     document.getElementsByName('mySwitch').checked = true
     } else {
      document.getElementById('mySwitchLable').innerText = "خارج از دسترس"
+     document.getElementsByName('mySwitch').checked = false
     }
  }
  </script>

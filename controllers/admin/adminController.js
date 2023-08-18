@@ -19,6 +19,7 @@ module.exports = new class adminController extends controller {
                 req.flash('errors', errors.array())
                 return res.redirect('/admin-cPanel/admin/newAdmin')
             }
+
             let newAdmin = new Admin({
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
@@ -69,10 +70,12 @@ module.exports = new class adminController extends controller {
 
     async showAdmin(req, res, next) {
         try {
-            let id = (req.params.id).trim()
-            let admin = await Admin.findOne({ _id: id })
+            const id = (req.params.id).trim()
+            const admin = await Admin.findOne({ _id: id })
             res.locals = {
-                persianDate, admin
+                persianDate,
+                admin,
+                errors: req.flash('errors')
             }    
             res.render('admin/editAdmin')
         } catch (err) {
@@ -83,10 +86,18 @@ module.exports = new class adminController extends controller {
     async updateAdmin(req, res, next) {
         try {
             let id = (req.params.id).trim()
+
+            const errors = validationResult(req)
+            if(!errors.isEmpty()) {
+                req.flash('errors', errors.array())
+                return res.redirect(`/admin-cPanel/admin/editAdmin/${id}`)
+            }
+
             const myadmin = {
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 password: req.body.password,
+                email: req.body.email,
                 department: req.body.department,
                 isAdmin: "off",
                 isCategory: "off",

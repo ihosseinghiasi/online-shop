@@ -10,6 +10,6 @@ router.post('/newAdmin', adminValidator.adminHandle(), adminController.addNewAdm
 router.get('/showAdmins', adminController.showAdmins)
 router.delete('/showAdmins/:id', adminController.deleteAdmin)
 router.get('/editAdmin/:id', adminController.showAdmin)
-router.put('/editAdmin/:id', adminController.updateAdmin)
+router.put('/editAdmin/:id', adminValidator.adminHandle(), adminController.updateAdmin)
 
 module.exports = router

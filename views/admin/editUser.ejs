@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/adminPanelAddAdmin.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="/css/adminPanelAddUser.css">
     <title>‍ پنل مدیریت </title>
 </head>
 <body>
@@ -51,7 +52,7 @@
                         <img src="/pictures/menProfile.svg" alt="profile" class="profileLogo">
                     </div>
 
-                    <a href="/admin/cpanel">
+                    <a href="/admin-cPanel/counter">
                         <div class="col items">
                             <div class="mt-2 mx-1" style="display: inline-block;">
                                 <img src="/icons/home.svg" alt="home">
@@ -94,8 +95,8 @@
                        </a>    
                       </div>
 
-                      <div class="col items" data-bs-toggle="collapse" href="#collapseUser"
-                      role="button" aria-expanded="false" aria-controls="collapseUser">
+                      <div class="col items selectedMenu" data-bs-toggle="collapse" href="#collapseUser"
+                        role="button" aria-expanded="false" aria-controls="collapseUser">
                         <div class="mt-2 mx-1" style="display: inline-block;">
                             <img src="/icons/user.svg" alt="user">
                         </div>
@@ -105,7 +106,7 @@
                     </div>
                     <a href="/admin-cPanel/user/showUsers">
                         <div class="collapse show" id="collapseUser">
-                            <div class="col items selectedMenu">
+                            <div class="col items">
                               <div class="mt-2 me-4" style="display: inline-block;">
                                   <img src="/icons/users.svg" alt="users">
                               </div>
@@ -167,25 +168,26 @@
                             <p>محصولات</p>
                         </div>
                     </div>
-                    <div<a href="/admin-cPanel/product/showProducts">
-                        <div class="col items">
-                            <div class="mt-2 me-4" style="display: inline-block;">
-                                <img src="/icons/productMini.svg" alt="products">
-                            </div>
-                            <div style="display: inline-block;" class="my-2 mx-1">
-                              <p>محصولات</p>
-                            </div>
-                          </div>
-                    </a>
+                    <div class="collapse" id="collapseProduct">
+                        <a href="/admin-cPanel/product/showProducts">
+                            <div class="col items">
+                                <div class="mt-2 me-4" style="display: inline-block;">
+                                    <img src="/icons/productMini.svg" alt="products">
+                                </div>
+                                <div style="display: inline-block;" class="my-2 mx-1">
+                                  <p>محصولات</p>
+                                </div>
+                              </div>
+                        </a>
                         <a href="/admin-cPanel/product/newProduct">
                             <div class="col items" >
                                 <div class="mt-2 me-4" style="display: inline-block;">
                                     <img src="/icons/plus-square.svg" alt="addProduct">
                                 </div>
                                 <div style="display: inline-block;" class="my-2 mx-1">
-                                    <p>افزودن محصول/p>
+                                    <p>افزودن محصول</p>
                                 </div>
-                              </div>
+                            </div>
                         </a>
                     </div>
                     
@@ -241,7 +243,7 @@
                 </div>
                 <div class="addAdmin col-11 my-5 mx-5">
                     <div class="addtitle my-3 mx-2 col-8">
-                        <img src="/icons/plus-square-black.svg"  alt="افزودن مدیر ">
+                        <img src="/icons/plus-square-black.svg"  alt="ویرایش کاربر">
                         ویرایش کاربر
                     </div>
                
@@ -257,14 +259,18 @@
                                      value="<%= user.email %>">
                                     <input type="text" class="form-control mt-3"  placeholder="شماره همراه" name="phone" 
                                      value="<%= user.phone %>">
-                                    <input type="password" class="form-control mt-3"  placeholder="کلمه عبور" name="password"
-                                     value="<%= user.password %>">
-                                    <input type="password" class="form-control mt-3"  placeholder="تکرار کلمه عبور" name="confirmPassword">
+                                     <input type="password" class="form-control mt-3 enField"
+                                     placeholder="کلمه عبور" name="password" id="password" value="<%= user.password %>">
+                                           <i class="bi bi-eye-slash passwordEye" id="togglePassword"></i>
+
+                                   <input type="password" class="form-control mt-3 enField"
+                                     placeholder="تکرار کلمه عبور" name="confirmPassword" id="confirmPassword" value="<%= user.password %>">
+                                     <i class="bi bi-eye-slash confirmPasswordEye" id="toggleConfirmPassword"></i> 
                                 </div>
                     
-                                <div class="col-8 mt-2 mx-5">
-                                    <input type="submit" value="ویرایش" class="mt-3 mx-5 btn btn-success btn-lg">
-                                </div> 
+                                    <div class="col-8 mt-2 mx-5">
+                                        <input type="submit" value="ویرایش" class="mt-3 mx-5 btn btn-success btn-lg">
+                                    </div> 
                                 </div>                                    
                                 </div>
                             </div>
@@ -278,4 +284,32 @@
     <footer>
     </footer>
 </body>
-</html
+</html>
+
+<script>
+    const togglePassword = document.querySelector("#togglePassword");
+     const password = document.querySelector("#password");
+
+     togglePassword.addEventListener("click", function () {
+         // toggle the type attribute
+         const type = password.getAttribute("type") === "password" ? "text" : "password";
+         password.setAttribute("type", type);
+         
+         // toggle the icon
+         this.classList.toggle("bi-eye");
+     });
+</script>
+
+<script>
+    const toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
+    const confirmPassword = document.querySelector("#confirmPassword");
+
+    toggleConfirmPassword.addEventListener("click", function () {
+        // toggle the type attribute
+        const type = confirmPassword.getAttribute("type") === "password" ? "text" : "password";
+        confirmPassword.setAttribute("type", type);
+        
+        // toggle the icon
+        this.classList.toggle("bi-eye");
+    });
+</script>

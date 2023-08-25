@@ -1,6 +1,5 @@
 const controller = require('../controller')
 let persianDate = require('date/persianDate')
-const persianNumber = require('persian-number')
 const Admin = require('models/admin')
 const { model } = require('mongoose')
 const admin = require('../../models/admin')

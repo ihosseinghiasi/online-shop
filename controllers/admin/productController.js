@@ -1,5 +1,5 @@
 const controller = require('../controller')
-let persianDate = require('date/persianDate')
+const persianDate = require('date/persianDate')
 const Product = require('models/product')
 const Category = require('models/category')
 const { validationResult } = require('express-validator')

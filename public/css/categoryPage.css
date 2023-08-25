@@ -33,7 +33,6 @@ body {
 .mainImage {
     position: relative;
     height: 100%;
-    width: 100%;
     opacity: 0.05;
 }
 
@@ -52,8 +51,66 @@ body {
 }
 
 .description {
-    height: 600px;
+    height: 100px;
     width: 85%;
-    margin: 60px 100px 30px 100px;
+    margin: 60px 100px 20px 100px;
     font-size: 1.3em;
+}
+
+.products {
+    position: absolute;
+    height: auto;
+    width: 100%;
+    margin-top: 20px;
+    padding-bottom: 50px ;
+}
+
+.items {
+    position: relative;
+    display: inline-block;
+    border-radius: 10px;
+    height: 270px;
+    width: 250px;
+    margin: 60px 150px 0px 0px;
+}
+
+.items:hover {
+    border-bottom: 0.2px solid black;
+    box-shadow: 1px 3px gray;
+    cursor: pointer;
+}
+
+.items img {
+    width: 100%;
+    height: 50%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.items .title {
+    font-size: 1.3em;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+.items .price {
+    font-size: 1.2em;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.items .price img {
+    height: 15px;
+    width: 15px;
+    color: black;
+}
+
+span {
+    margin-right: 75px;
+    padding: 10px 15px;
+    margin-top: 5px;
+    border: 0.5px solid lightgray;
+    border-radius: 25px;
+    background-color: blueviolet;
 }

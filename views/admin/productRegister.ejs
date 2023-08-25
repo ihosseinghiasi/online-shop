@@ -283,7 +283,7 @@
                         <form action="/admin-cPanel/product/newProduct" enctype="multipart/form-data" method="post">
                           <div class="row">
                             <div class="col-8">
-                                <input type="text" name="productName" id="productName" list="productNameList" class="form-control mt-3 list" placeholder="نامک محصول">
+                                <input type="text" name="productName" id="productName" list="productNameList" class="form-control mt-3 list enField" placeholder="نامک محصول">
                                 <span class="badge bg-secondary nameAddressBadge" id="namak">http://localhost/admin-cPanel/product/</span>
                                 <p class="mt-5 text-secondary">
                                     از نامک محصول برای ساخت آدرس صفحه محصول استفاده میشود .
@@ -320,8 +320,26 @@
                                     <label class="me-5" for="productPrice">قیمت محصول :</label>
                                     <p class="me-5 mt-1">قیمت محصول بر حسب تومان می باشد .</p>
                                     <input type="text" class="me-5 form-control textPrice" name="price" id="productPrice">
+                                    <p class="mt-2 me-5" id="persianPrice"></p>
                                 </div>
                             </div>
+
+                            <script type="text/javascript" src="/wordifyfa-master/dist/wordifyfa.js">
+                            </script>
+                            <script>
+                                const persianPrice = document.getElementById('persianPrice')
+                                const productPrice = document.getElementById('productPrice')
+                                window.addEventListener('load', ()=> {
+                                    productPrice.value = 0
+                                    const defaultValue = productPrice.value
+                                    persianPrice.innerText = wordifyfa(defaultValue) + " تومان "
+                                })
+
+                            productPrice.addEventListener('keyup', (event)=> {
+                                const newPrice = productPrice.value
+                                persianPrice.innerText = wordifyfa(newPrice) + " تومان "
+                            })
+                            </script>
 
                             <div class="row">
                                 <div class="col-6 mt-4 me-3 productOptions2">

@@ -132,6 +132,24 @@ a{
 
 }
 
+.passwordEye {
+    position: absolute;
+    font-size: 1.3em;
+    top: 237px;
+    right: 360px;
+    cursor: pointer;
+    color: gray;
+}
+
+.confirmPasswordEye {
+    position: absolute;
+    font-size: 1.3em;
+    top: 292px;
+    right: 360px;
+    cursor: pointer;
+    color: gray;
+}
+
 .enField {
     font-family: VazirmatnEngilish;
 }

@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/adminPanelAddAdmin.css">
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
     <title>‍ پنل مدیریت </title>
 </head>
 <body onload="getcheckBoxes()">
@@ -271,52 +270,13 @@
                                         <option selected>مدیر سایت</option>
                                         <option value="پشتیبان سایت">پشتیبان سایت</option>
                                       </select>
-                                      <input type="password" class="form-control mt-3"
+                                    <input type="password" class="form-control mt-3 enField"
                                       placeholder="کلمه عبور" name="password" id="password" value="<%= admin.password %>">
-                                            <i class="bi bi-eye-slash mt-4" id="togglePassword" style="position: absolute;
-                                            top: 215px;
-                                            right: 360px;
-                                            cursor: pointer;
-                                            color: gray;"></i>
-                                      <script>
-                                        const togglePassword = document
-                                            .querySelector('#togglePassword');
-                                        const password = document.querySelector('#password');
-                                        togglePassword.addEventListener('click', () => {
-                                            // Toggle the type attribute using
-                                            // getAttribure() method
-                                            const type = password
-                                                .getAttribute('type') === 'password' ?
-                                                'text' : 'password';
-                                            password.setAttribute('type', type);
-                                            // Toggle the eye and bi-eye icon
-                                            this.classList.toggle('bi-eye');
-                                        });
-                                    </script>
-                                     <script>
-                                        const toggleConfimPassword = document
-                                            .querySelector('#togglePassword');
-                                        const confirmPassword = document.querySelector('#confirmPassword');
-                                        togglePassword.addEventListener('click', () => {
-                                            // Toggle the type attribute using
-                                            // getAttribure() method
-                                            const type = password
-                                                .getAttribute('type') === 'confirmPassword' ?
-                                                'text' : 'confirmPassword';
-                                            password.setAttribute('type', type);
-                                            // Toggle the eye and bi-eye icon
-                                            this.classList.toggle('bi-eye');
-                                        });
-                                    </script>
+                                            <i class="bi bi-eye-slash passwordEye" id="togglePassword"></i>
 
-                                    <input type="password" class="form-control mt-3"
+                                    <input type="password" class="form-control mt-3 enField"
                                       placeholder="تکرار کلمه عبور" name="confirmPassword" id="confirmPassword" value="<%= admin.password %>">
-                                      <i class="bi bi-eye-slash mt-4" id="togglePassword" style="position: absolute;
-                                      top: 270px;
-                                      right: 360px;
-                                      cursor: pointer;
-                                      color: gray;"></i>
-
+                                      <i class="bi bi-eye-slash confirmPasswordEye" id="toggleConfirmPassword"></i>
                                 </div>
 
                                 <div class="mx-3 col-5">
@@ -431,6 +391,35 @@
         const selectedItem = String("<%= admin.department %>")
         document.getElementById('department').value = selectedItem
     })
+</script>
+
+<script>
+    const togglePassword = document.querySelector("#togglePassword");
+     const password = document.querySelector("#password");
+
+     togglePassword.addEventListener("click", function () {
+         // toggle the type attribute
+         const type = password.getAttribute("type") === "password" ? "text" : "password";
+         password.setAttribute("type", type);
+         
+         // toggle the icon
+         this.classList.toggle("bi-eye");
+     });
+</script>
+
+<script>
+    const toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
+    const confirmPassword = document.querySelector("#confirmPassword");
+
+    toggleConfirmPassword.addEventListener("click", function () {
+        // toggle the type attribute
+        const type = confirmPassword.getAttribute("type") === "password" ? "text" : "password";
+        confirmPassword.setAttribute("type", type);
+        
+        // toggle the icon
+        this.classList.toggle("bi-eye");
+    });
+
 </script>
 
    

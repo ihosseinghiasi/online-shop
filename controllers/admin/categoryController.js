@@ -1,6 +1,7 @@
 const controller = require('../controller')
-let persianDate = require('date/persianDate')
+const persianDate = require('date/persianDate')
 const Category = require('models/category')
+const Product = require('models/product')
 const { validationResult } = require('express-validator')
 
 
@@ -124,8 +125,10 @@ module.exports = new class categoryController extends controller {
         try {
             const id = (req.params.id).trim()
             const category = await Category.findOne({ _id: id })
+            const products = await Product.find({ categoryTitle: category.title })
             res.locals = {
-                category
+                products,
+                category,
             }
             res.render('shop/category')
         } catch (err) {

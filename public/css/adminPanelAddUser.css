@@ -12,9 +12,6 @@
     src: url('../fonts/vazir/fonts/webfonts/Vazirmatn-Medium.woff2');
 }
 
-.enField {
-    font-family: VazirmatnEngilish;
-}
 
 body {
     direction: rtl;
@@ -100,7 +97,7 @@ a{
 .counter {
     position: relative;;
     height: 70px;
-    margin: 30px 90px 0px 0px;
+    margin: 30px 0px 0px 0px;
     font-size: 1.1em;
     box-shadow: 1px 1px 70px lightgray;
 }
@@ -120,8 +117,8 @@ a{
     margin: 25px 0 0 0;
 }
 
-.addProduct {
-    height: 1620px;
+.addAdmin {
+    height: 500px;
     box-shadow: 1px 1px 70px lightgray;
 }
 
@@ -135,72 +132,24 @@ a{
 
 }
 
-.nameAddressBadge {
-    font-size: 0.9em;
-    direction: ltr;
-    float: left;
-    margin: 5px 0 0 10px;
+.passwordEye {
+    position: absolute;
+    font-size: 1.3em;
+    top: 237px;
+    right: 340px;
+    cursor: pointer;
+    color: gray;
 }
 
-.imageUpload {
-    height: 140px;
-    width: 200px;
-    background: url("../pictures/unimage.png") no-repeat;
-    background-size: cover;
-    border-top-left-radius: 7px;
-    border-top-right-radius: 7px;
+.confirmPasswordEye {
+    position: absolute;
+    font-size: 1.3em;
+    top: 292px;
+    right: 340px;
+    cursor: pointer;
+    color: gray;
 }
 
-.categoryImage {
-    height: 140px;
-    width: 200px;
-    border-top-left-radius: 7px;
-    border-top-right-radius: 7px;
-}
-
-.btnSubmit {
-    margin-right: 30%;
-}
-
-.fileUloadArea {
-    padding: 5px;
-    border-bottom: 2px solid gray;
-    border-radius: 25px;
-}
-
-label {
-    font-size: 1.2em;
-}
-
-.productOptions1 {
-    height: 170px;
-    padding: 30px 0;
-    box-shadow: 3px 3px 10px lightgray;
-}
-
-.productOptions2 {
-    height: 260px;
-    padding: 30px 0;
-    box-shadow: 3px 3px 10px lightgray;
-}
-
-.productOptions3 {
-    height: 320px;
-    padding: 30px 0;
-    box-shadow: 3px 3px 10px lightgray;
-}
-
-.selectCategory {
-    display: block;
-    margin-top: 15px;
-    height: 35px;
-    width: 250px;
-}
-
-.textPrice {
-    width: 200px;
-}
-
-.textNumber {
-    width: 135px;
+.enField {
+    font-family: VazirmatnEngilish;
 }

@@ -137,14 +137,16 @@
                         </div>
                     </div>
                     <div class="collapse" id="collapseCategory">
-                        <div class="col items">
-                          <div class="mt-2 me-4" style="display: inline-block;">
-                              <img src="/icons/categoryMini.svg" alt="users">
-                          </div>
-                          <div style="display: inline-block;" class="my-2 mx-1">
-                            <p>دسته بندی ها</p>
-                          </div>
-                        </div>
+                        <a href="/admin-cPanel/category/showCategories">
+                            <div class="col items">
+                                <div class="mt-2 me-4" style="display: inline-block;">
+                                    <img src="/icons/categoryMini.svg" alt="users">
+                                </div>
+                                <div style="display: inline-block;" class="my-2 mx-1">
+                                  <p>دسته بندی ها</p>
+                                </div>
+                              </div>
+                           </a>
                         <a href="/admin-cPanel/category/newCategory">
                             <div class="col items" >
                                 <div class="mt-2 me-4" style="display: inline-block;">
@@ -263,7 +265,7 @@
                                     <tr>
                                         <td><%= ++i %></td>
                                         <td><%= product.title %></td>
-                                        <td><%= product.productName %></td>
+                                        <td class="enField"><%= product.productName %></td>
                                         <td><%= product.categoryTitle %></td>
                                         <td>
                                             <div class="container">

@@ -3,6 +3,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js" integrity="sha512-BmM0/BQlqh02wuK5Gz9yrbe7VyIVwOzD1o40yi1IsTjriX/NGF37NyXHfmFzIlMmoSIBXgqDiG1VNU6kB5dBbA==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdn.tiny.cloud/1/80x3erofelj42tetslrvjmzbgw88p0b4e1ry5ipmkcc4ycfs/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <link rel="stylesheet" href="/css/categoryPage.css">
     <title><%= category.title%></title>
 </head>
@@ -13,10 +17,20 @@
             <div class="titleFrame">
                 <h1><%= category.title %></h1>
             </div>
-            <div class="description" id="description">
-
-            </div>
         </div>    
+            <div class="description" id="description"></div>
+            <div class="products" id="products">
+                <% Object.values(products).forEach(product => { %>
+                    <div class="items">
+                        <img src= <%= product.image %> alt="logo">
+                        <p class="title"> <%= product.title %> </p>
+                        <p class="price">
+                            <img src="/icons/dollar-sign.svg" alt="price">
+                            قیمت : <%= product.price %> تومان </p>
+                            <span> افزودن به سبد </span>
+                    </div>
+                <% }) %>
+            </div>
     </div>
 </body>
 
@@ -33,17 +47,3 @@
 )
     })
 </script>
-
-<!-- <script>
-    window.addEventListener("load", (event) => {
-        const description = "<%= JSON.stringify(category.description) %>"
-        document.getElementById('description').text =""
-    })
-</script> -->
-
-<!-- <script>
-     window.addEventListener("load", (event) => {
-        const description = "<%= JSON.stringify(category.description) %>"
-        $('#des').html($('textarea').html().replace(/\n/g, "<br />"));
-        })
-</script> -->

@@ -189,15 +189,15 @@ module.exports = new class productController extends controller {
     }
 
     async productPage(req, res, next) {
-        // try {
-        //     const id = (req.params.id).trim()
-        //     const product = await Product.findOne({ _id: id })
-        //     res.locals = {
-        //         product
-        //     }
-        //     res.render('shop/product')
-        // } catch (err) {
-        //     next(err)
-        // }
+        try {
+            const id = (req.params.id).trim()
+            const product = await Product.findOne({ _id: id })
+            res.locals = {
+                product
+            }
+            res.render('shop/product')
+        } catch (err) {
+            next(err)
+        }
     }
 }

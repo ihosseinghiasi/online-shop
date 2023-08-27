@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-let persianDate = require('persian-date');
+const persianDate = require('persian-date');
 
 router.use('/user', require('./user/user'))
 router.use('/admin-cPanel', require('./admin/admin-cPanel'))

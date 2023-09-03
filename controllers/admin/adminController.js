@@ -19,7 +19,7 @@ module.exports = new class adminController extends controller {
                 return res.redirect('/admin-cPanel/admin/newAdmin')
             }
 
-            let newAdmin = new Admin({
+            const newAdmin = new Admin({
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 email: req.body.email,

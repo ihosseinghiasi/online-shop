@@ -51,19 +51,14 @@
                         <img src="/pictures/menProfile.svg" alt="profile" class="profileLogo">
                     </div>
 
-                    <a href="/admin-cPanel/counter">
-                        <div class="col items selectedMenu" data-bs-toggle="collapse">
-                            <div class="mt-2 mx-1" style="display: inline-block;">
-                                <img src="/icons/home.svg" alt="home">
-                            </div>
-                            <div style="display: inline-block;" class="my-3 mx-1">
-                                <p>پیشخوان</p>
-                            </div>
-                        </div>
+                    <a href="/admin-cPanel/counter" class="items selectedMenu">
+                            <span class="mt-2 mx-1" style="display: inline-block;">
+                                <img src="/icons/home.svg" alt="home" class="ms-2">
+                                پیشخوان
+                            </span>
                     </a>
-
-                    <div class="col items" data-bs-toggle="collapse" href="#collapseAdmin"
-                     role="button" aria-expanded="false" aria-controls="collapseAdmin">
+                    
+                    <div class="accordion items">
                         <div class="mt-2 mx-1" style="display: inline-block;">
                             <img src="/icons/user-check.svg" alt="admin">
                         </div>
@@ -71,9 +66,9 @@
                             <p>مدیران سایت</p>
                         </div>
                     </div>
-                    <a href="/admin-cPanel/admin/showAdmins">
-                        <div class="collapse" id="collapseAdmin">
-                            <div class="col items">
+                    <div class="accordion-panel">
+                        <a href="/admin-cPanel/admin/showAdmins">
+                            <div class="subItems">
                               <div class="mt-2 me-4" style="display: inline-block;">
                                   <img src="/icons/users.svg" alt="users">
                               </div>
@@ -81,9 +76,9 @@
                                   <p>مدیران سایت</p>
                               </div>
                         </div>      
-                    </a>
-                    <a href="/admin-cPanel/admin/newAdmin">
-                        <div class="col items" >
+                     </a>
+                     <a href="/admin-cPanel/admin/newAdmin">
+                        <div class="subItems" >
                         <div class="mt-2 me-4" style="display: inline-block;">
                             <img src="/icons/user-plus.svg" alt="addAdmin">
                         </div>
@@ -91,11 +86,10 @@
                                 <p>افزودن مدیر</p>
                             </div>    
                         </div>
-                       </a>    
-                      </div>
+                       </a>   
+                    </div>
 
-                      <div class="col items" data-bs-toggle="collapse" href="#collapseUser"
-                      role="button" aria-expanded="false" aria-controls="collapseUser">
+                      <div class="items accordion">
                         <div class="mt-2 mx-1" style="display: inline-block;">
                             <img src="/icons/user.svg" alt="user">
                         </div>
@@ -103,31 +97,31 @@
                             <p>کاربران سایت</p>
                         </div>
                     </div>
-                   <a href="/admin-cPanel/user/showUsers">
-                    <div class="collapse" id="collapseUser">
-                        <div class="col items">
-                          <div class="mt-2 me-4" style="display: inline-block;">
-                              <img src="/icons/users.svg" alt="users">
-                          </div>
-                          <div style="display: inline-block;" class="my-2 mx-1">
-                              <p>کاربران سایت</p>
-                          </div>
-                        </div>
-                   </a>
-                        <a href="/admin-cPanel/user/newUser">
-                            <div class="col items" >
-                                <div class="mt-2 me-4" style="display: inline-block;">
-                                    <img src="/icons/user-plus.svg" alt="addUser">
+                    <div class="accordion-panel">
+                        <a href="/admin-cPanel/user/showUsers">
+                                <div class="col subItems">
+                                  <div class="mt-2 me-4" style="display: inline-block;">
+                                      <img src="/icons/users.svg" alt="users">
+                                  </div>
+                                  <div style="display: inline-block;" class="my-2 mx-1">
+                                      <p>کاربران سایت</p>
+                                  </div>
                                 </div>
-                                <div style="display: inline-block;" class="my-2 mx-1">
-                                    <p>افزودن کاربر</p>
-                                </div>
-                              </div>
                         </a>
+                                <a href="/admin-cPanel/user/newUser">
+                                    <div class="col subItems" >
+                                        <div class="mt-2 me-4" style="display: inline-block;">
+                                            <img src="/icons/user-plus.svg" alt="addUser">
+                                        </div>
+                                        <div style="display: inline-block;" class="my-2 mx-1">
+                                            <p>افزودن کاربر</p>
+                                        </div>
+                                      </div>
+                                </a>
                     </div>
+                    
 
-                    <div class="col items" data-bs-toggle="collapse" href="#collapseCategory"
-                    role="button" aria-expanded="false" aria-controls="collapseCategory">
+                    <div class="items accordion">
                         <div class="mt-2 mx-1" style="display: inline-block;">
                             <img src="/icons/category.svg" alt="category">
                         </div>    
@@ -135,31 +129,30 @@
                             <p>دسته بندی ها</p>
                         </div>
                     </div>
-                    <div class="collapse" id="collapseCategory">
+                    <div class="accordion-panel">
                         <a href="/admin-cPanel/category/showCategories">
-                            <div class="col items">
+                            <div class="subItems">
                                 <div class="mt-2 me-4" style="display: inline-block;">
                                     <img src="/icons/categoryMini.svg" alt="users">
                                 </div>
                                 <div style="display: inline-block;" class="my-2 mx-1">
-                                  <p>دسته بندی ها</p>
+                                    <p>دسته بندی ها</p>
                                 </div>
-                              </div>
+                            </div>
                         </a>
                         <a href="/admin-cPanel/category/newCategory">
-                            <div class="col items" >
+                            <div class="col subItems" >
                                 <div class="mt-2 me-4" style="display: inline-block;">
                                     <img src="/icons/plus-square.svg" alt="addCategory">
                                 </div>
                                 <div style="display: inline-block;" class="my-2 mx-1">
                                     <p>افزودن دسته بندی</p>
                                 </div>
-                              </div>
+                            </div>
                         </a>
                     </div>
 
-                    <div class="col items" data-bs-toggle="collapse" href="#collapseProduct"
-                    role="button" aria-expanded="false" aria-controls="collapseProduct">
+                    <div class="items accordion">
                         <div class="mt-2 mx-1" style="display: inline-block;">
                             <img src="/icons/product.svg" alt="product">
                         </div>
@@ -167,9 +160,9 @@
                             <p>محصولات</p>
                         </div>
                     </div>
-                    <div class="collapse" id="collapseProduct">
+                    <div class="accordion-panel">
                        <a href="/admin-cPanel/product/showProducts">
-                        <div class="col items">
+                        <div class="col subItems">
                             <div class="mt-2 me-4" style="display: inline-block;">
                                 <img src="/icons/productMini.svg" alt="products">
                             </div>
@@ -179,19 +172,18 @@
                           </div>
                        </a>
                         <a href="/admin-cPanel/product/newProduct">
-                            <div class="col items" >
+                            <div class="col subItems" >
                                 <div class="mt-2 me-4" style="display: inline-block;">
                                     <img src="/icons/plus-square.svg" alt="addProduct">
                                 </div>
                                 <div style="display: inline-block;" class="my-2 mx-1">
                                     <p>افزودن محصول</p>
                                 </div>
-                              </div>
+                            </div>
                         </a>
                     </div>
 
-                    <div class="col items" data-bs-toggle="collapse" href="#collapseCard"
-                    role="button" aria-expanded="false" aria-controls="collapseCard">
+                    <div class="items accordion">
                         <div class="mt-2 mx-1" style="display: inline-block;">
                             <img src="/icons/credit-card.svg" alt="card">
                         </div>
@@ -199,9 +191,9 @@
                             <p> کارت ها </p>
                         </div>
                     </div>
-                    <div class="collapse" id="collapseCard">
-                       <a href="">
-                        <div class="col items">
+                    <div class="accordion-panel">
+                       <a href="/admin-cPanel/card/showCards">
+                        <div class="col subItems">
                             <div class="mt-2 me-4" style="display: inline-block;">
                                 <img src="/icons/credit-card.svg" alt="card">
                             </div>
@@ -211,7 +203,7 @@
                           </div>
                        </a>
                         <a href="/admin-Cpanel/card/newCard">
-                            <div class="col items" >
+                            <div class="col subItems" >
                                 <div class="mt-2 me-4" style="display: inline-block;">
                                     <img src="/icons/plus-square.svg" alt="addCard">
                                 </div>
@@ -222,11 +214,10 @@
                         </a>
                     </div>
                     
-                    <div class="col items">
+                    <div class="items accordion">
                         <div class="mt-2 mx-1" style="display: inline-block;">
                             <img src="/icons/inbox.svg" alt="email">
                         </div>
-
                         <div style="display: inline-block;" class="my-3 mx-1">
                             <p>ایمیل ها</p>
                         </div>
@@ -235,7 +226,6 @@
                         <div class="mt-2 mx-1" style="display: inline-block;">
                             <img src="/icons/message-square.svg" alt="ticket">
                         </div>
-
                         <div style="display: inline-block;" class="my-3 mx-1">
                             <p>تیکت ها</p>
                         </div>
@@ -279,3 +269,34 @@
     </footer>
 </body>
 </html>
+
+<script>
+    const accHeading = document.querySelectorAll(".accordion");
+    const accPanel = document.querySelectorAll(".accordion-panel");
+
+    for (let i = 0; i < accHeading.length; i++) {
+        // Execute whenever an accordion is clicked 
+        accHeading[i].onclick = function() {
+            if (this.nextElementSibling.style.maxHeight) {
+            hidePanels();     // Hide All open Panels 
+            } else {
+            showPanel(this);  // Show the panel
+            } 
+        };
+    }
+
+    // Function to Show a Panel
+    function showPanel(elem) {
+    hidePanels();
+    elem.classList.add("active");
+    elem.nextElementSibling.style.maxHeight = elem.nextElementSibling.scrollHeight + "px";
+    }
+
+    // Function to Hide all shown Panels
+    function hidePanels() {
+    for (let i = 0; i < accPanel.length; i++) {
+        accPanel[i].style.maxHeight = null;
+        accHeading[i].classList.remove("active");
+    }
+    }
+  </script>

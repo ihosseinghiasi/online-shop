@@ -12,6 +12,17 @@
     src: url('../fonts/vazir/fonts/webfonts/Vazirmatn-Medium.woff2');
 }
 
+* {box-sizing: border-box;}
+
+.accordion {
+  cursor: pointer;
+}
+
+.accordion-panel {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.2s ease-out;
+}
 
 body {
     direction: rtl;
@@ -73,6 +84,18 @@ a{
 }
 
 .sideMenu .items:hover {
+    background-color: darkslategray;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.sideMenu .subItems {
+    height: 50px;
+    width: 100%;
+    display: inline-block;
+}
+
+.sideMenu .subItems:hover {
     background-color: darkslategray;
     transition: 0.5s;
     cursor: pointer;

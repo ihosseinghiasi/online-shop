@@ -311,16 +311,134 @@
                         افزودن کارت
                     </div>
                     <div class="col-8 mx-5 addBody">
-                        <form action="">
-                            <div class="row">
-                                <div class="col-6">
-                                    <label for="cardCategory">انتخاب دسته بندی :</label>
-                                    <p class="cardCategory"> برای آسانی در روند وارد سازی کارت ها لازم است در ابتدا دسته بندی مورد نظر را انتخاب نمایید. </p>
+                        <form action="/admin-cPanel/card/newCard" method="POST">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <label for="cardCategoryTitle">انتخاب دسته بندی :</label>
+                                        <p id="cardCategoryTitle" class="mt-2"> برای آسانی در روند وارد سازی کارت ها لازم است در ابتدا دسته بندی مورد نظر را انتخاب نمایید. </p>
+                                    </div>
+                                    <div class="col-5 mt-3">
+                                        <select class="form-select" name="cardCategory" id="cardCategory">
+                                            <% Object.values(categoryTitles).forEach(categoryTitle => { %>
+                                                <option> <%= categoryTitle.title %> </option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-5 mt-3">
-                                    <input type="list" for="categoryList" class="form-control" name="cardCategory" id="cardCategory">
-                                    <option value=""></option>
+                                <hr>
+                                <div class="row mt-1">
+                                    <div class="col-7">
+                                        <label for="cardProductTitle">انتخاب محصول :</label>
+                                        <p id="cardProductTitle" class="mt-2"> پس از انتخاب دسته بندی میبایست محصول مورد نظر را انتخاب کنید تا ادامه مراحل برای شما نمایان شود. </p>
+                                    </div>
+                                    <div class="col-5 mt-3">
+                                        <select class="form-select" name="cardProduct" id="cardProduct">
+                                        </select>
+                                    </div>
                                 </div>
+                                <hr>
+                                <div class="row mt-1">
+                                    <div class="col-7">
+                                        <label for="cardFieldsTitle"> اطلاعات کارت : </label>
+                                        <p id="cardFieldsTitle" class="mt-2"> در این بخش میبایست اطلاعات کارت مورد نظر را بصورت تکی و یا از طریق فایل آن ها را بصورت دسته جمعی وارد نمایید. </p>
+                                    </div>
+                                    <div class="col-5 my-3" id="formField">
+                                       
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row mt-1">
+                                    <div class="col-7">
+                                        <label for="cardStatusTitle"> وضعیت کارت : </label>
+                                        <p id="cardStatusTitle" class="mt-2"> شما در این بخش میتوانید مشخص کنید که کارت های وارد شده چه وضعیتی داشته باشند . </p>
+                                    </div>
+                                    <div class="col-5 mt-3">
+                                        <select class="form-select" name="cardStatus" id="cardStatus">
+                                            <option> فعال </option>
+                                            <option> غیر فعال </option>
+                                            <option> فروخته شده </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row mt-1">
+                                    <div class="col-11 mt-3 mx-5">
+                                        <button type="submit" class="btn btn-success w-100"> ذخیره کارت</button>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    var categorySelected = document.getElementById('cardCategory')
+                                    window.addEventListener('load' , addRemoveOptions)
+                                    categorySelected.addEventListener('change' , addRemoveOptions)
+
+                                    function addRemoveOptions() {
+                                    const products = JSON.parse('<%- JSON.stringify(products) %>')
+                                    const cardProduct = document.getElementById('cardProduct')
+                                    const length = cardProduct.options.length;
+                                    for (i = length-1; i >= 0; i--) {
+                                    cardProduct.options[i] = null;
+                                    }
+                                    Object.values(products).forEach(product=> {
+                                        if( categorySelected.value === product.categoryTitle ) {
+                                            const cardProduct = document.getElementById('cardProduct')
+                                            const newOption = document.createElement('option')
+                                            newOption.text = product.title
+                                            cardProduct.add(newOption)
+                                        }
+                                        })
+                                    }
+                                </script>
+
+                                <script>
+                                    var productSelected = document.getElementById('cardProduct')
+                                    var counter = 0
+                                    window.addEventListener('load', addRemoveFields) 
+                                    categorySelected.addEventListener('change', addRemoveFields) 
+                                    productSelected.addEventListener('change', addRemoveFields) 
+                                    
+                                    function addRemoveFields() {
+                                        {
+                                        var input_tags = formField.getElementsByTagName('input')
+                                        for(let i = 0; i < counter; i++){
+                                            if(input_tags.length > 0) {
+                                            formField.removeChild(input_tags[(input_tags.length) - 1]);
+                                            }
+                                        }
+                                        const products = JSON.parse('<%- JSON.stringify(products) %>')
+                                        Object.values(products).forEach(product => {                                            
+                                            if( productSelected.value === product.title ) {
+                                                Object.values(product).forEach(f => {
+                                                   if(typeof(f) === "object") {
+                                                    Object.values(f).forEach(v => {
+                                
+                                                        for(const [key, value] of Object.entries(v)) {
+                                                            if ( `${key}` === "fieldName"){
+                                                                var formfield = document.getElementById('formField')
+                                                                var newField = document.createElement('input')
+                                                                newField.setAttribute('type','text')
+                                                                newField.setAttribute('id','cardFields')
+                                                                newField.setAttribute('name','cardFields[]')
+                                                                newField.setAttribute('class','form-control enField mt-1')
+                                                                newField.setAttribute('size',50)
+                                                                newField.setAttribute('placeholder',`${value}`)
+                                                                formField.appendChild(newField);
+                                                                counter++
+                                                            }
+                                                        }
+                                                    })
+                                                  }
+                                                })
+                                            }
+                                        })                                        
+                                    } 
+                                    }
+                                </script>
+
+                              
+
+            
                             </div>
                         </form>
                     </div>

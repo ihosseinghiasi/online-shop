@@ -95,7 +95,6 @@ module.exports = new class productController extends controller {
             var purefieldNames = []
             if(pureFields) {
                 const fieldNames = Object.values(pureFields)
-
                 for (const value of Object.values(fieldNames)) {
                     for (let v in value) {
                         if(v === "fieldName") {

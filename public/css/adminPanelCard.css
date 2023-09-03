@@ -16,6 +16,19 @@
     font-family: VazirmatnEngilish;
 }
 
+* {box-sizing: border-box;}
+
+.accordion {
+  cursor: pointer;
+}
+
+.accordion-panel {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.2s ease-out;
+}
+
+
 body {
     direction: rtl;
     margin: 0px;
@@ -81,6 +94,18 @@ a{
     cursor: pointer;
 }
 
+.sideMenu .subItems {
+    height: 50px;
+    width: 100%;
+    display: inline-block;
+}
+
+.sideMenu .subItems:hover {
+    background-color: darkslategray;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
 .selectedMenu {
     background-color: darkslategray;
 }
@@ -121,7 +146,7 @@ a{
 }
 
 .addProduct {
-    height: 1620px;
+    height: 650px;
     box-shadow: 1px 1px 70px lightgray;
 }
 
@@ -135,37 +160,8 @@ a{
 
 }
 
-.nameAddressBadge {
-    font-size: 0.9em;
-    direction: ltr;
-    float: left;
-    margin: 5px 0 0 10px;
-}
-
-.imageUpload {
-    height: 140px;
-    width: 200px;
-    background: url("../pictures/unimage.png") no-repeat;
-    background-size: cover;
-    border-top-left-radius: 7px;
-    border-top-right-radius: 7px;
-}
-
-.categoryImage {
-    height: 140px;
-    width: 200px;
-    border-top-left-radius: 7px;
-    border-top-right-radius: 7px;
-}
-
 .btnSubmit {
     margin-right: 30%;
-}
-
-.fileUloadArea {
-    padding: 5px;
-    border-bottom: 2px solid gray;
-    border-radius: 25px;
 }
 
 label {

@@ -1,0 +1,47 @@
+.addAdmin {
+    height: 850px;
+    box-shadow: 1px 1px 70px lightgray;
+}
+
+.addtitle {
+    position: absolute;
+}
+
+.addBody {
+    position: absolute;
+    margin-top: 80px;
+
+}
+
+.nemeAddressBadge {
+    font-size: 0.9em;
+    direction: ltr;
+    float: left;
+    margin: 5px 0 0 10px;
+}
+
+.imageUpload {
+    height: 140px;
+    width: 200px;
+    background: url("../../pictures/unimage.png") no-repeat;
+    background-size: cover;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+}
+
+.categoryImage {
+    height: 140px;
+    width: 200px;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+}
+
+.btnSubmit {
+    margin-right: 26%;
+}
+
+.fileUloadArea {
+    padding: 5px;
+    border-bottom: 2px solid gray;
+    border-radius: 25px;
+}

@@ -1,0 +1,23 @@
+.addProduct {
+    height: 650px;
+    box-shadow: 1px 1px 70px lightgray;
+}
+
+.addtitle {
+    position: absolute;
+}
+
+.addBody {
+    position: absolute;
+    margin-top: 80px;
+
+}
+
+.btnSubmit {
+    margin-right: 30%;
+}
+
+label {
+    font-size: 1.2em;
+}
+

@@ -4,12 +4,16 @@
 
 @font-face {
     font-family: VazirmatnPersian;
-    src: url('/fonts/vazir/misc/Farsi-Digits/fonts/webfonts/Vazirmatn-FD-Medium.woff2') format('woff2');
+    src: url('../../fonts/vazir/misc/Farsi-Digits/fonts/webfonts/Vazirmatn-FD-Medium.woff2') format('woff2');
   }
 
-@font-face {
+  @font-face {
     font-family: VazirmatnEngilish;
-    src: url('../fonts/vazir/fonts/webfonts/Vazirmatn-Medium.woff2');
+    src: url('../../fonts/vazir/fonts/webfonts/Vazirmatn-Medium.woff2');
+}
+
+.enField {
+    font-family: VazirmatnEngilish;
 }
 
 * {box-sizing: border-box;}
@@ -21,9 +25,9 @@
 .accordion-panel {
   overflow: hidden;
   max-height: 0;
+  background-color: rgb(3, 31, 31);
   transition: max-height 0.2s ease-out;
 }
-
 
 body {
     direction: rtl;
@@ -74,18 +78,19 @@ a{
 
 .sideMenu {
     display: inline-block;
+    background-color: rgb(5, 48, 48);
 }
 
 .sideMenu .items {
     height: 50px;
     width: 100%;
-    border-bottom: 1px solid gray;
     border: 0.5px solid gray;
     display: inline-block;
 }
 
 .sideMenu .items:hover {
-    background-color: darkslategray;
+    background-color: rgba(2, 5, 54, 0.479);
+    border-radius: 5px;
     transition: 0.5s;
     cursor: pointer;
 }
@@ -93,23 +98,26 @@ a{
 .sideMenu .subItems {
     height: 50px;
     width: 100%;
+    border-radius: 5px;
     display: inline-block;
 }
 
 .sideMenu .subItems:hover {
-    background-color: darkslategray;
+    background-color:rgba(2, 5, 54, 0.479);
     transition: 0.5s;
     cursor: pointer;
 }
 
 .selectedMenu {
-    background-color: darkslategray;
+    background-color: rgba(2, 5, 54, 0.986);
+    border-radius: 5px;
 }
 
 .sideMenu .picureLogo {
     height: 150px;
     width: 100%;
     border-bottom: 1px solid gray;
+    background-color: rgba(2, 5, 54, 0.986);
 }
 
 .profileLogo {
@@ -139,41 +147,4 @@ a{
     width: 180px;
     float: left;
     margin: 25px 0 0 0;
-}
-
-.addAdmin {
-    height: 500px;
-    box-shadow: 1px 1px 70px lightgray;
-}
-
-.addtitle {
-    position: absolute;
-}
-
-.addBody {
-    position: absolute;
-    margin-top: 80px;
-
-}
-
-.passwordEye {
-    position: absolute;
-    font-size: 1.3em;
-    top: 237px;
-    right: 360px;
-    cursor: pointer;
-    color: gray;
-}
-
-.confirmPasswordEye {
-    position: absolute;
-    font-size: 1.3em;
-    top: 292px;
-    right: 360px;
-    cursor: pointer;
-    color: gray;
-}
-
-.enField {
-    font-family: VazirmatnEngilish;
 }

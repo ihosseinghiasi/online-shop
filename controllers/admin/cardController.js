@@ -101,37 +101,25 @@ module.exports = new class cardController extends controller {
     }
 
     async showCard(req, res, next) {
-        // try {
-        //     const id = (req.params.id).trim()
-        //     const categoryTitles = await Category.find({}).select('title')
-        //     const product = await Product.findOne({ _id: id })
+        try {
+            const id = (req.params.id).trim()
+            const card = await Card.findOne({ _id: id })
+            console.log(card)
+            const categoryTitles = await Category.find({}).select('title')
+            const products = await Product.find({})
 
-        //     const productFields = await Product.findOne({_id: id}).select('fields')
-        //     const pureFields = productFields.fields
-        //     var purefieldNames = []
-        //     if(pureFields) {
-        //         const fieldNames = Object.values(pureFields)
 
-        //         for (const value of Object.values(fieldNames)) {
-        //             for (let v in value) {
-        //                 if(v === "fieldName") {
-        //                     purefieldNames.push(value[v])
-        //                 }
-        //             }
-        //         }
-        //     }
-
-        //     res.locals = {
-        //         persianDate,
-        //         product,
-        //         categoryTitles,
-        //         purefieldNames,
-        //         errors: req.flash('errors') 
-        //     }
-        //     res.render('admin/editProduct')
-        // } catch (err) {
-        //     next(err)
-        // }
+            res.locals = {
+                persianDate,
+                products,
+                categoryTitles,
+                card,
+                errors: req.flash('errors') 
+            }
+            res.render('admin/editCard')
+        } catch (err) {
+            next(err)
+        }
     }
 
     async updateCard(req, res, next) {
@@ -192,16 +180,16 @@ module.exports = new class cardController extends controller {
     }
 
     async deleteCard(req, res, next) {
-        // try {
-        //     res.locals = {
-        //         persianDate,
-        //    }
-        //     const id = (req.params.id).trim()
-        //     let product = await Product.deleteOne({ _id: id })
-        //     return res.redirect('/admin-cPanel/product/showProducts')
-        // } catch (err) {
-        //     next(err)
-        // }
+        try {
+            res.locals = {
+                persianDate,
+           }
+            const id = (req.params.id).trim()
+            const card = await Card.deleteOne({ _id: id })
+            return res.redirect('/admin-cPanel/card/showCards')
+        } catch (err) {
+            next(err)
+        }
     }
 
     // async productPage(req, res, next) {

@@ -25,7 +25,7 @@
 .accordion-panel {
   overflow: hidden;
   max-height: 0;
-  background-color: rgb(3, 31, 31);
+  background-color:rgba(1, 24, 23, 0.986);
   transition: max-height 0.2s ease-out;
 }
 
@@ -78,7 +78,7 @@ a{
 
 .sideMenu {
     display: inline-block;
-    background-color: rgb(5, 48, 48);
+    background-color: rgb(7, 7, 15);
 }
 
 .sideMenu .items {
@@ -89,7 +89,7 @@ a{
 }
 
 .sideMenu .items:hover {
-    background-color: rgba(2, 5, 54, 0.479);
+    background-color: rgba(1, 24, 23, 0.986);
     border-radius: 5px;
     transition: 0.5s;
     cursor: pointer;
@@ -103,13 +103,13 @@ a{
 }
 
 .sideMenu .subItems:hover {
-    background-color:rgba(2, 5, 54, 0.479);
+    background-color:rgb(1, 12, 11);
     transition: 0.5s;
     cursor: pointer;
 }
 
 .selectedMenu {
-    background-color: rgba(2, 5, 54, 0.986);
+    background-color: rgba(4, 37, 36, 0.986);
     border-radius: 5px;
 }
 
@@ -117,7 +117,7 @@ a{
     height: 150px;
     width: 100%;
     border-bottom: 1px solid gray;
-    background-color: rgba(2, 5, 54, 0.986);
+    background-color:rgb(0, 0, 8);
 }
 
 .profileLogo {

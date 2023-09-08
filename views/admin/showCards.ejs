@@ -296,13 +296,13 @@
                                             <div class="container">
                                                 <div class="row justify-content-center">
                                                   <div class="col-4">
-                                                    <a href="" class="btn btn-success" role="button">
+                                                    <a href="/admin-cPanel/card/editCard/<%= card.id %>" class="btn btn-success" role="button">
                                                         <img src="/icons/edit.svg" alt="edit">
                                                     </a>   
                                                   </div>
                                                   <div class="col-4">
-                                                    <form action="">
-                                                       
+                                                    <form action="/admin-cPanel/card/showCards/<%= card.id %>
+                                                        ?_method=DELETE" method="POST">
                                                         <button type="submit" class="btn btn-danger">
                                                             <img src="/icons/trash-2.svg" alt="remove">
                                                         </button>

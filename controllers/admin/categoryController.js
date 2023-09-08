@@ -114,7 +114,7 @@ module.exports = new class categoryController extends controller {
                 persianDate,
            }
             const id = (req.params.id).trim()
-            let category = await Category.deleteOne({ _id: id })
+            const category = await Category.deleteOne({ _id: id })
             return res.redirect('/admin-cPanel/category/showCategories')
         } catch (err) {
             next(err)

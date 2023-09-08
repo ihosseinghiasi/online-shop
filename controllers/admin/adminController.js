@@ -23,6 +23,7 @@ module.exports = new class adminController extends controller {
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 email: req.body.email,
+                password: req.body.password,
                 department: req.body.department,
                 isPassword: req.body.password,
                 isAdmin: req.body.isAdmin,

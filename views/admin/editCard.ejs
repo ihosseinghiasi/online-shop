@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/adminPanelCard.css">
+    <link rel="stylesheet" href="/css/admin/general.css">
+    <link rel="stylesheet" href="/css/admin/card.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js" integrity="sha512-BmM0/BQlqh02wuK5Gz9yrbe7VyIVwOzD1o40yi1IsTjriX/NGF37NyXHfmFzIlMmoSIBXgqDiG1VNU6kB5dBbA==" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
@@ -66,7 +67,7 @@
 
     <div class="container container-fluid">
         <div class="row ">
-            <div class="col-2 sideMenu bg-secondary text-light">
+            <div class="col-2 sideMenu text-light">
 
                 <div class="row row-cols-1">
                     <div class="picureLogo">
@@ -91,7 +92,7 @@
                     </div>
                     <div class="accordion-panel">
                         <a href="/admin-cPanel/admin/showAdmins">
-                            <div class="subItems selectedMenu">
+                            <div class="subItems">
                               <div class="mt-2 me-4" style="display: inline-block;">
                                   <img src="/icons/users.svg" alt="users">
                               </div>
@@ -216,7 +217,7 @@
                     </div>
                     <div class="accordion-panel">
                        <a href="/admin-cPanel/card/showCards">
-                        <div class="subItems">
+                        <div class="subItems selectedMenu">
                             <div class="mt-2 me-4" style="display: inline-block;">
                                 <img src="/icons/credit-card.svg" alt="card">
                             </div>
@@ -226,7 +227,7 @@
                           </div>
                        </a>
                         <a href="/admin-Cpanel/card/newCard">
-                            <div class="subItems selectedMenu" >
+                            <div class="subItems" >
                                 <div class="mt-2 me-4" style="display: inline-block;">
                                     <img src="/icons/plus-square.svg" alt="addCard">
                                 </div>
@@ -277,6 +278,7 @@
             </div>
 
 
+
             <div class="col-10">
                 <div class="col-11 mx-5 counter">
                     <div class="titleCounter">
@@ -318,6 +320,7 @@
                                             <% }) %>
                                         </select>
                                     </div>
+                                          
                                 </div>
                                 <hr>
                                 <div class="row mt-1">
@@ -353,6 +356,12 @@
                                             <option> فروخته شده </option>
                                         </select>
                                     </div>
+                                    <script>
+                                        window.addEventListener('load', () => {
+                                            const selectedStatus = String("<%= card.cardStatus %>")
+                                            document.getElementById('cardStatus').value = selectedStatus
+                                        })
+                                    </script>
                                 </div>
                                 <hr>
                                 <div class="row mt-1">
@@ -362,32 +371,85 @@
                                 </div>
 
                                 <script>
+                                    window.addEventListener('load', ()=> {
+                                        const selectedCategory = String("<%= card.cardCategory %>")
+                                        document.getElementById('cardCategory').value = selectedCategory
+                                    })
+                                </script>
+
+                                <script>
                                     var categorySelected = document.getElementById('cardCategory')
                                     window.addEventListener('load' , addRemoveOptions)
                                     categorySelected.addEventListener('change' , addRemoveOptions)
 
                                     function addRemoveOptions() {
-                                    const products = JSON.parse('<%- JSON.stringify(products) %>')
-                                    const cardProduct = document.getElementById('cardProduct')
-                                    const length = cardProduct.options.length;
-                                    for (i = length-1; i >= 0; i--) {
-                                    cardProduct.options[i] = null;
-                                    }
-                                    Object.values(products).forEach(product=> {
-                                        if( categorySelected.value === product.categoryTitle ) {
-                                            const cardProduct = document.getElementById('cardProduct')
-                                            const newOption = document.createElement('option')
-                                            newOption.text = product.title
-                                            cardProduct.add(newOption)
+                                        const products = JSON.parse('<%- JSON.stringify(products) %>')
+                                        const cardProduct = document.getElementById('cardProduct')
+                                        const length = cardProduct.options.length;
+                                        for (i = length-1; i >= 0; i--) {
+                                            cardProduct.options[i] = null;
                                         }
-                                        })
+                                        Object.values(products).forEach(product=> {
+                                            if( categorySelected.value === product.categoryTitle ) {
+                                                const cardProduct = document.getElementById('cardProduct')
+                                                const newOption = document.createElement('option')
+                                                newOption.text = product.title
+                                                cardProduct.add(newOption)
+                                            }
+                                            })
+                                        
                                     }
                                 </script>
 
                                 <script>
-                                    var productSelected = document.getElementById('cardProduct')
+                                    window.addEventListener('load', ()=> {
+                                        const selectedProduct = String("<%= card.cardProduct %>")
+                                        document.getElementById('cardProduct').value = selectedProduct
+                                    })
+                                </script>
+
+                                
+                                <script>
                                     var counter = 0
                                     window.addEventListener('load', addRemoveFields) 
+                                    
+                                    function addRemoveFields() {
+                                        {
+                                        
+                                        const card = JSON.parse('<%- JSON.stringify(card) %>')
+                                        Object.values(card).forEach(fields => { 
+                                            if(typeof(fields) === "object") {
+                                                    Object.values(fields).forEach(v => {
+                                                        for(const [key, value] of Object.entries(v)) {
+                                                            if ( `${key}` === "fieldName"){
+                                                                var fieldPlaceHolder = `${value}`
+                                                            } else if ( `${key}` === "fieldValue" ) {
+                                                                let fieldValue = `${value}`
+                                                                var formfield = document.getElementById('formField')
+                                                                var newField = document.createElement('input')
+                                                                newField.setAttribute('type','text')
+                                                                newField.setAttribute('id','cardFields')
+                                                                newField.setAttribute('name','cardFields[]')
+                                                                newField.setAttribute('class','form-control enField mt-1')
+                                                                newField.setAttribute('size',50)
+                                                                newField.setAttribute('placeholder', fieldPlaceHolder)
+                                                                newField.setAttribute('value', fieldValue)
+                                                                formField.appendChild(newField);
+                                                                counter++
+                                                            }
+                                                        }
+                                                    })
+                                                }                                              
+                                            
+                                        })                                        
+                                    } 
+                                    }
+                                </script>
+
+
+                                <script>
+                                    var productSelected = document.getElementById('cardProduct')
+                                    var counter = 0
                                     categorySelected.addEventListener('change', addRemoveFields) 
                                     productSelected.addEventListener('change', addRemoveFields) 
                                     
@@ -403,9 +465,8 @@
                                         Object.values(products).forEach(product => {                                            
                                             if( productSelected.value === product.title ) {
                                                 Object.values(product).forEach(f => {
-                                                   if(typeof(f) === "object") {
+                                                    if(typeof(f) === "object") {
                                                     Object.values(f).forEach(v => {
-                                
                                                         for(const [key, value] of Object.entries(v)) {
                                                             if ( `${key}` === "fieldName"){
                                                                 var formfield = document.getElementById('formField')
@@ -429,9 +490,6 @@
                                     }
                                 </script>
 
-                              
-
-            
                             </div>
                         </form>
                     </div>
@@ -442,6 +500,7 @@
     </footer>
 </body>
 </html>
+
 
 <script>
     const accHeading = document.querySelectorAll(".accordion");

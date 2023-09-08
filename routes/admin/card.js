@@ -8,4 +8,5 @@ router.post('/newCard', cardValidator.cardHandle(), cardController.addNewCard)
 router.get('/showCards', cardController.showCards)
 router.delete('/showCards/:id', cardController.deleteCard)
 router.get('/editCard/:id', cardController.showCard)
+router.put('/editCard/:id', cardValidator.cardHandle(), cardController.updateCard)
 module.exports = router

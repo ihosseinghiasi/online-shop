@@ -138,7 +138,7 @@ module.exports = new class adminController extends controller {
                 myadmin.isTicket = "on"
             }
 
-            let updateAdmin = await Admin.updateOne({ _id: id }, { $set: myadmin })
+            const updateAdmin = await Admin.updateOne({ _id: id }, { $set: myadmin })
             return res.redirect('/admin-cPanel/admin/showAdmins')
         } catch (err) {
             next(err)

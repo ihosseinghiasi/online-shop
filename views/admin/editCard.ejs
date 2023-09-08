@@ -306,7 +306,7 @@
                         ویرایش کارت
                     </div>
                     <div class="col-8 mx-5 addBody">
-                        <form action="/admin-cPanel/card/newCard" method="POST">
+                        <form action="/admin-cPanel/card/editCard/<%= card.id %>?_method=PUT" method="POST">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-7">

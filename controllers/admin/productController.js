@@ -191,8 +191,10 @@ module.exports = new class productController extends controller {
         try {
             const id = (req.params.id).trim()
             const product = await Product.findOne({ _id: id })
+            const categories = await Category.find({})
             res.locals = {
-                product
+                product, 
+                categories
             }
             res.render('shop/product')
         } catch (err) {

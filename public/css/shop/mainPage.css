@@ -1,16 +1,193 @@
+.sample_farsi_digits {
+    font-feature-settings: "ss01";
+}
+
+@font-face {
+    font-family: VazirmatnPersian;
+    src: url('../../fonts/vazir/misc/Farsi-Digits/fonts/webfonts/Vazirmatn-FD-Medium.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: VazirmatnEngilish;
+    src: url('../../fonts/vazir/fonts/webfonts/Vazirmatn-Medium.woff2');
+}
+
+.enField {
+    font-family: VazirmatnEngilish;
+}
+
 body {
     direction: rtl;
-    font-size: 1em;
+    font-family: VazirmatnPersian;
+    font-size: 13px;
 }
-.mainimage {
-    height: 620px;
+
+.main {
+    position: relative;
+    height: 870px;
     width: 100%;
-    background: url("../pictures/emarketing.jpg") no-repeat;
-    background-size: cover;
+    background-color: #020720;
 }
 
-.registerArea{
+.mainImage {
     position: absolute;
-    margin: 40px 80px 0 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0.07;
 }
 
+.linkColor{
+    font-size: 1.3em;
+    color: white;
+}
+
+.linkColor:hover {
+    color: lightgray;
+    transition: 0.5s;
+}
+
+.linkColor:visited {
+    color: white;
+}
+
+.linkCallToMe{
+    font-size: 1.3em;
+    color: white;
+}
+
+.callButton {
+    margin-top: 3px;
+    background-color:#0a0a23;
+    color: #fff;
+    border:none;
+    border-radius:10px;
+}
+
+.callButton :hover {
+    color: lightgray;
+    transition: 0.5s;
+}
+
+.dropdownMenu {
+    background-color: lightgray;
+    text-align: center;
+}
+
+.dropdownItem {
+    background-color: lightgray;
+}
+
+.navColor {
+    background-color: #020720;
+}
+
+.custom-shape-divider-bottom-1694511368 {
+    position: absolute;
+    direction: ltr;
+    top: 490px;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1694511368 svg {
+    position: relative;
+    display: block;
+    width: calc(290% + 1.3px);
+    height: 400px;
+    transform: rotateY(180deg);
+}
+
+.custom-shape-divider-bottom-1694511368 .shape-fill {
+    fill: #FFFFFF;
+}
+
+.shoppingPicure {
+    height: 450px;
+    width: 650px;
+    float: left;
+    margin: 50px 0 0 50px;
+    background-image: url('../../pictures/shopping.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+.expressCard {
+    position: absolute;
+    height: 250px;
+    width: 500px;
+    float: right;
+    margin: 110px 70px 0 0;
+    color: #fff;
+}
+
+.expressH1 {
+    font-size: 4em;
+}
+
+.expressParagraph {
+    font-size: 1.3em;
+    margin: 25px 8px 0 0;
+}
+
+.categoryFrame {
+    height: auto;
+    width: 1225px;
+    margin: 20px 117px 20px 0;
+}
+
+.pCategories {
+    margin: 30px 530px 50px 0;
+    color: #020720;
+    font-size: 3em;
+}
+
+.categoryItem {
+    display: inline-block;
+    height: 350px;
+    width: 350px;
+    margin: 20px 10px 20px 10px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.categoryItem:hover {
+    display: inline-block;
+    height: 350px;
+    width: 350px;
+    margin: 20px 10px 20px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 10px 22px 0 rgba(0, 0, 0, 0.2), 0 20px 30px 0 rgba(0, 0, 0, 0.19);
+}
+
+.categoryItem img {
+    height: 70%;
+    width: 100%;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+}
+
+.categoryItem p {
+    text-align: center;
+    color: #020720;
+    font-size: 1.5em;
+    margin-top: 40px;
+}
+
+footer {
+    height: 100px;
+    width: 100%;
+    background-color: #020720;
+    margin-top: 100px;
+}
+
+footer p {
+    text-align: center;
+    color: #fff;
+    font-size: 2em;
+    padding-top: 40px;
+}

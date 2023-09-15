@@ -1,6 +1,7 @@
 const controller = require('../controller')
 const User = require('models/user')
 const persianDate = require('persian-date')
+const Admin = require('models/admin')
 
 module.exports = new class userController extends controller {
 
@@ -55,12 +56,23 @@ module.exports = new class userController extends controller {
         
     }
 
-    async userRegister(req, res, next) {
+    async register(req, res, next) {
         try {
             return res.render('users/register')
         } catch (err) {
             next(err)
         }
+    }
+
+    async login(req, res, next) {
+        // try {
+        //     const email = (req.params.email).trim()
+        //     const password = (req.params.password).trim()
+        //     const admin = await Admin.findOne({ email: email, password: password })  
+        //     console.log(admin)
+        // } catch (err) {
+        //     next(err)
+        // }
     }
 
 }

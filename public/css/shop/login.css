@@ -30,13 +30,23 @@ body {
     margin: 80px 10% 0 0;
 }
 
-.loginPicture {
-    height: 400px;
-    width: 400px;
-    margin: 50px 0 0 30px;
+.register {
+    height: 495px;
+    width: 500px;
+    margin: 1px;
     float: left;
-    background-image: url("../../pictures/login.svg");
-    background-size: cover;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+    background-color: #0a0a23;
+}
+
+.register h3 {
+    margin-top: 170px;
+}
+
+.register p {
+    margin-top: 30px;
 }
 
 .loginForm {
@@ -48,4 +58,8 @@ body {
 
 h2 {
     margin: 20px 0 20px 0;
+}
+
+a {
+    text-decoration: none;
 }

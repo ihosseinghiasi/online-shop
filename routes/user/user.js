@@ -5,7 +5,7 @@ const User = require('models/user')
 const persianDate = require('persian-date')
 
 router.get('/', userController.showAllUsers)
-router.get('/register', userController.userRegister)
+router.get('/register', userController.register)
 router.get('/:id', userController.showOneUser)
 router.post('/register', userController.addNewUser)
 router.put('/:id', userController.updateUser)

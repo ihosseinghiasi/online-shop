@@ -1,0 +1,55 @@
+.sample_farsi_digits {
+    font-feature-settings: "ss01";
+}
+
+@font-face {
+    font-family: VazirmatnPersian;
+    src: url('../../fonts/vazir/misc/Farsi-Digits/fonts/webfonts/Vazirmatn-FD-Medium.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: VazirmatnEngilish;
+    src: url('../../fonts/vazir/fonts/webfonts/Vazirmatn-Medium.woff2');
+}
+
+.enField {
+    font-family: VazirmatnEngilish;
+}
+
+body {
+    font-family: VazirmatnPersian;
+    direction: rtl;
+    font-size: 1em;
+}
+
+.registerForm {
+    height: 500px;
+    width: 80%;
+    border: 2px solid lightgray;
+    border-radius: 15px;
+    margin: 80px 10% 0 0;
+    background-image: url('../../pictures/mobile.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(16px);
+}
+
+.smsForm {
+    position: absolute;
+    height: 200px;
+    width: 400px;
+    background-color: lightgrey;
+    color: gray;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    text-align: center;
+    border: 3px solid gray;
+    border-radius: 25px;
+}
+
+.smsText {
+    width: 300px;
+    margin: 25px 50px 0 0;
+}

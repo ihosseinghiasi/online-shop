@@ -14,11 +14,11 @@
         <div class="register">
             <h3>به اکسپرس کارت خوش آمدید .</h3>
             <p>تا کنون ثبت نام نکرده اید ؟</p>
-            <a href="" class="btn btn-outline-success mt-2" role="button"> ثبت نام </a>
+            <a href="/smsRequest" class="btn btn-outline-success mt-2" role="button"> ثبت نام </a>
         </div>
         <div class="loginForm">
             <h2 class="mt-5">ورود به سایت</h2>
-            <form action="adminLogin" method="POST">
+            <form action="/adminLogin" method="POST">
                 <div class="mb-3 mt-5">
                     <input type="email" class="form-control mt-5"  placeholder="ایمیل" name="email" value="<%= admin.email %>">
                     <input type="password" class="form-control mt-5"  placeholder="کلمه عبور" name="password" value="<%= admin.password %>">

@@ -4,6 +4,8 @@ const persianDate = require('persian-date');
 const Category = require('models/category')
 const Admin = require('models/admin')
 const User = require('models/user')
+const TrezSmsClient = require("trez-sms-client")
+const client = new TrezSmsClient("hosseingh1024", "Hossein1024")
 
 router.get('/', async (req, res, next)=> {
     try {
@@ -73,6 +75,35 @@ router.post('/userLogin', async (req, res, next)=> {
         }else{
             res.redirect('/guest/adminLogin')
         }
+    } catch (err) {
+        next(err)
+    }
+})
+
+router.get('/smsRequest', async (req, res, next)=> {
+    try {
+        res.render('user/smsForm')
+    } catch (err) {
+        next(err)
+    }
+})
+
+router.post('/smsRequest', async (req, res, next)=> {
+    try {
+        client.autoSendCode("09192300017", "اکسپرس کارت (کد تایید) :")
+        .then((messageId) => {
+            console.log("Sent Message ID: " + messageId);
+        })
+    .catch(error => console.log(error));
+        res.redirect('/confirmSms')
+    } catch (err) {
+        next(err)
+    }
+})
+
+router.get('/confirmSms', async (req, res, next)=> {
+    try {
+        res.render('user/confirmSmsForm')
     } catch (err) {
         next(err)
     }

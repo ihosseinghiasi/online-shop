@@ -5,7 +5,7 @@ const Category = require('models/category')
 
 router.use('/user', require('./user/user'))
 router.use('/admin-cPanel', require('./admin/admin-cPanel'))
-router.use('/auth', require('./authentication/authentication'))
+router.use('/authentication', require('./authentication/authentication'))
 
 
 router.use('/', async (req, res, next)=> {

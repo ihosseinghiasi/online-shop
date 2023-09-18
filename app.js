@@ -8,6 +8,7 @@ const {default: mongoose} = require('mongoose')
 const cors = require('cors');
 const { mkdir } = require('mkdirp')
 const multer  = require('multer')
+const passport = require('passport')
 const methodOverride = require('method-override')
 const persianDate = require('persian-date');
 require('dotenv').config()

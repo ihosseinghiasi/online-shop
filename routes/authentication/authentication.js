@@ -9,6 +9,7 @@ router.post('/userLogin', authController.userLogin)
 router.get('/smsRequest', authController.smsRequestForm)
 router.post('/smsRequest', authController.smsRequest)
 router.get('/smsConfirm', authController.smsConfirmForm)
-
+router.post('/smsConfirm', authController.smsConfirm)
+router.get('/personal', authController.personalForm)
 
 module.exports = router

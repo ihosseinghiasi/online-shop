@@ -5,7 +5,8 @@ const persianDate = require('persian-date');
 const Category = require('models/category')
 const Admin = require('models/admin')
 const User = require('models/user')
-const {Smsir} = require('smsir-js')
+const {Smsir} = require('smsir-js');
+const passport = require('passport');
 const smsir = new Smsir("d8oGRzrQn4qishTuyrREWjRLLWpF6RhmJRdBa1216CeTROk7FKzQoFh7drV4mkvh", 30007732903087)
 
 module.exports = new class authController extends controller {
@@ -34,7 +35,7 @@ module.exports = new class authController extends controller {
             if(admin) {
                 res.redirect('/admin-cPanel/counter')
             }else{
-                res.redirect('/guest/adminLogin')
+                res.redirect('/authentication/adminLogin')
             }
         } catch (err) {
             next(err)
@@ -65,7 +66,7 @@ module.exports = new class authController extends controller {
             if(user) {
                 res.redirect('/admin-cPanel/counter')
             }else{
-                res.redirect('/guest/adminLogin')
+                res.redirect('/authentication/userLogin')
             }
         } catch (err) {
             next(err)
@@ -89,8 +90,8 @@ module.exports = new class authController extends controller {
             //       "value": "12345"
             //     }
             //   ])
-
-            res.redirect('/confirmSms')
+            
+            res.redirect('/authentication/smsConfirm')
         } catch (err) {
             next(err)
         }
@@ -98,10 +99,43 @@ module.exports = new class authController extends controller {
 
     async smsConfirmForm(req, res, next) {
         try {
+            const phone = req.body.phone
+            console.log(phone)
+            res.locals = {
+                phone
+            }
+            
             res.render('user/confirmSmsForm')
         } catch (err) {
             next(err)
         }
-}
+    }
+
+    async smsConfirm(req, res, next) {
+        try {
+            res.redirect('/authentication/personal')
+        } catch (err) {
+            next(err)
+        }
+    }
+
+
+    async personalForm(req, res, next) {
+        try {
+            res.render('user/register')
+        } catch (err) {
+            next(err)
+        }
+    }
+
+    async personal(req, res, next) {
+        try {
+            res.render('user/register')
+        } catch (err) {
+            next(err)
+        }
+    }
+
+
 
 }

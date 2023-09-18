@@ -49,7 +49,21 @@ body {
     border-radius: 25px;
 }
 
+.phoneNumber {
+    font-weight: bold;
+}
+
 .smsText {
     width: 300px;
+    font-weight: bold;
     margin: 25px 50px 0 0;
+    text-align: center;
 }
+
+.timer {
+    margin: 5px 260px 0 0;
+    font-size: 1em;
+    font-weight: bold;
+    font-style: italic;
+    color: darkred;
+  }

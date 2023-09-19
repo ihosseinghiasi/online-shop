@@ -7,6 +7,14 @@ const Admin = require('models/admin')
 const User = require('models/user')
 const {Smsir} = require('smsir-js');
 const passport = require('passport');
+const { validationResult } = require('express-validator')
+
+
+if (typeof localStorage === "undefined" || localStorage === null) {
+    var LocalStorage = require('node-localstorage').LocalStorage;
+    localStorage = new LocalStorage('./scratch');
+  }
+
 const smsir = new Smsir("d8oGRzrQn4qishTuyrREWjRLLWpF6RhmJRdBa1216CeTROk7FKzQoFh7drV4mkvh", 30007732903087)
 
 module.exports = new class authController extends controller {
@@ -75,6 +83,11 @@ module.exports = new class authController extends controller {
 
     async smsRequestForm(req, res, next) {
         try {
+
+            res.locals = {
+                errors: req.flash('errors')
+            }
+
             res.render('user/smsForm')
         } catch (err) {
             next(err)
@@ -82,7 +95,17 @@ module.exports = new class authController extends controller {
 }
 
     async smsRequest(req, res, next) {
-        try {
+        try {           
+            const errors = validationResult(req)
+            if(!errors.isEmpty()) {
+                let myErrors = errors.array()
+                req.flash('errors', myErrors)
+                return res.redirect('/authentication/smsRequest')
+            }
+
+            localStorage.clear()
+            const phoneNumber = req.body.phone
+            localStorage.setItem('phoneNumber', phoneNumber)
             const code = Math.floor(100000 + Math.random() * 900000)
             // smsir.SendVerifyCode("09192300017", 100000,  [
             //     {
@@ -90,7 +113,8 @@ module.exports = new class authController extends controller {
             //       "value": "12345"
             //     }
             //   ])
-            
+
+
             res.redirect('/authentication/smsConfirm')
         } catch (err) {
             next(err)
@@ -99,12 +123,10 @@ module.exports = new class authController extends controller {
 
     async smsConfirmForm(req, res, next) {
         try {
-            const phone = req.body.phone
-            console.log(phone)
+            const phoneNumber = localStorage.getItem('phoneNumber')
             res.locals = {
-                phone
+                phoneNumber
             }
-            
             res.render('user/confirmSmsForm')
         } catch (err) {
             next(err)
@@ -113,6 +135,7 @@ module.exports = new class authController extends controller {
 
     async smsConfirm(req, res, next) {
         try {
+            const phoneNumber = localStorage.getItem('phoneNumber')
             res.redirect('/authentication/personal')
         } catch (err) {
             next(err)
@@ -130,7 +153,7 @@ module.exports = new class authController extends controller {
 
     async personal(req, res, next) {
         try {
-            res.render('user/register')
+
         } catch (err) {
             next(err)
         }

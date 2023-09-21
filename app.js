@@ -8,6 +8,7 @@ const {default: mongoose} = require('mongoose')
 const cors = require('cors');
 const { mkdir } = require('mkdirp')
 const multer  = require('multer')
+const MongoStore = require('connect-mongo');
 const passport = require('passport')
 const methodOverride = require('method-override')
 const persianDate = require('persian-date');
@@ -21,10 +22,14 @@ app.use(cors())
 app.use(cookieParser(process.env.SECRETVALUE))
 app.use(flash())
 app.use(session({
-    secret: "process.env.SECRETVALUE",
-    resave: false,
-    saveUninitialized: true
-  }))
+  secret: process.env.SECRETVALUE,
+  store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1:27017/onlineShop',
+  ttl: new Date(Date.now() + 1000 * 3600 * 24 *120),
+}),
+  resave: true,
+  saveUninitialized: true,
+}))
+
 
 app.use('/', require('routes/index'))
 

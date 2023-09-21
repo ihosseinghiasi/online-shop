@@ -14,9 +14,11 @@ router.use('/', async (req, res, next)=> {
             persianDate.toLocale('fa');
             let newDate = new persianDate().format('dddd - DD MMMM YYYY')
             const categories = await Category.find({})
+            const userStatus = "guest"
             res.locals = {
                 newDate,
-                categories
+                categories,
+                userStatus
             }
             res.render('index')
         } catch (err) {

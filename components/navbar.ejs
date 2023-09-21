@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-sm sticky-top navColor">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav me-5">
+          <li class="nav-item mx-2 my-3">
+            <a class="nav-link linkColor" href="/">صفحه اصلی</a>
+          </li>
+          <li class="nav-item dropdown mx-2 my-3" dir="rtl">
+            <a class="nav-link dropdown-toggle linkColor" role="button"
+             data-bs-toggle="dropdown" href="#">دسته بندی ها  </a>
+            <ul class="dropdown-menu dropdownMenu">
+                <% Object.values(categories).forEach((category => { %>
+                        <li><a class="dropdown-item dropdownItem" href="/admin-cPanel/category/<%= category.categoryName %>/<%= category.id %>"> <%= category.title %> </a></li>
+                <% })) %>
+              </ul>
+          </li>
+          <li class="nav-item dropdown mx-2 my-3" dir="rtl">
+            <a class="nav-link dropdown-toggle linkColor" role="button"
+             data-bs-toggle="dropdown" href="#">ناحیه کاربر  </a>
+            <ul class="dropdown-menu dropdownMenu">
+                    <li><a class="dropdown-item dropdownItem" href="/authentication/userLogin"> ناحیه کاربر </a></li>
+                    <li><a class="dropdown-item dropdownItem" href="/authentication/adminLogin"> ناحیه مدیریت </a></li>
+              </ul>
+          </li>   
+        </ul>
+
+        <ul class="navbar-nav me-auto me-5">
+            <li class="nav-item ms-3">
+                <a href="" class="nav-link linkColor">
+                    <img src="/icons/shopping-bag-white.svg" alt="shopping">
+                </a>
+            </li>
+            <li class="nav-item ms-3">
+                <a href="/authentication/smsRequest" class="nav-link linkColor">
+                    <img src="/icons/user1.svg" alt="shopping">
+                </a>
+            </li>
+            <li class="nav-item ms-5">
+                <button class="callButton">
+                    <a href="" class="nav-link linkCallToMe">تماس با ما</a>
+                </button>
+            </li>
+        </ul>
+     </div>
+    </div>
+   </nav>

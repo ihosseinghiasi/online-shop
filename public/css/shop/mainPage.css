@@ -22,11 +22,19 @@ body {
     font-size: 13px;
 }
 
+.container {
+    width: 100%;
+    max-width: 1800px;
+    margin: 0px;
+    padding: 0px;
+    font-size: 1em;
+}
+
 .main {
     position: relative;
-    height: 870px;
+    height: 860px;
     width: 100%;
-    background-color: #020720;
+    background-color: #5e0518;
 }
 
 .mainImage {
@@ -36,50 +44,6 @@ body {
     opacity: 0.05;
 }
 
-.linkColor{
-    font-size: 1.3em;
-    color: white;
-}
-
-.linkColor:hover {
-    color: lightgray;
-    transition: 0.5s;
-}
-
-.linkColor:visited {
-    color: white;
-}
-
-.linkCallToMe{
-    font-size: 1.3em;
-    color: white;
-}
-
-.callButton {
-    margin-top: 3px;
-    background-color:#0a0a23;
-    color: #fff;
-    border:none;
-    border-radius:10px;
-}
-
-.callButton :hover {
-    color: lightgray;
-    transition: 0.5s;
-}
-
-.dropdownMenu {
-    background-color: lightgray;
-    text-align: center;
-}
-
-.dropdownItem {
-    background-color: lightgray;
-}
-
-.navColor {
-    background-color: #020720;
-}
 
 .custom-shape-divider-bottom-1694511368 {
     position: absolute;
@@ -108,12 +72,21 @@ body {
     height: 450px;
     width: 650px;
     float: left;
+    position: relative;
     margin: 50px 0 0 50px;
     background-image: url('../../pictures/shopping.svg');
     background-repeat: no-repeat;
     background-size: cover;
-
+    animation-name: shoppingPicture;
+    animation-duration: 20s;
+    animation-iteration-count: infinite;
 }
+
+@keyframes shoppingPicture {
+    0%   { top:0px;}
+    50%  { top:100px;}
+    100%  { top:0px;}
+  }
 
 .expressCard {
     position: absolute;
@@ -140,7 +113,7 @@ body {
 }
 
 .pCategories {
-    margin: 30px 530px 50px 0;
+    margin: 18px 530px 50px 0;
     color: #020720;
     font-size: 3em;
 }

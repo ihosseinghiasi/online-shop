@@ -1,0 +1,44 @@
+.linkColor{
+    font-size: 1.3em;
+    color: white;
+}
+
+.linkColor:hover {
+    color: lightgray;
+    transition: 0.5s;
+}
+
+.linkColor:visited {
+    color: white;
+}
+
+.linkCallToMe{
+    font-size: 1.3em;
+    color: white;
+}
+
+.callButton {
+    margin-top: 3px;
+    background-color:#0a0a23;
+    color: #fff;
+    border:none;
+    border-radius:10px;
+}
+
+.callButton :hover {
+    color: lightgray;
+    transition: 0.5s;
+}
+
+.dropdownMenu {
+    background-color: lightgray;
+    text-align: center;
+}
+
+.dropdownItem {
+    background-color: lightgray;
+}
+
+.navColor {
+    background-color: #020720;
+}

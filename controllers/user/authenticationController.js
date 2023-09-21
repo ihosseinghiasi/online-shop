@@ -23,7 +23,8 @@ module.exports = new class authController extends controller {
         try {
             const admin = await Admin.findOne({})
             res.locals = {
-                admin
+                admin,
+                errors: req.flash('errors')
             }
             res.render('user/adminLogin')
         } catch (err) {
@@ -33,18 +34,33 @@ module.exports = new class authController extends controller {
 
     async adminLogin(req, res, next) {
         try {
+            const errors = validationResult(req)
+            if(!errors.isEmpty()) {
+                let myErrors = errors.array()
+                req.flash('errors', myErrors)
+                return res.redirect('/authentication/adminLogin')
+            }
+            
             const email = req.body.email
             const password = req.body.password
             const admin = await Admin.findOne({email, password})
-            
-            res.locals = {
-                admin
-            }
-            if(admin) {
-                res.redirect('/admin-cPanel/counter')
-            }else{
-                res.redirect('/authentication/adminLogin')
-            }
+
+            passport.authenticate('local.login', (err, admin)=> {
+                if(!admin) {
+                    return res.redirect('/authentication/adminLogin')
+                } else {
+                    req.logIn(admin, err => {
+                        return res.redirect('/dashboard')
+                    })
+                }
+            })
+
+            // if(admin) {
+            //     res.redirect('/admin-cPanel/counter')
+            // }else{
+            //     res.redirect('/authentication/adminLogin')
+            // }
+
         } catch (err) {
             next(err)
         }
@@ -68,9 +84,6 @@ module.exports = new class authController extends controller {
             const password = req.body.password
             const user = await User.findOne({email, password})
             
-            res.locals = {
-                user
-            }
             if(user) {
                 res.redirect('/admin-cPanel/counter')
             }else{
@@ -153,7 +166,17 @@ module.exports = new class authController extends controller {
 
     async personal(req, res, next) {
         try {
-
+            const errors = validationResult(req)
+            if(!errors.isEmpty()) {
+                let myErrors = errors.array()
+                req.flash('errors', myErrors)
+                return res.redirect('/authentication/personalForm')
+            }
+            passport.authenticate('local.register', {
+                successRedirect: '/dashboard',
+                failureRedirect: '/authentication/smsRequest',
+                failureFlash: true
+            })(req, res, next)
         } catch (err) {
             next(err)
         }

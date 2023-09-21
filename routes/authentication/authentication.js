@@ -1,16 +1,24 @@
 const express  = require('express')
 const router = express.Router()
-const authController = require('controllers/user/authentication')
+const authenticationController = require('controllers/user/authenticationController')
 const mobileValidation = require('validations/mobileValidator')
 
-router.get('/adminLogin', authController.adminLoginForm)
-router.post('/adminLogin', authController.adminLogin)
-router.get('/userLogin', authController.userLoginForm)
-router.post('/userLogin', authController.userLogin)
-router.get('/smsRequest', authController.smsRequestForm)
-router.post('/smsRequest', mobileValidation.mobileHandle(), authController.smsRequest)
-router.get('/smsConfirm', authController.smsConfirmForm)
-router.post('/smsConfirm', authController.smsConfirm)
-router.get('/personal', authController.personalForm)
+router.use((req, res, next)=> {
+    if(true) {
+        return res.redirect('/dashboard')
+    } else {
+        return next()
+    }
+})
+router.get('/adminLogin', authenticationController.adminLoginForm)
+router.post('/adminLogin', authenticationController.adminLogin)
+router.get('/userLogin', authenticationController.userLoginForm)
+router.post('/userLogin', authenticationController.userLogin)
+router.get('/smsRequest', authenticationController.smsRequestForm)
+router.post('/smsRequest', mobileValidation.mobileHandle(), authenticationController.smsRequest)
+router.get('/smsConfirm', authenticationController.smsConfirmForm)
+router.post('/smsConfirm', authenticationController.smsConfirm)
+router.get('/personal', authenticationController.personalForm)
+router.post('/personal', authenticationController.personal)
 
 module.exports = router

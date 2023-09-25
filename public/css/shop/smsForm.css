@@ -31,7 +31,7 @@ body {
     background-image: url('../../pictures/mobile.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    filter: blur(16px);
+    filter: blur(8px);
 }
 
 .smsForm {

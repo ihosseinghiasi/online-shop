@@ -80,15 +80,26 @@ module.exports = new class authController extends controller {
 
     async userLogin(req, res, next) {
         try {
-            const email = req.body.email
-            const password = req.body.password
-            const user = await User.findOne({email, password})
+            // const email = req.body.email
+            // const password = req.body.password
+            // const user = await User.findOne({email, password})
             
-            if(user) {
-                res.redirect('/admin-cPanel/counter')
-            }else{
-                res.redirect('/authentication/userLogin')
-            }
+            // if(user) {
+            //     res.redirect('/admin-cPanel/counter')
+            // }else{
+            //     res.redirect('/authentication/userLogin')
+            // }
+
+            passport.authenticate('local.login', (err, user)=> {
+                if(!user) {
+                    return res.redirect('/authentication/userLogin')
+                } else {
+                    req.logIn(user, err => {
+                        return res.redirect('/dashboard')
+                    })
+                }
+            })
+
         } catch (err) {
             next(err)
         }

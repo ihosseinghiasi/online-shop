@@ -3,11 +3,10 @@ const router = express.Router()
 const dashboardController = require('controllers/user/dashboardController')
 
 router.use((req, res, next)=> {
-    if(true) {
+    if(req.isAuthenticated()) {
         return next()
-    } else {
-        return res.redirect('/')
     }
+    res.redirect('/')
 })
 router.get('/', dashboardController.index)
 router.get('/logout', dashboardController.logout)

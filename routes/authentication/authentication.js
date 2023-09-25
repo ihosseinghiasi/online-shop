@@ -4,11 +4,10 @@ const authenticationController = require('controllers/user/authenticationControl
 const mobileValidation = require('validations/mobileValidator')
 
 router.use((req, res, next)=> {
-    if(true) {
+    if(req.isAuthenticated()) {
         return res.redirect('/dashboard')
-    } else {
-        return next()
     }
+        return next()
 })
 router.get('/adminLogin', authenticationController.adminLoginForm)
 router.post('/adminLogin', authenticationController.adminLogin)

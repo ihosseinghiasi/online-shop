@@ -25,7 +25,8 @@
 
             <li class="nav-item ms-3 mt-1">
               <a href="" class="nav-link linkColor">
-                حسین غیاثی
+                <%= user.firstName %> <%= user.lastName %>
+
               </a>
             </li>
   
@@ -42,7 +43,7 @@
               </a>
               <ul class="dropdown-menu dropdownMenu">
                 <li><a class="dropdown-item dropdownItem" href="/admin-cPanel/counter"> ورود به پنل </a></li>
-                <li><a class="dropdown-item dropdownItem" href="/dashboard/logout"> خروج </a></li>
+                <li><a class="dropdown-item dropdownItem" href="/logout"> خروج </a></li>
               </ul>
             </li>   
 

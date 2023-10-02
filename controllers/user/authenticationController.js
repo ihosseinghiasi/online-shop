@@ -1,6 +1,4 @@
 const controller = require('../controller')
-const express = require('express')
-const router = express.Router()
 const persianDate = require('persian-date');
 const Category = require('models/category')
 const Admin = require('models/admin')
@@ -26,7 +24,7 @@ module.exports = new class authController extends controller {
                 admin,
                 errors: req.flash('errors')
             }
-            res.render('user/adminLogin')
+            res.render('authentication/adminLogin')
         } catch (err) {
             next(err)
         }
@@ -34,12 +32,12 @@ module.exports = new class authController extends controller {
 
     async adminLogin(req, res, next) {
         try {
-            const errors = validationResult(req)
-            if(!errors.isEmpty()) {
-                let myErrors = errors.array()
-                req.flash('errors', myErrors)
-                return res.redirect('/authentication/adminLogin')
-            }
+            // const errors = validationResult(req)
+            // if(!errors.isEmpty()) {
+            //     let myErrors = errors.array()
+            //     req.flash('errors', myErrors)
+            //     return res.redirect('/authentication/adminLogin')
+            // }
             
             const email = req.body.email
             const password = req.body.password
@@ -53,13 +51,15 @@ module.exports = new class authController extends controller {
                         return res.redirect('/dashboard')
                     })
                 }
-            })
+            })(req, res, next)
+
 
             // if(admin) {
             //     res.redirect('/admin-cPanel/counter')
             // }else{
             //     res.redirect('/authentication/adminLogin')
             // }
+            // console.log('adminlogin')
 
         } catch (err) {
             next(err)
@@ -72,7 +72,7 @@ module.exports = new class authController extends controller {
             res.locals = {
                 user
             }
-            res.render('user/userLogin')
+            res.render('authentication/userLogin')
         } catch (err) {
             next(err)
         }
@@ -80,15 +80,16 @@ module.exports = new class authController extends controller {
 
     async userLogin(req, res, next) {
         try {
-            // const email = req.body.email
-            // const password = req.body.password
-            // const user = await User.findOne({email, password})
+            const email = req.body.email
+            const password = req.body.password
+            const user = await User.findOne({email, password})
             
             // if(user) {
             //     res.redirect('/admin-cPanel/counter')
             // }else{
             //     res.redirect('/authentication/userLogin')
             // }
+
 
             passport.authenticate('local.login', (err, user)=> {
                 if(!user) {
@@ -98,7 +99,7 @@ module.exports = new class authController extends controller {
                         return res.redirect('/dashboard')
                     })
                 }
-            })
+            })(req, res, next)
 
         } catch (err) {
             next(err)
@@ -112,7 +113,7 @@ module.exports = new class authController extends controller {
                 errors: req.flash('errors')
             }
 
-            res.render('user/smsForm')
+            res.render('authentication/smsForm')
         } catch (err) {
             next(err)
         }
@@ -120,17 +121,17 @@ module.exports = new class authController extends controller {
 
     async smsRequest(req, res, next) {
         try {           
-            const errors = validationResult(req)
-            if(!errors.isEmpty()) {
-                let myErrors = errors.array()
-                req.flash('errors', myErrors)
-                return res.redirect('/authentication/smsRequest')
-            }
+            // const errors = validationResult(req)
+            // if(!errors.isEmpty()) {
+            //     let myErrors = errors.array()
+            //     req.flash('errors', myErrors)
+            //     return res.redirect('/authentication/smsRequest')
+            // }
 
-            localStorage.clear()
-            const phoneNumber = req.body.phone
-            localStorage.setItem('phoneNumber', phoneNumber)
-            const code = Math.floor(100000 + Math.random() * 900000)
+            // localStorage.clear()
+            // const phoneNumber = req.body.phone
+            // localStorage.setItem('phoneNumber', phoneNumber)
+            // const code = Math.floor(100000 + Math.random() * 900000)
             // smsir.SendVerifyCode("09192300017", 100000,  [
             //     {
             //       "name": "code",
@@ -138,7 +139,7 @@ module.exports = new class authController extends controller {
             //     }
             //   ])
 
-
+            // console.log('smsForm')
             res.redirect('/authentication/smsConfirm')
         } catch (err) {
             next(err)
@@ -151,7 +152,7 @@ module.exports = new class authController extends controller {
             res.locals = {
                 phoneNumber
             }
-            res.render('user/confirmSmsForm')
+            res.render('authentication/confirmSmsForm')
         } catch (err) {
             next(err)
         }
@@ -159,35 +160,38 @@ module.exports = new class authController extends controller {
 
     async smsConfirm(req, res, next) {
         try {
-            const phoneNumber = localStorage.getItem('phoneNumber')
-            res.redirect('/authentication/personal')
+            // const phoneNumber = localStorage.getItem('phoneNumber')
+            // console.log('smsConfirm')
+            res.redirect('/authentication/register')
         } catch (err) {
             next(err)
         }
     }
 
 
-    async personalForm(req, res, next) {
+    async registerForm(req, res, next) {
         try {
-            res.render('user/register')
+            res.render('authentication/register')
         } catch (err) {
             next(err)
         }
     }
 
-    async personal(req, res, next) {
+    async register(req, res, next) {
         try {
-            const errors = validationResult(req)
-            if(!errors.isEmpty()) {
-                let myErrors = errors.array()
-                req.flash('errors', myErrors)
-                return res.redirect('/authentication/personalForm')
-            }
+            // const errors = validationResult(req)
+            // if(!errors.isEmpty()) {
+            //     let myErrors = errors.array()
+            //     req.flash('errors', myErrors)
+            //     return res.redirect('/authentication/personalForm')
+            // }
             passport.authenticate('local.register', {
                 successRedirect: '/dashboard',
                 failureRedirect: '/authentication/smsRequest',
                 failureFlash: true
             })(req, res, next)
+            // console.log('register')
+            // return res.redirect('/')
         } catch (err) {
             next(err)
         }

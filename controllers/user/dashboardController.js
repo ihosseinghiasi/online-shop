@@ -23,7 +23,8 @@ module.exports = new class dashboardController extends controller {
           res.locals = {
               newDate,
               categories,
-              userStatus
+              userStatus,
+              user: req.user
           }
           res.render('index')
         } catch (err) {
@@ -32,12 +33,12 @@ module.exports = new class dashboardController extends controller {
 }
 
     async logout(req, res, next) {
-        try {
-            req.logout()
-            return res.redirect('/')
-        } catch (err) {
-            next(err)
-        }
+        // try {
+        //     req.logout()
+        //     return res.redirect('/')
+        // } catch (err) {
+        //     next(err)
+        // }
 }
 
 //     async userLoginForm(req, res, next) {

@@ -1,0 +1,23 @@
+.sample_farsi_digits {
+    font-feature-settings: "ss01";
+}
+
+@font-face {
+    font-family: VazirmatnPersian;
+    src: url('../../fonts/vazir/misc/Farsi-Digits/fonts/webfonts/Vazirmatn-FD-Medium.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: VazirmatnEngilish;
+    src: url('../../fonts/vazir/fonts/webfonts/Vazirmatn-Medium.woff2');
+}
+
+.smsAlert {
+    position: absolute;
+    float: right;
+    width: 100%;
+    top: 50px;
+    right: 20px;
+    transform: translate(70px, -60px);
+    z-index: 10;
+}

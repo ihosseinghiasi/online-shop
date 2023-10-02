@@ -18,7 +18,7 @@ passport.use('local.register', new LocalStrategy(
         usernameField: 'email',
         passwordField: 'password',
         passReqToCallback: true
-    }, async (req, res, passport, done)=> {
+    }, async (req, email, passport, done)=> {
         try{
         const user = await User.findOne({email: req.body.email})
         if(user) {
@@ -29,8 +29,7 @@ passport.use('local.register', new LocalStrategy(
             lastName: req.body.lastName,
             email: req.body.email,
             password: req.body.password,
-            phone: req.body.phone,
-            password: bcrypt.hashSync(req.body.password, 13),
+            phone: "09122300017",
         })
         await newUser.save()
         done(null, newUser)
@@ -50,7 +49,7 @@ passport.use('local.register', new LocalStrategy(
     }, async (req, email, password, done)=> {
         try {
             const user = await User.findOne({email: req.body.email})
-            if(!user || !bcrypt.compareSync(req.body.password, user.password)) {
+            if(!user || user.password != req.body.password) {
                 return done(error, false, req.flash('errors', 'اطلاعات ورودی هماهنگی ندارد'))
             } else {
             done(null, user)    

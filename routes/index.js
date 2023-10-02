@@ -7,6 +7,22 @@ router.use('/user', require('./user/user'))
 router.use('/admin-cPanel', require('./admin/admin-cPanel'))
 router.use('/authentication', require('./authentication/authentication'))
 router.use('/dashboard', require('./dashboard/dashboard'))
+router.get('/logout', (req, res, next)=> {
+    req.logout((err)=>{
+        if(err) { 
+            return next(err)
+         }
+
+        res.redirect('/')
+    })
+})
+
+router.use((req, res, next)=> {
+    if(req.isAuthenticated()){
+        return res.redirect('/dashboard')
+    }
+    return next()
+})
 
 
 router.use('/', async (req, res, next)=> {

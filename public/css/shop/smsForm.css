@@ -49,15 +49,6 @@ body {
     border-radius: 25px;
 }
 
-.smsAlert {
-    position: absolute;
-    float: right;
-    top: 10%;
-    right: 5%;
-    transform: translate(10%, -40%);
-    z-index: 1;
-}
-
 .phoneNumber {
     font-weight: bold;
 }

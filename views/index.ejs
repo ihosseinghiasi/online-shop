@@ -13,9 +13,9 @@
 <body>
   <div class="container">
         <%if (userStatus === "user") { %>
-            <%- include('../components/dashboardNavbar') %>
+            <%- include('./components/dashboardNavbar') -%>
         <% } else { %>
-            <%- include('../components/navbar') %>
+            <%- include('./components/navbar') -%>
         <% } %>
       <div class="main">
         <img src="/pictures/shopping01.jpg" class="mainImage" alt="mainImage">

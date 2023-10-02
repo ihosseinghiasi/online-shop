@@ -265,24 +265,15 @@
                        <p><%= persianDate %></p>
                     </div>
                 </div>
-
-                <% if(locals.errors) { %>
-                    <div class="col-5 mx-5 mt-3">
-                        <% Object.values(errors).forEach((error) =>{ %>
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                <%= error.msg %>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        <% }) %>
-                    </div>
-                    <% } %> 
-
+                
+                
                 <div class="addAdmin col-11 my-5 mx-5">
+                    <%- include('../components/validationError') -%>
                     <div class="addtitle my-3 mx-2 col-8">
                         <img src="/icons/plus-square-black.svg"  alt="افزودن مدیر ">
                         افزودن مدیر
                     </div>
-               
+                    
                     <div class="addBody col-8 mx-5">
                         <form action="/admin-cPanel/admin/newAdmin" method="post">
                             <div class="row g-2" >

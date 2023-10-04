@@ -108,11 +108,6 @@ a{
     cursor: pointer;
 }
 
-.selectedMenu {
-    background-color: rgba(4, 37, 36, 0.986);
-    border-radius: 5px;
-}
-
 .sideMenu .picureLogo {
     height: 150px;
     width: 100%;

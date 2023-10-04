@@ -9,15 +9,19 @@
 
 .addBody {
     position: absolute;
+    height: auto;
     margin-top: 80px;
+}
 
+.userForm {
+    margin: 5px 240px 5px 0;
 }
 
 .passwordEye {
     position: absolute;
     font-size: 1.3em;
-    top: 237px;
-    right: 340px;
+    top: 240px;
+    right: 587px;
     cursor: pointer;
     color: gray;
 }
@@ -25,8 +29,8 @@
 .confirmPasswordEye {
     position: absolute;
     font-size: 1.3em;
-    top: 292px;
-    right: 340px;
+    top: 295px;
+    right: 587px;
     cursor: pointer;
     color: gray;
 }

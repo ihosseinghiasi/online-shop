@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const cookieSession = require('cookie-session')
 const { checkSchema, validationResult } = require('express-validator')
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser')
@@ -8,7 +9,7 @@ const {default: mongoose} = require('mongoose')
 const cors = require('cors');
 const { mkdir } = require('mkdirp')
 const multer  = require('multer')
-const MongoStore = require('connect-mongo');
+const MongoStore = require('connect-mongo')
 const passport = require('passport')
 const methodOverride = require('method-override')
 const persianDate = require('persian-date');
@@ -24,21 +25,22 @@ app.use(cors())
 app.use(cookieParser(process.env.SECRETVALUE))
 app.use(session({
   secret: process.env.SECRETVALUE,
-  store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1:27017/onlineShop',
-  ttl: new Date(Date.now() + 1000 * 3600 * 24 *120),
-}),
-resave: true,
-saveUninitialized: true,
+  store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1:27017/onlineShop'}),
+  ttl: new Date(Date.now() + 1000 * 3600 * 24),
+  cookie: {maxAge: 16000000},
+  resave: false,
+  saveUninitialized: true,
 }))
+
 app.use(flash())
 require('./passport/passport-local')
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.use((req, res, next)=> {
-  res.locals = {req}
-  next()
-})
+// app.use((req, res, next)=> {
+//   res.locals = {req}
+//   next()
+// })
 
 
 app.use('/', require('routes/index'))

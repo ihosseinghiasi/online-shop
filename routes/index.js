@@ -3,7 +3,7 @@ const router = express.Router()
 const persianDate = require('persian-date')
 const Category = require('models/category')
 
-router.use('/user', require('./user/user'))
+router.use('/user-cPanel', require('./user/user-cPanel'))
 router.use('/admin-cPanel', require('./admin/admin-cPanel'))
 router.use('/authentication', require('./authentication/authentication'))
 router.use('/dashboard', require('./dashboard/dashboard'))

@@ -1,6 +1,6 @@
 const express  = require('express')
 const router = express.Router()
-const authenticationController = require('controllers/user/authenticationController')
+const authenticationController = require('controllers/authentication/authenticationController')
 const mobileValidation = require('validations/mobileValidator')
 
 router.use((req, res, next)=> {

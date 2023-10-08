@@ -15,17 +15,17 @@ module.exports = new class profileController extends controller {
                 persianDate,
                 user
             } 
-            res.render('user/profile')            
+            return res.render('user/profile')            
         } catch (err) {
             next(err)
             }        
     }
 
-            async updateUser(req, res, next) {
+            async updateProfile(req, res, next) {
             try {
                 const id = (req.params.id).trim()
                 const user = await User.updateOne({ _id: id }, { $set: req.body })
-                res.redirect('/user-cPanel/user/showUsers')
+                res.redirect('/user-cPanel/user/profile')
             } catch (err) {
                 next(err)
             }

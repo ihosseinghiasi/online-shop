@@ -1,0 +1,145 @@
+.sample_farsi_digits {
+    font-feature-settings: "ss01";
+}
+
+@font-face {
+    font-family: VazirmatnPersian;
+    src: url('../../fonts/vazir/misc/Farsi-Digits/fonts/webfonts/Vazirmatn-FD-Medium.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: VazirmatnEngilish;
+    src: url('../../fonts/vazir/fonts/webfonts/Vazirmatn-Medium.woff2');
+}
+
+.enField {
+    font-family: VazirmatnEngilish;
+}
+
+* {box-sizing: border-box;}
+
+.accordion {
+  cursor: pointer;
+}
+
+.accordion-panel {
+  overflow: hidden;
+  max-height: 0;
+  background-color:rgba(107, 8, 29, 0.986);
+  transition: max-height 0.2s ease-out;
+}
+
+body {
+    direction: rtl;
+    margin: 0px;
+    font-size: 13px;
+    font-family: VazirmatnPersian;
+}
+
+a{
+    color: white;
+}
+
+.container {
+    width: 100%;
+    max-width: 1800px;
+    margin: 0px auto;
+    font-size: 1em;
+}
+
+
+.imageSize {
+    width: 60px;
+    height: 60px;
+}
+
+.navbarPanel {
+    direction: ltr;
+    height: 80px;
+    box-shadow: 5px 5px 20px lightgray;
+}
+
+.navbarItems {
+    margin-left: 40px;
+    float: left;
+    height: 100%;
+    padding-right: 30px ;
+}
+
+.iconSize {
+    height: 30px;
+    width: 30px;
+}
+
+.title {
+    float: right;
+    margin: 0 590px 0 0;
+}
+
+.sideMenu {
+    display: inline-block;
+    background-color: rgb(7, 7, 15);
+}
+
+.sideMenu .items {
+    height: 50px;
+    width: 100%;
+    border: 0.5px solid gray;
+    display: inline-block;
+}
+
+.sideMenu .items:hover {
+    background-color: rgba(24, 1, 3, 0.986);
+    border-radius: 5px;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.sideMenu .subItems {
+    height: 50px;
+    width: 100%;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.sideMenu .subItems:hover {
+    background-color:rgb(61, 5, 6);
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.sideMenu .picureLogo {
+    height: 150px;
+    width: 100%;
+    border-bottom: 1px solid gray;
+    background-color:rgb(0, 0, 8);
+}
+
+.profileLogo {
+    height: 140px;
+    width: 140px;
+    margin: 5px 25px;
+}
+
+.counter {
+    position: relative;;
+    height: 70px;
+    margin: 30px 0px 0px 0px;
+    font-size: 1.1em;
+    box-shadow: 1px 1px 70px lightgray;
+}
+
+.titleCounter {
+    position: absolute;
+    margin: 25px 30px 0 0;
+    height: 50%;
+    width: 300px;
+    float: right;
+}
+
+.parsianDate {
+    height: 50%;
+    width: 180px;
+    float: left;
+    margin: 25px 0 0 0;
+}

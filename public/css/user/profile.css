@@ -1,0 +1,36 @@
+.addAdmin {
+    height: 500px;
+    box-shadow: 1px 1px 70px lightgray;
+}
+
+.addtitle {
+    position: absolute;
+}
+
+.addBody {
+    position: absolute;
+    height: auto;
+    margin-top: 80px;
+}
+
+.userForm {
+    margin: 5px 240px 5px 0;
+}
+
+.passwordEye {
+    position: absolute;
+    font-size: 1.3em;
+    top: 240px;
+    right: 587px;
+    cursor: pointer;
+    color: gray;
+}
+
+.confirmPasswordEye {
+    position: absolute;
+    font-size: 1.3em;
+    top: 295px;
+    right: 587px;
+    cursor: pointer;
+    color: gray;
+}

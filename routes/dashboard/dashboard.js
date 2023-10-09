@@ -6,16 +6,9 @@ router.use((req, res, next)=> {
     if(req.isAuthenticated()){
         return next()
     }
-    res.redirect('/')
+    return res.redirect('/')
 })
 
-// router.use((req, res, next)=> {
-//     if(req.isAuthenticated()) {
-//         return next()
-//     }
-//     res.redirect('/')
-// })
 router.get('/', dashboardController.index)
-// router.get('/logout', dashboardController.logout)
 
 module.exports = router

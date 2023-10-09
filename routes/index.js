@@ -3,7 +3,24 @@ const router = express.Router()
 const persianDate = require('persian-date')
 const Category = require('models/category')
 
-router.use('/user-cPanel', require('./user/user-cPanel'))
+router.get('/', async (req, res, next)=> {
+try {   
+    if(req.isUnauthenticated()){    
+    const categories = await Category.find({})
+    const userStatus = "guest"
+    res.locals = {
+        categories,
+        userStatus
+    }
+    return res.render('index')
+}
+  return res.redirect('/dashboard')
+} catch (err) {
+    next(err)
+}
+})
+
+router.use('/user-cPanel', require('./user/user-cPanel')) 
 router.use('/admin-cPanel', require('./admin/admin-cPanel'))
 router.use('/authentication', require('./authentication/authentication'))
 router.use('/dashboard', require('./dashboard/dashboard'))
@@ -17,30 +34,31 @@ router.get('/logout', (req, res, next)=> {
     })
 })
 
-router.use((req, res, next)=> {
-    if(req.isAuthenticated()){
-        return res.redirect('/dashboard')
+router.all('*', (req, res, next)=> {
+    try {
+        let err = new Error('چنین صفحه ای یافت نشد ...!')
+        err.status = 404
+        throw err     
+    } catch (err) {
+        next(err)
     }
-    return next()
 })
 
+router.use((err, req, res, next)=> {
+    const code = err.status || 500
+    const message = err.message || ""
+    const stack = err.stack || ""
 
-router.use('/', async (req, res, next)=> {
-        try {
-            persianDate.toLocale('fa');
-            let newDate = new persianDate().format('dddd - DD MMMM YYYY')
-            const categories = await Category.find({})
-            const userStatus = "guest"
-            res.locals = {
-                newDate,
-                categories,
-                userStatus
-            }
-            res.render('index')
-        } catch (err) {
-            next(err)
-        }
-    })
-    
+    res.locals = {
+        code,
+        message,
+        stack
+    }
 
+    if(process.env.DEBUG === "true") {
+        return res.render('errors/developer')
+    } else {
+        return res.render(`errors/${code}`)
+    }
+})
 module.exports = router

@@ -37,7 +37,6 @@ require('./passport/passport-local')
 app.use(passport.initialize())
 app.use(passport.session())
 
-
 app.use('/', require('routes/index'))
 
 app.listen(process.env.PORT, () => {

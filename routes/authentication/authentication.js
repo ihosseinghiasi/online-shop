@@ -10,12 +10,6 @@ router.use((req, res, next)=> {
     return next()
 })
 
-// router.use((req, res, next)=> {
-//     if(req.isAuthenticated()) {
-//         return res.redirect('/dashboard')
-//     }
-//         return next()
-// })
 router.get('/adminLogin', authenticationController.adminLoginForm)
 router.post('/adminLogin', authenticationController.adminLogin)
 router.get('/userLogin', authenticationController.userLoginForm)

@@ -1,0 +1,51 @@
+.sample_farsi_digits {
+    font-feature-settings: "ss01";
+}
+
+@font-face {
+    font-family: VazirmatnPersian;
+    src: url('../../fonts/vazir/misc/Farsi-Digits/fonts/webfonts/Vazirmatn-FD-Medium.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: VazirmatnEngilish;
+    src: url('../../fonts/vazir/fonts/webfonts/Vazirmatn-Medium.woff2');
+}
+
+.enField {
+    font-family: VazirmatnEngilish;
+}
+
+body {
+    direction: rtl;
+    margin: 0px;
+    font-size: 13px;
+    font-family: VazirmatnPersian;
+    text-align: center;
+}
+h1 {
+    margin-top: 150px;
+    font-size: 3em;
+    color: #680202;
+}
+
+.custom-shape-divider-bottom-1696810400 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1696810400 svg {
+    position: relative;
+    display: block;
+    width: calc(143% + 1.3px);
+    height: 312px;
+}
+
+.custom-shape-divider-bottom-1696810400 .shape-fill {
+    fill: #680202;
+}

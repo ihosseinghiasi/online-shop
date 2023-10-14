@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const persianDate = require('persian-date')
 const Category = require('models/category')
+const homeController = require('controllers/home/homeController')
 
 router.get('/', async (req, res, next)=> {
 try {   
@@ -33,6 +34,8 @@ router.get('/logout', (req, res, next)=> {
         res.redirect('/')
     })
 })
+
+router.get('/payCallback', homeController.payCallback )
 
 router.all('*', (req, res, next)=> {
     try {

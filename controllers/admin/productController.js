@@ -192,9 +192,21 @@ module.exports = new class productController extends controller {
             const id = (req.params.id).trim()
             const product = await Product.findOne({ _id: id })
             const categories = await Category.find({})
+            const tax = (product.price * 9) / 100
+            const payment = product.price + tax
+            const count = product.count
+            let userStatus = "quest"
+            if(req.isAuthenticated()) {
+                userStatus = "user"
+            }
             res.locals = {
                 product, 
-                categories
+                categories,
+                userStatus,
+                user: req.user,
+                tax,
+                payment,
+                count: 10
             }
             res.render('shop/product')
         } catch (err) {

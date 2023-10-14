@@ -3,14 +3,10 @@ const express = require('express')
 const router = express.Router()
 const persianDate = require('persian-date');
 const Category = require('models/category')
+const Payment = require('models/payment')
 const passport = require('passport');
 const { validationResult } = require('express-validator')
-
-
-if (typeof localStorage === "undefined" || localStorage === null) {
-    var LocalStorage = require('node-localstorage').LocalStorage;
-    localStorage = new LocalStorage('./scratch');
-  }
+const axios = require('axios')
 
 module.exports = new class dashboardController extends controller {
 
@@ -32,13 +28,39 @@ module.exports = new class dashboardController extends controller {
         }
 }
 
-    async logout(req, res, next) {
-        // try {
-        //     req.logout()
-        //     return res.redirect('/')
-        // } catch (err) {
-        //     next(err)
-        // }
+    async pay(req, res, next) {
+        try {
+            let totalPrice = req.body.totalPrice.replace('تومان','')
+            totalPrice = totalPrice.trim() * 10
+            let price = req.body.price.replace('تومان','')
+            price = price.trim()
+
+            let params = {
+                merchant_id: "6cded376-3063-11e9-a98e-005056a205be",
+                amount: totalPrice,
+                callback_url: "http://localhost:3000/payCallback",
+                description: "خرید محصول" 
+            }
+
+            const response = await axios.post("https://api.zarinpal.com/pg/v4/payment/request.json", params)
+            console.log(response.data)
+
+            if(response.data.data.code == 100) {
+                const newPayment = new Payment({
+                    user: req.user.id,
+                    count: req.body.count,
+                    price,
+                    totalPrice,
+                    resnumber: response.data.data.authority, 
+                }) 
+                await newPayment.save()
+                res.redirect(`https://www.zarinpal.com/pg/StartPay/${response.data.data.authority}`)
+            } else {
+                return res.redirect('/dashboard')
+            }
+        } catch (err) {
+            next(err)
+        }
 }
 
 //     async userLoginForm(req, res, next) {

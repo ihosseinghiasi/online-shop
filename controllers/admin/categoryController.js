@@ -127,10 +127,16 @@ module.exports = new class categoryController extends controller {
             const category = await Category.findOne({ _id: id })
             const products = await Product.find({ categoryTitle: category.title })
             const categories = await Category.find({})
+            let userStatus = "quest" 
+            if(req.isAuthenticated()) {
+                userStatus = "user"
+            }
             res.locals = {
                 products,
                 category,
-                categories
+                categories,
+                userStatus,
+                user: req.user
             }
             res.render('shop/category')
         } catch (err) {

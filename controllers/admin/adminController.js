@@ -2,7 +2,8 @@ const controller = require('../controller')
 let persianDate = require('date/persianDate')
 const Admin = require('models/admin')
 const { model } = require('mongoose')
-const admin = require('../../models/admin')
+const admin = require('models/admin')
+const bcrypt = require('bcryptjs')
 const { validationResult } = require('express-validator')
 
 
@@ -25,7 +26,7 @@ module.exports = new class adminController extends controller {
                 email: req.body.email,
                 password: req.body.password,
                 department: req.body.department,
-                isPassword: req.body.password,
+                isPassword: bcrypt.hashSync(req.body.password, 10),
                 isAdmin: req.body.isAdmin,
                 isProduct: req.body.isProduct,
                 isOrder: req.body.isOrder,
@@ -96,7 +97,7 @@ module.exports = new class adminController extends controller {
             const myadmin = {
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
-                password: req.body.password,
+                password: bcrypt.hashSync(req.body.password, 10),
                 email: req.body.email,
                 department: req.body.department,
                 isAdmin: "off",

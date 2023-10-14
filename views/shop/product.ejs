@@ -9,81 +9,105 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="https://cdn.tiny.cloud/1/80x3erofelj42tetslrvjmzbgw88p0b4e1ry5ipmkcc4ycfs/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <link rel="stylesheet" href="/css/shop/productPage.css">
+    <title>سبد خرید</title>
 </head>
 <body>
     <div class="container">
-        <nav class="navbar navbar-expand-sm sticky-top navColor">
-            <div class="container-fluid">
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="collapsibleNavbar">
-                <ul class="navbar-nav me-5">
-                  <li class="nav-item mx-2 my-3">
-                    <a class="nav-link linkColor" href="/">صفحه اصلی</a>
-                  </li>
-                  <li class="nav-item dropdown mx-2 my-3" dir="rtl">
-                    <a class="nav-link dropdown-toggle linkColor" role="button"
-                     data-bs-toggle="dropdown" href="#">دسته بندی ها  </a>
-                    <ul class="dropdown-menu dropdownMenu">
-                        <% Object.values(categories).forEach((category => { %>
-                                <li><a class="dropdown-item dropdownItem" href="/admin-cPanel/category/<%= category.categoryName %>/<%= category.id %>"> <%= category.title %> </a></li>
-                        <% })) %>
-                      </ul>
-                  </li>
-                  <li class="nav-item dropdown mx-2 my-3" dir="rtl">
-                    <a class="nav-link dropdown-toggle linkColor" role="button"
-                     data-bs-toggle="dropdown" href="#">ناحیه کاربر  </a>
-                    <ul class="dropdown-menu dropdownMenu">
-                            <li><a class="dropdown-item dropdownItem" href="#"> ناحیه کاربر </a></li>
-                            <li><a class="dropdown-item dropdownItem" href="#"> ناحیه مدیریت </a></li>
-                      </ul>
-                  </li>   
-                </ul>
-    
-                <ul class="navbar-nav me-auto me-5">
-                    <li class="nav-item ms-3">
-                        <a href="" class="nav-link linkColor">
-                            <img src="/icons/shopping-bag-white.svg" alt="shopping">
-                        </a>
-                    </li>
-                    <li class="nav-item ms-3">
-                        <a href="" class="nav-link linkColor">
-                            <img src="/icons/user1.svg" alt="shopping">
-                        </a>
-                    </li>
-                    <li class="nav-item ms-5">
-                        <button class="callButton">
-                            <a href="" class="nav-link linkCallToMe">تماس با ما</a>
-                        </button>
-                    </li>
-                </ul>
-             </div>
-            </div>
-           </nav>
+        <%if (userStatus === "user") { %>
+            <%- include('../components/dashboardNavbar') -%>
+        <% } else { %>
+            <%- include('../components/navbar') -%>
+        <% } %>
         <div class="imageFrame">
             <img src="/pictures/digitalMarketing.jpg" class="mainImage" alt="imageFrame">
             <div class="titleFrame">
                 <h1>سبد خرید</h1>
             </div>
-            <div class="description" id="description">
+        </div> 
+            <div class="row col-12">
+                <div class="col-7 buyDetails mb-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+                          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                        </symbol>
+                        <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                          <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                        </symbol>
+                        <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+                          <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                        </symbol>
+                      </svg>
+                      
+                        <div class="alert alert-success d-flex align-items-center mt-4" id="alert" role="alert">
+                            <svg class="bi flex-shrink-0 me-2 ps-1" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/>  </svg>
+                            <div>
+                                <strong> <%= product.title %> </strong> به سبد خرید اضافه شد .  
+                            </div>
+                        </div>
+                  
+                        <form action="/dashboard/pay" method="POST">
+                        <h3 class="mt-4 me-2">سبد خرید شما</h3>
+                        <h4 class="mt-5 me-2">اطلاعات</h4>
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="align-middle">تعداد</td>
+                                    <td class="leftAlign">
+                                        <select class="form-select form-select float-start select ms-2" name="count" id="count" aria-label=".form-select example">
+                                            <% for(let i=1; i<= count; i++) { %>
+                                               <option> <%= i %> </option> 
+                                            <% } %>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="align-middle">قیمت</td>
+                                    <td class="leftAlign align-middle"> <input type="text" class="form-control noBorder" id="price" name="price" value="<%= product.price %> تومان "></td>
+                                </tr>
+                                <tr>
+                                    <td class="align-middle"> مالیات </td>
+                                    <td class="leftAlign align-middle"> <input type="text" class="form-control noBorder" id="tax" name="tax" value="<%= tax %> تومان "></td>
+                                </tr>
+                                <tr>
+                                    <td class="align-middle"> مبلغ قابل پرداخت </td>
+                                    <td class="leftAlign align-middle"> <strong><input type="text" class="form-control noBorder" name="totalPrice" id="totalPrice" value="<%= payment %> تومان "></strong> </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-3 payment">
+                        <div class="refresh">
+                            <a href="/" class="btn btn-info mt-5">بازگشت به فروشگاه</a>
+                            <br>
+                            <a role="button" class="btn btn-danger mt-3" onclick="refreshPage()">بروز رسانی سبد خرید</a>
+                        </div>
+                        <script>
+                            function refreshPage() {
+                                const countElement = document.getElementById('count')
+                                const count = parseInt(countElement.options[countElement.selectedIndex].text)
+                                const price = parseInt("<%= product.price %>")
+                                const tax = parseInt("<%= tax %>")
+                                let totalPrice = 0
+                                totalPrice = (price + tax) * count
+                                document.getElementById('totalPrice').value = totalPrice + ' تومان '
+                            }
+                        </script>
+                    <div class="pay mb-5 pb-5">
+                        <h4 class="pt-4 pb-2 pe-4"> پرداخت صورتحساب </h4>
+                        <hr>
+                        <h5 for="zarinPal" class="pt-2 pe-4">درگاه پرداخت</h5>
+                        <p id="zarinPal" class="pt-1 pe-4 zarinColor">زرین پال</p>
+                        <button type="submit" class="btn btn-success mt-4 w-75 submit"> پرداخت </button>
+                    </div>
+                </form>
+                </div>
             </div>
-            <button class="btn btn-danger">dhgfjgsjfg</button>
-        </div>    
     </div>
 </body>
-
-
-<script>
-    window.addEventListener("load", (event) => {
-        let description = `<%= String(product.description) %>`
-        $('#description').html(
-  // create an element where the html content as the string
-  $('<div/>', {
-    html: description
-  // get text content from element for decoded text  
-  }).text()
-)
-    })
-</script>
-

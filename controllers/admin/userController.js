@@ -2,6 +2,7 @@ const controller = require('../controller')
 const User = require('models/user')
 const persianDate = require('date/persianDate')
 const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs')
 const { validationResult } = require('express-validator')
 
 module.exports = new class userController extends controller {
@@ -42,7 +43,7 @@ module.exports = new class userController extends controller {
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 email: req.body.email,
-                password: req.body.password,
+                password: bcrypt.hashSync(req.body.password, 10),
                 phone: req.body.phone,
             })
             await newUser.save()

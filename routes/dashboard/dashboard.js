@@ -10,5 +10,5 @@ router.use((req, res, next)=> {
 })
 
 router.get('/', dashboardController.index)
-
+router.post('/pay', dashboardController.pay)
 module.exports = router

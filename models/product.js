@@ -12,7 +12,7 @@ const productSchema = new Schema({
     accessible: {type: String},
     fields: {},
     image: {type: String},
-    counter: {type: Number, default: 0},
+    count: {type: Number, default: 0}, // Number Of Projects
     categoryTitle: {type: String},
     category: {type: Schema.Types.ObjectId, ref: 'Category'}
 })

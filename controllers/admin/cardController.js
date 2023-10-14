@@ -62,6 +62,11 @@ module.exports = new class cardController extends controller {
         })  
             await newCard.save()
 
+            const count = await Product.findOne({title: productSelected}).select('count')
+            let updateCount = count.count
+            updateCount++
+            const productCountUpdate = await Product.updateOne({ title: productSelected }, {$set : { count: updateCount }})
+            
         return res.redirect('/admin-cPanel/card/showCards')
 
         } catch (err) {
@@ -186,6 +191,13 @@ module.exports = new class cardController extends controller {
                 persianDate,
            }
             const id = (req.params.id).trim()
+            const oneCard = await Card.findOne({ _id: id })
+            const productSelected = oneCard.cardProduct
+            const count = await Product.findOne({title: productSelected}).select('count')
+            let updateCount = count.count
+            updateCount--
+            const productCountUpdate = await Product.updateOne({ title: productSelected }, {$set : { count: updateCount }})
+
             const card = await Card.deleteOne({ _id: id })
             return res.redirect('/admin-cPanel/card/showCards')
         } catch (err) {

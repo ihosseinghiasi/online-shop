@@ -1,0 +1,51 @@
+.addAdmin {
+    height: 750px;
+    box-shadow: 1px 1px 70px lightgray;
+}
+
+.addtitle {
+    position: absolute;
+}
+
+.addBody {
+    position: absolute;
+    height: auto;
+    margin-top: 80px;
+}
+
+.userForm {
+    margin: 5px 240px 5px 0;
+}
+
+.passwordEye {
+    position: absolute;
+    font-size: 1.3em;
+    top: 240px;
+    right: 587px;
+    cursor: pointer;
+    color: gray;
+}
+
+.confirmPasswordEye {
+    position: absolute;
+    font-size: 1.3em;
+    top: 295px;
+    right: 587px;
+    cursor: pointer;
+    color: gray;
+}
+
+.userTicket {
+    height: 200px;
+    width: 300px;
+    background-color: lightseagreen;
+    border-radius: 25px;
+}
+
+.headerTicket {
+    height: 35px;
+    width: 100%;
+    background-color: lightcoral;
+    border-top-right-radius: 25px;
+    border-top-left-radius: 25px;
+}

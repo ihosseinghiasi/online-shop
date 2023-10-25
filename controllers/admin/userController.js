@@ -34,7 +34,7 @@ module.exports = new class userController extends controller {
 
     async addNewUser(req, res, next) {
            try {
-                let errors = validationResult(req)
+                const errors = validationResult(req)
             if (!errors.isEmpty()) {
                 req.flash('errors', errors.array())
                 return res.redirect('/admin-cPanel/user/newUser')
@@ -56,7 +56,14 @@ module.exports = new class userController extends controller {
             async updateUser(req, res, next) {
             try {
                 const id = (req.params.id).trim()
-                let user = await User.updateOne({ _id: id }, { $set: req.body })
+                const params = {
+                    firstName: req.body.firstName,
+                    lastName: req.body.lastName,
+                    email: req.body.email,
+                    password: bcrypt.hashSync(req.body.password, 10),
+                    phone: req.body.phone,
+                }
+                const user = await User.updateOne({ _id: id }, { $set: params })
                 res.redirect('/admin-cPanel/user/showUsers')
             } catch (err) {
                 next(err)
@@ -66,7 +73,7 @@ module.exports = new class userController extends controller {
             async deleteUser(req, res, next) {
                 try {
                     const id = (req.params.id).trim()
-                    let user = await User.deleteOne({ _id: id })
+                    const user = await User.deleteOne({ _id: id })
                     res.redirect('/admin-cPanel/user/showUsers')
                 } catch (err) {
                     next(err)

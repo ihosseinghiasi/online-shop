@@ -5,6 +5,7 @@ const Admin = require('models/admin')
 const User = require('models/user')
 const {Smsir} = require('smsir-js');
 const passport = require('passport');
+const bcrypt = require('bcryptjs')
 const { validationResult } = require('express-validator')
 
 
@@ -83,12 +84,6 @@ module.exports = new class authController extends controller {
             const email = req.body.email
             const password = req.body.password
             const user = await User.findOne({email, password})
-            
-            // if(user) {
-            //     res.redirect('/admin-cPanel/counter')
-            // }else{
-            //     res.redirect('/authentication/userLogin')
-            // }
 
 
             passport.authenticate('local.login', (err, user)=> {

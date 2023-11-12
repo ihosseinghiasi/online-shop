@@ -71,14 +71,22 @@
                     </div>
                
                     <div class="addBody col-8 mx-5">
-                        <div class="userTicket">
-                            <div class="headerTicket">
-                                <div class="mt-2 me-3 position-absolute">
-                                    <p> شما در تاریخ <%= ticket.date %> گفتید : </p>
+                        <% Object.values(ticketText).forEach(tickets => { %>
+                            <div class="userTicket mt-2 <%= tickets.sender %>">
+                                <div class="headerTicket">
+                                    <div class="mt-2 me-3 position-absolute">
+                                        <% if (tickets.sender === "شما") { %>
+                                            <p> <%= tickets.sender %> در تاریخ <%= tickets.date %> گفتید : </p>
+                                        <% } else { %>
+                                            <p> <%= tickets.sender %> در تاریخ <%= tickets.date %> گفت : </p>
+                                        <% } %> 
+                                    </div>
+                                    <div class="ticket mt-5 me-3 position-absolute" id="ticket"> 
+                                         <%= tickets.text %>
+                                    </div>
                                 </div>
-                                <div class="ticket mt-5 me-3 position-absolute" id="ticket"></div>
                             </div>
-                        </div>
+                        <% }) %>
                     </div>
                 </div>
 
@@ -96,7 +104,7 @@
                             <div class="row mt-3">
                                 <div>
                                     <div class="form-group mt-3">
-                                        <textarea name="" id="editor" class="form-control" cols="30" rows="10"></textarea>
+                                        <textarea name="newTicket" id="editor" class="form-control" cols="30" rows="10"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -138,17 +146,6 @@
             showPanel(this);  // Show the panel
             } 
         }
-    }
-
-    function showTicket() {
-        const ticket = String('<%= ticket %>')
-            $('#ticket').html(
-            // create an element where the html content as the string
-            $('<div/>', {
-            html: ticket
-            // get text content from element for decoded text  
-            }).text()
-        )
     }
 
     // Function to Show a Panel

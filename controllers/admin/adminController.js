@@ -17,6 +17,7 @@ module.exports = new class adminController extends controller {
             const errors = validationResult(req)
             if(!errors.isEmpty()) {
                 req.flash('errors', errors.array())
+                console.log(req.flash('errors'))
                 return res.redirect('/admin-cPanel/admin/newAdmin')
             }
 

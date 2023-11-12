@@ -36,7 +36,8 @@
 }
 
 .userTicket {
-    height: 200px;
+    display: block;
+    min-height: 150px;
     width: 300px;
     background-color: lightseagreen;
     border-radius: 25px;
@@ -48,4 +49,8 @@
     background-color: lightcoral;
     border-top-right-radius: 25px;
     border-top-left-radius: 25px;
+}
+
+.مدیریت {
+    margin-right: 600px;
 }

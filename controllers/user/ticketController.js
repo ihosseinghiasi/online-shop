@@ -115,8 +115,6 @@ module.exports = new class ticketController extends controller {
             ])
             )
 
-            console.log(newTicket)
-
             let myTickets = {}
 
             Object.values(ticket).forEach(ticke => {

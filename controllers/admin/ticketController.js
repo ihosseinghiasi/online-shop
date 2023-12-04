@@ -1,9 +1,11 @@
 const controller = require('../controller')
 const persianDate = require('date/persianDate')
 const Ticket = require('models/ticket')
+const User = require('models/user')
+const Admin = require('models/admin')
 const mongoose = require('mongoose')
 const { validationResult } = require('express-validator')
-const newTicketsNumber = require('serverModules/userNewTicketsNumber')
+// const newTicketsNumber = require('serverModules/userNewTicketsNumber')
 
 module.exports = new class ticketController extends controller {
 
@@ -26,15 +28,17 @@ module.exports = new class ticketController extends controller {
 
     async newTicket(req, res, next) {
         try {
-            const userID = req.user.id
-            const userTickets = await Ticket.find({ user: userID }).select('newUserTickets')
-            const ticketNumber = newTicketsNumber(userTickets)
+            const users = await User.find()
+            let userNames = []
+            Object.values(users).forEach(user => {
+                userNames.push(user.firstName + " " + user.lastName)
+            })
             res.locals = {
                 persianDate,
                 errors: req.flash('errors'),
-                ticketNumber
+                userNames
             }
-            return res.render('user/ticketRegister')
+            return res.render('admin/ticketRegister')
         } catch (err) {
             next(err)
         }
@@ -45,32 +49,35 @@ module.exports = new class ticketController extends controller {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
                 req.flash('errors', errors.array())
-                return res.redirect('/user-cPanel/ticket/newTicket')
+                // return res.redirect('/admin-cPanel/ticket/newTicket')
             }
 
-            function createticket() {
-                let newTicket = req.body.ticket
-                const tagIgnore = /(<([^>]+)>)/g
-                newTicket = newTicket.replace(tagIgnore,"")
-                let tickets = {}
-                if(newTicket) {
-                   tickets = {ticket1 : { sender: "شما", text: newTicket, date: persianDate }} 
-                }
-                return tickets
-            }
-            const ticket = createticket()
+            const adminID = req.user.id
+            const admin = await Admin.findOne({ id: adminID })
+            console.log(admin)
+            // function createticket() {
+            //     let newTicket = req.body.ticket
+            //     const tagIgnore = /(<([^>]+)>)/g
+            //     newTicket = newTicket.replace(tagIgnore,"")
+            //     let tickets = {}
+            //     if(newTicket) {
+            //        tickets = {ticket1 : { sender: "", text: newTicket, date: persianDate }} 
+            //     }
+            //     return tickets
+            // }
+            // const ticket = createticket()
            
-            const newTicket = new Ticket({
-                user: req.user.id,
-                title: req.body.title,
-                status: "ارسال کاربر",
-                targetDepartment: req.body.targetDepartment,
-                ticket,
-                tickets: 1,
-                newUserTickets: 1
-            })
-            await newTicket.save()
-            return res.redirect('/user-cPanel/ticket/showTickets')
+            // const newTicket = new Ticket({
+            //     user: req.user.id,
+            //     title: req.body.title,
+            //     status: "ارسال کاربر",
+            //     targetDepartment: req.body.targetDepartment,
+            //     ticket,
+            //     tickets: 1,
+            //     newAdminTickets: 1
+            // })
+            // await newTicket.save()
+            // return res.redirect('/user-cPanel/ticket/showTickets')
            } catch (err) {
                 next(err)
            }

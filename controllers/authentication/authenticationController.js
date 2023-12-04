@@ -43,7 +43,6 @@ module.exports = new class authController extends controller {
             const email = req.body.email
             const password = req.body.password
             const admin = await Admin.findOne({email, password})
-
             passport.authenticate('local.login', (err, admin)=> {
                 if(!admin) {
                     return res.redirect('/authentication/adminLogin')
@@ -53,14 +52,6 @@ module.exports = new class authController extends controller {
                     })
                 }
             })(req, res, next)
-
-
-            // if(admin) {
-            //     res.redirect('/admin-cPanel/counter')
-            // }else{
-            //     res.redirect('/authentication/adminLogin')
-            // }
-            // console.log('adminlogin')
 
         } catch (err) {
             next(err)
@@ -86,15 +77,15 @@ module.exports = new class authController extends controller {
             const user = await User.findOne({email, password})
 
 
-            passport.authenticate('local.login', (err, user)=> {
-                if(!user) {
-                    return res.redirect('/authentication/userLogin')
-                } else {
-                    req.logIn(user, err => {
-                        return res.redirect('/dashboard')
-                    })
-                }
-            })(req, res, next)
+            // passport.authenticate('local.login', (err, user)=> {
+            //     if(!user) {
+            //         return res.redirect('/authentication/userLogin')
+            //     } else {
+            //         req.logIn(user, err => {
+            //             return res.redirect('/dashboard')
+            //         })
+            //     }
+            // })(req, res, next)
 
         } catch (err) {
             next(err)

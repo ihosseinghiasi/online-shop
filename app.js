@@ -26,8 +26,8 @@ app.use(cookieParser(process.env.SECRETVALUE))
 app.use(session({
   secret: process.env.SECRETVALUE,
   store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1:27017/onlineShop'}),
-  ttl: new Date(Date.now() + 1000 * 3600 * 24),
-  cookie: {maxAge: 16000000},
+  ttl: new Date(Date.now() + 10000 * 36000 * 24),
+  cookie: {maxAge: 1600000000},
   resave: false,
   saveUninitialized: true,
 }))

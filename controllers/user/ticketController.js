@@ -9,7 +9,7 @@ module.exports = new class ticketController extends controller {
 
     async showAllTickets(req, res, next) {
         try {
-            const userID = req.user.id
+            const userID = req.user.id 
             const userTickets = await Ticket.find({ user: userID }).select('newUserTickets')
             const ticketNumber = newTicketsNumber(userTickets)
             const tickets = await Ticket.find({user: userID})
@@ -17,7 +17,7 @@ module.exports = new class ticketController extends controller {
                 tickets, 
                 persianDate,
                 ticketNumber
-            }
+            } 
             return res.render('user/showTickets')
         } catch (err) {
             next(err)
@@ -74,7 +74,7 @@ module.exports = new class ticketController extends controller {
            } catch (err) {
                 next(err)
            }
-    }
+    } 
 
     async showTicket(req, res, next) {
         try {

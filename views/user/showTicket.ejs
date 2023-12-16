@@ -15,7 +15,7 @@
     <script src="https://cdn.tiny.cloud/1/80x3erofelj42tetslrvjmzbgw88p0b4e1ry5ipmkcc4ycfs/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
     <script>
-      tinymce.init({
+      tinymce.init({ 
         selector: 'textarea#editor',
         directionality: "rtl",
         skin: 'bootstrap',
@@ -68,7 +68,7 @@
                     <div class="addtitle my-3 mx-2 col-8">
                         <img src="/icons/plus-square-black.svg"  alt=" مشاهده تیکت ">
                          مشاهده تیکت
-                    </div>
+                    </div> 
                
                     <div class="addBody col-8 mx-5">
                         <% Object.values(ticketText).forEach(tickets => { %>
@@ -77,7 +77,7 @@
                                     <div class="mt-2 me-3 position-absolute">
                                         <% if (tickets.sender === "شما") { %>
                                             <p> <%= tickets.sender %> در تاریخ <%= tickets.date %> گفتید : </p>
-                                        <% } else { %>
+                                        <% } else { %> 
                                             <p> <%= tickets.sender %> در تاریخ <%= tickets.date %> گفت : </p>
                                         <% } %> 
                                     </div>

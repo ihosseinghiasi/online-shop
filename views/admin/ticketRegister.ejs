@@ -14,7 +14,7 @@
     <script src="https://cdn.tiny.cloud/1/80x3erofelj42tetslrvjmzbgw88p0b4e1ry5ipmkcc4ycfs/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
     <script>
-      tinymce.init({
+      tinymce.init({ 
         selector: 'textarea#editor',
         directionality: "rtl",
         skin: 'bootstrap',
@@ -59,7 +59,7 @@
         <div class="addtitle my-3 mx-2 col-8">
             <img src="/icons/plus-square-black.svg"  alt=" افزودن تیکت ">
              افزودن تیکت
-        </div>
+        </div> 
    
         <div class="addBody col-8 mx-5">
             <form action="" method="POST">
@@ -75,7 +75,7 @@
                                 <% userNames.map( userName => { %>
                                     <option><%= userName %></option>
                                 <% } ) %>
-                            </select>    
+                            </select>     
                     </div>
                 </div>
 

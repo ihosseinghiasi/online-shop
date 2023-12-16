@@ -10,4 +10,4 @@ router.get('/showTicket/:id', ticketController.showTicket)
 router.delete('/showTickets/:id', ticketController.deleteTicket)
 router.put('/showTicket/:id', ticketController.updateTicket)
 
-module.exports = router
+module.exports = router 

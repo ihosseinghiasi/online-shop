@@ -9,14 +9,22 @@ module.exports = new class ticketController extends controller {
 
     async showAllTickets(req, res, next) {
         try {
-            const userID = req.user.id 
+            const userID = req.user.id
+            const userFullName = req.user.firstName+ " " + req.user.lastName
             const userTickets = await Ticket.find({ user: userID }).select('newUserTickets')
             const ticketNumber = newTicketsNumber(userTickets)
-            const tickets = await Ticket.find({user: userID})
+            const tickets = await Ticket.find({})
+            let userTicketsList = []
+            Object.values(tickets).forEach(ticket => {
+                console.log(ticket.user)
+                if(ticket.user == userID || userFullName === ticket.targetDepartment) {
+                    userTicketsList.push(ticket)
+                }
+            })
             res.locals = {
-                tickets, 
                 persianDate,
-                ticketNumber
+                ticketNumber,
+                userTicketsList
             } 
             return res.render('user/showTickets')
         } catch (err) {
@@ -81,7 +89,7 @@ module.exports = new class ticketController extends controller {
             let ticketText = []
             const id = (req.params.id).trim()
             const ticket = await Ticket.findOne({ _id: id })
-            const updateTicket = await Ticket.updateOne({ _id: id }, { $set: { newUserTickets: 0 } })
+            const updateTicket = await Ticket.updateOne({ _id: id }, { $set: { newAdminTickets: 0 } })
             const tickets = await Ticket.findOne({ _id: id }).select('ticket')
 
             Object.values(tickets).forEach(ticket => {

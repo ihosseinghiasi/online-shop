@@ -5,20 +5,20 @@ const User = require('models/user')
 const Admin = require('models/admin')
 const mongoose = require('mongoose')
 const { validationResult } = require('express-validator')
-// const newTicketsNumber = require('serverModules/userNewTicketsNumber')
+const newTicketsNumber = require('serverModules/userNewTicketsNumber')
 
 module.exports = new class ticketController extends controller {
 
     async showTickets(req, res, next) {
         try {
             const userID = req.user.id
-            // const userTickets = await Ticket.find({ user: userID }).select('newUserTickets')
-            // const ticketNumber = newTicketsNumber(userTickets)
+            const userTickets = await Ticket.find({ user: userID }).select('newUserTickets')
+            const ticketNumber = newTicketsNumber(userTickets)
             const tickets = await Ticket.find({user: userID})
             res.locals = {
                 tickets, 
                 persianDate,
-                // ticketNumber
+                ticketNumber
             }
             return res.render('admin/showTickets')
         } catch (err) {
@@ -33,10 +33,16 @@ module.exports = new class ticketController extends controller {
             Object.values(users).forEach(user => {
                 userNames.push(user.firstName + " " + user.lastName)
             })
+
+            const userID = req.user.id
+            const userTickets = await Ticket.find({ user: userID }).select('newUserTickets')
+            const ticketNumber = newTicketsNumber(userTickets)
+
             res.locals = {
                 persianDate,
                 errors: req.flash('errors'),
-                userNames
+                userNames,
+                ticketNumber
             }
             return res.render('admin/ticketRegister')
         } catch (err) {
@@ -110,7 +116,7 @@ module.exports = new class ticketController extends controller {
                 user: req.user,
                 ticketNumber
             } 
-            res.render('user/showTicket')            
+            res.render('admin/showTicket')            
         } catch (err) {
             next(err)
             }        
@@ -121,7 +127,7 @@ module.exports = new class ticketController extends controller {
         const id = (req.params.id).trim()
         let tickets = await Ticket.findOne({ _id: id })
         let ticketsNumber = ++(tickets.tickets)
-        let newTickets = tickets.newUserTickets
+        let newTickets = tickets.newAdminTickets
        
         let newTicketText = req.body.newTicket
         const tagIgnore = /(<([^>]+)>)/g
@@ -130,11 +136,12 @@ module.exports = new class ticketController extends controller {
         newText.push(newTicketText)
         const ticket = await Ticket.findOne({ _id: id }).select('ticket')
         
-        
+        const adminID = req.user.id
+        const admin = await Admin.findOne({ _id: adminID })
 
         const newTicket = Object.fromEntries(
             newText.map((ticket) => [`ticket${[ticketsNumber]}`, 
-                {"sender": "شما","text": newTicketText, "date": persianDate}
+                {"sender": admin.department,"text": newTicketText, "date": persianDate}
             ])
             )
 
@@ -167,7 +174,7 @@ module.exports = new class ticketController extends controller {
         try {
             const id = (req.params.id).trim()
             const ticket = await Ticket.deleteOne({ _id: id })
-            res.redirect('/user-cPanel/ticket/showTickets')
+            res.redirect('/admin-cPanel/ticket/showTickets')
         } catch (err) {
             next(err)
             }                        

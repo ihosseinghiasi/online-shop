@@ -11,12 +11,21 @@ module.exports = new class ticketController extends controller {
 
     async showTickets(req, res, next) {
         try {
+
             const userID = req.user.id
-            const userTickets = await Ticket.find({ user: userID }).select('newUserTickets')
+            const adminDepartment = req.user.department
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
             const ticketNumber = newTicketsNumber(userTickets)
-            const tickets = await Ticket.find({user: userID})
+            const tickets = await Ticket.find({ })
+            let adminTicketsList = []
+            Object.values(tickets).forEach(ticket => {
+                if(ticket.user == userID || adminDepartment === ticket.targetDepartment) {
+                    adminTicketsList.push(ticket)
+                }
+            })
+
             res.locals = {
-                tickets, 
+                adminTicketsList, 
                 persianDate,
                 ticketNumber
             }
@@ -35,8 +44,9 @@ module.exports = new class ticketController extends controller {
             })
 
             const userID = req.user.id
-            const userTickets = await Ticket.find({ user: userID }).select('newUserTickets')
-            const ticketNumber = newTicketsNumber(userTickets)
+            const adminDepartment = req.user.department
+            const adminTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: userFullName }]}).select('newUserTickets')
+            const ticketNumber = newTicketsNumber(adminTickets)
 
             res.locals = {
                 persianDate,
@@ -105,10 +115,10 @@ module.exports = new class ticketController extends controller {
                 }
             })
 
-            const userID = req.user.id
-            const userTickets = await Ticket.find({ user: userID }).select('newUserTickets')
-            const ticketNumber = newTicketsNumber(userTickets)
-
+             const userID = req.user.id
+            const userFullName = req.user.firstName + " " + req.user.lastName
+            const adminTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: userFullName }]}).select('newUserTickets')
+            const ticketNumber = newTicketsNumber(adminTickets)
             res.locals = {
                 persianDate, 
                 ticket,
@@ -163,7 +173,7 @@ module.exports = new class ticketController extends controller {
 
             const update = await Ticket.updateOne({ _id: id }, { $set: data })
 
-            return res.redirect(`/user-cPanel/ticket/showTicket/${id}`)
+            return res.redirect(`/admin-cPanel/ticket/showTicket/${id}`)
     
     } catch (err) {
         next(err)

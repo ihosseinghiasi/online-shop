@@ -10,13 +10,12 @@ module.exports = new class ticketController extends controller {
     async showAllTickets(req, res, next) {
         try {
             const userID = req.user.id
-            const userFullName = req.user.firstName+ " " + req.user.lastName
-            const userTickets = await Ticket.find({ user: userID }).select('newUserTickets')
-            const ticketNumber = newTicketsNumber(userTickets)
+            const userFullName = req.user.firstName + " " + req.user.lastName
+            const adminTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: userFullName }]}).select('newAdminTickets')
+            const ticketNumber = newTicketsNumber(adminTickets)
             const tickets = await Ticket.find({})
             let userTicketsList = []
             Object.values(tickets).forEach(ticket => {
-                console.log(ticket.user)
                 if(ticket.user == userID || userFullName === ticket.targetDepartment) {
                     userTicketsList.push(ticket)
                 }
@@ -35,8 +34,10 @@ module.exports = new class ticketController extends controller {
     async newTicket(req, res, next) {
         try {
             const userID = req.user.id
-            const userTickets = await Ticket.find({ user: userID }).select('newUserTickets')
-            const ticketNumber = newTicketsNumber(userTickets)
+            const userFullName = req.user.firstName + " " + req.user.lastName
+            const adminTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: userFullName }]}).select('newAdminTickets')
+            const ticketNumber = newTicketsNumber(adminTickets)
+
             res.locals = {
                 persianDate,
                 errors: req.flash('errors'),
@@ -103,8 +104,9 @@ module.exports = new class ticketController extends controller {
             })
 
             const userID = req.user.id
-            const userTickets = await Ticket.find({ user: userID }).select('newUserTickets')
-            const ticketNumber = newTicketsNumber(userTickets)
+            const userFullName = req.user.firstName + " " + req.user.lastName
+            const adminTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: userFullName }]}).select('newAdminTickets')
+            const ticketNumber = newTicketsNumber(adminTickets)
 
             res.locals = {
                 persianDate, 
@@ -133,8 +135,6 @@ module.exports = new class ticketController extends controller {
         newText.push(newTicketText)
         const ticket = await Ticket.findOne({ _id: id }).select('ticket')
         
-        
-
         const newTicket = Object.fromEntries(
             newText.map((ticket) => [`ticket${[ticketsNumber]}`, 
                 {"sender": "شما","text": newTicketText, "date": persianDate}
@@ -142,7 +142,6 @@ module.exports = new class ticketController extends controller {
             )
 
             let myTickets = {}
-
             Object.values(ticket).forEach(ticke => {
                 if(ticke.hasOwnProperty("ticket")) {
                     Object.values(ticke).forEach(tick => {
@@ -156,7 +155,6 @@ module.exports = new class ticketController extends controller {
                 tickets: ticketsNumber,
                 newUserTickets: ++newTickets
             }
-
             const update = await Ticket.updateOne({ _id: id }, { $set: data })
 
             return res.redirect(`/user-cPanel/ticket/showTicket/${id}`)

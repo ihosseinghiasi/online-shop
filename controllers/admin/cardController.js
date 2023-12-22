@@ -2,9 +2,10 @@ const controller = require('../controller')
 const persianDate = require('date/persianDate')
 const { validationResult } = require('express-validator')
 const Category = require('models/category')
+const Ticket = require('models/ticket')
 const Product = require('models/product')
 const Card = require('models/card')
-
+const newTicketsNumber = require('serverModules/userNewTicketsNumber')
 
 module.exports = new class cardController extends controller {
 
@@ -16,8 +17,14 @@ module.exports = new class cardController extends controller {
                 req.flash('errors', myErrors)
                 return res.redirect('/admin-cPanel/card/newCard')
             }
+            const userID = req.user.id
+            const adminDepartment = req.user.department
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
+            const ticketNumber = newTicketsNumber(userTickets)
+
             res.locals = {
                 persianDate,
+                ticketNumber
         }
         const productSelected = req.body.cardProduct
         
@@ -79,8 +86,14 @@ module.exports = new class cardController extends controller {
             const categoryTitles = await Category.find({}).select('title')
             const products = await Product.find({})
 
+            const userID = req.user.id
+            const adminDepartment = req.user.department
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
+            const ticketNumber = newTicketsNumber(userTickets)
+
             res.locals = {
                 persianDate,
+                ticketNumber,
                 categoryTitles,
                 products,
                 errors: req.flash('errors')
@@ -95,8 +108,15 @@ module.exports = new class cardController extends controller {
 
         try {
             const cards = await Card.find({})
+
+            const userID = req.user.id
+            const adminDepartment = req.user.department
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
+            const ticketNumber = newTicketsNumber(userTickets)
+
             res.locals = {
                 persianDate,
+                ticketNumber,
                 cards,
            }          
            return res.render('admin/showCards')
@@ -112,10 +132,15 @@ module.exports = new class cardController extends controller {
             const categoryTitles = await Category.find({}).select('title')
             const products = await Product.find({})
 
+            const userID = req.user.id
+            const adminDepartment = req.user.department
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
+            const ticketNumber = newTicketsNumber(userTickets)
 
             res.locals = {
                 persianDate,
                 products,
+                ticketNumber,
                 categoryTitles,
                 card,
                 errors: req.flash('errors') 

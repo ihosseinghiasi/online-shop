@@ -1,9 +1,10 @@
 const controller = require('../controller')
 const persianDate = require('date/persianDate')
 const Product = require('models/product')
+const Ticket = require('models/ticket')
 const Category = require('models/category')
 const { validationResult } = require('express-validator')
-
+const newTicketsNumber = require('serverModules/userNewTicketsNumber')
 
 module.exports = new class productController extends controller {
 
@@ -15,8 +16,15 @@ module.exports = new class productController extends controller {
                     req.flash('errors', myErrors)
                     res.redirect('admin-cPanel/product/newProduct')
                 }
+
+                const userID = req.user.id
+                const adminDepartment = req.user.department
+                const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
+                const ticketNumber = newTicketsNumber(userTickets)
+            
                 res.locals = {
                     persianDate,
+                    ticketNumber
             }
                function createFields() {
                 const newFields = req.body.fields
@@ -59,8 +67,15 @@ module.exports = new class productController extends controller {
     async newProduct(req, res, next) {
         try {
             const categoryTitles = await Category.find({}).select('title')
+
+            const userID = req.user.id
+            const adminDepartment = req.user.department
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
+            const ticketNumber = newTicketsNumber(userTickets)
+            
             res.locals = {
                 persianDate,
+                ticketNumber,
                 categoryTitles,
                 errors: req.flash('errors')
            }
@@ -73,9 +88,16 @@ module.exports = new class productController extends controller {
     async showProducts(req, res, next) {
 
         try {
-            let products = await Product.find({})
+            const products = await Product.find({})
+
+            const userID = req.user.id
+            const adminDepartment = req.user.department
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
+            const ticketNumber = newTicketsNumber(userTickets)
+
             res.locals = {
                 persianDate,
+                ticketNumber,
                 products,
            }          
            return res.render('admin/showProducts')
@@ -104,8 +126,14 @@ module.exports = new class productController extends controller {
                 }
             }
 
+            const userID = req.user.id
+            const adminDepartment = req.user.department
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
+            const ticketNumber = newTicketsNumber(userTickets)
+
             res.locals = {
                 persianDate,
+                ticketNumber,
                 product,
                 categoryTitles,
                 purefieldNames,

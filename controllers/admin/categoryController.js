@@ -2,7 +2,9 @@ const controller = require('../controller')
 const persianDate = require('date/persianDate')
 const Category = require('models/category')
 const Product = require('models/product')
+const Ticket = require('models/ticket')
 const { validationResult } = require('express-validator')
+const newTicketsNumber = require('serverModules/userNewTicketsNumber')
 
 
 module.exports = new class categoryController extends controller {
@@ -16,8 +18,14 @@ module.exports = new class categoryController extends controller {
                 return res.redirect('/admin-cPanel/category/newCategory')
             }
             
+            const userID = req.user.id
+            const adminDepartment = req.user.department
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
+            const ticketNumber = newTicketsNumber(userTickets)
+
             res.locals = {
                 persianDate,
+                ticketNumber,
                 errors: req.flash('errors')
            }
             const categoryImage = req.file.path.replace(/\\/g, '/').substring(6)
@@ -36,8 +44,15 @@ module.exports = new class categoryController extends controller {
 
     async newCategory(req, res, next) {
         try {
+
+            const userID = req.user.id
+            const adminDepartment = req.user.department
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
+            const ticketNumber = newTicketsNumber(userTickets)
+
             res.locals = {
                 persianDate,
+                ticketNumber,
                 errors: req.flash('errors')
            }
             return res.render('admin/categoryRegister')
@@ -49,9 +64,16 @@ module.exports = new class categoryController extends controller {
     async showCategories(req, res, next) {
 
         try {
-            let categories = await Category.find({})
+            const categories = await Category.find({})
+
+            const userID = req.user.id
+            const adminDepartment = req.user.department
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
+            const ticketNumber = newTicketsNumber(userTickets)
+
             res.locals = {
                 persianDate,
+                ticketNumber,
                 categories,
            }          
            return res.render('admin/showCategories')
@@ -63,9 +85,16 @@ module.exports = new class categoryController extends controller {
     async showCategory(req, res, next) {
         try {
             const id = (req.params.id).trim()
-            let category = await Category.findOne({ _id: id })
+            const category = await Category.findOne({ _id: id })
+
+            const userID = req.user.id
+            const adminDepartment = req.user.department
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
+            const ticketNumber = newTicketsNumber(userTickets)
+
             res.locals = {
                 persianDate,
+                ticketNumber,
                 category,
                 errors: req.flash('errors') 
             }

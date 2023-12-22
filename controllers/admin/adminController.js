@@ -2,17 +2,14 @@ const controller = require('../controller')
 let persianDate = require('date/persianDate')
 const Admin = require('models/admin')
 const { model } = require('mongoose')
-const admin = require('models/admin')
+const Ticket = require('models/ticket')
 const bcrypt = require('bcryptjs')
 const { validationResult } = require('express-validator')
-
+const newTicketsNumber = require('serverModules/userNewTicketsNumber')
 
 module.exports = new class adminController extends controller {
     
     async addNewAdmin(req, res, next) {
-        res.locals = {
-            persianDate
-       }
         try {
             const errors = validationResult(req)
             if(!errors.isEmpty()) {
@@ -20,7 +17,12 @@ module.exports = new class adminController extends controller {
                 console.log(req.flash('errors'))
                 return res.redirect('/admin-cPanel/admin/newAdmin')
             }
-
+            
+            const userID = req.user.id
+            const adminDepartment = req.user.department
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
+            const ticketNumber = newTicketsNumber(userTickets)
+            
             const newAdmin = new Admin({
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
@@ -39,16 +41,28 @@ module.exports = new class adminController extends controller {
                 isSetting: req.body.isSetting,
             })
             await newAdmin.save()
+
+            res.locals = {
+                persianDate,
+                ticketNumber
+           }
             return res.redirect('/admin-cPanel/admin/showAdmins')
         } catch (err) {
             next(err)
         }
 }
 
-    newAdmin(req, res, next) {
+    async newAdmin(req, res, next) {
         try {
+
+            const userID = req.user.id
+            const adminDepartment = req.user.department
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
+            const ticketNumber = newTicketsNumber(userTickets)
+
             res.locals = {
                 persianDate,
+                ticketNumber,
                 errors: req.flash('errors')
            }
             return res.render('admin/adminRegister')
@@ -59,10 +73,18 @@ module.exports = new class adminController extends controller {
 
     async showAdmins(req, res, next) {
 
-        let admins = await Admin.find({})
+        const admins = await Admin.find({})
+
+        const userID = req.user.id
+            const adminDepartment = req.user.department
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
+            const ticketNumber = newTicketsNumber(userTickets)
+
         try {
             res.locals = {
-                persianDate, admins
+                persianDate,
+                ticketNumber,
+                admins
            }          
            return res.render('admin/showAdmins')
         } catch (err) {
@@ -74,8 +96,15 @@ module.exports = new class adminController extends controller {
         try {
             const id = (req.params.id).trim()
             const admin = await Admin.findOne({ _id: id })
+
+            const userID = req.user.id
+            const adminDepartment = req.user.department
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
+            const ticketNumber = newTicketsNumber(userTickets)
+
             res.locals = {
                 persianDate,
+                ticketNumber,
                 admin,
                 errors: req.flash('errors')
             }    

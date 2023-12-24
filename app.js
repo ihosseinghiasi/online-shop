@@ -5,6 +5,7 @@ const { checkSchema, validationResult } = require('express-validator')
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
+const chartJs = require('chart.js/auto')
 const {default: mongoose} = require('mongoose')
 const cors = require('cors');
 const { mkdir } = require('mkdirp')

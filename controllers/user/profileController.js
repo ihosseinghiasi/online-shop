@@ -14,14 +14,14 @@ module.exports = new class profileController extends controller {
             const adminDepartment = req.user.department
             const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
             const ticketNumber = ticketsReport(userTickets)
-            const sendTicketsNumber = ticketNumber.recevedTicketsNumber
+            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
             const id = (req.user.id).trim()
             const user = await User.findOne({_id: id})
             res.locals = {
                 persianDate,
                 user,
-                sendTicketsNumber
+                recevedTicketsNumber
             } 
             return res.render('user/profile')            
         } catch (err) {

@@ -13,10 +13,11 @@ module.exports = new class ticketController extends controller {
             const adminDepartment = req.user.department
             const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
             const ticketNumber = ticketsReport(userTickets)
-            const sendTicketsNumber = ticketNumber.recevedTicketsNumber
+            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
             const tickets = await Ticket.find({})
             let userTicketsList = []
+            const userFullName = req.user.firstName + " " + req.user.lastName
             Object.values(tickets).forEach(ticket => {
                 if(ticket.user == userID || userFullName === ticket.targetDepartment) {
                     userTicketsList.push(ticket)
@@ -24,7 +25,7 @@ module.exports = new class ticketController extends controller {
             })
             res.locals = {
                 persianDate,
-                sendTicketsNumber,
+                recevedTicketsNumber,
                 userTicketsList
             } 
             return res.render('user/showTickets')
@@ -39,12 +40,12 @@ module.exports = new class ticketController extends controller {
             const adminDepartment = req.user.department
             const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
             const ticketNumber = ticketsReport(userTickets)
-            const sendTicketsNumber = ticketNumber.recevedTicketsNumber
+            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
             res.locals = {
                 persianDate,
                 errors: req.flash('errors'),
-                sendTicketsNumber
+                recevedTicketsNumber
             }
             return res.render('user/ticketRegister')
         } catch (err) {
@@ -110,14 +111,14 @@ module.exports = new class ticketController extends controller {
             const adminDepartment = req.user.department
             const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
             const ticketNumber = ticketsReport(userTickets)
-            const sendTicketsNumber = ticketNumber.recevedTicketsNumber
+            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
             res.locals = {
                 persianDate, 
                 ticket,
                 ticketText,
                 user: req.user,
-                sendTicketsNumber
+                recevedTicketsNumber
             } 
             res.render('user/showTicket')            
         } catch (err) {

@@ -9,11 +9,11 @@ module.exports = new class counterController extends controller {
             const adminDepartment = req.user.department
             const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
             const ticketNumber = ticketsReport(userTickets)
-            const sendTicketsNumber = ticketNumber.recevedTicketsNumber
+            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
     
             res.locals = {
                 persianDate,
-                sendTicketsNumber
+                recevedTicketsNumber
            }
             res.render('user/counter')
         } catch (err) {

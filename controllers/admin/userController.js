@@ -5,7 +5,7 @@ const persianDate = require('date/persianDate')
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const { validationResult } = require('express-validator')
-const newTicketsNumber = require('serverModules/userNewTicketsNumber')
+const ticketsReport = require('serverModules/ticketsReport')
 module.exports = new class userController extends controller {
 
     async showAllUsers(req, res, next) {
@@ -14,13 +14,14 @@ module.exports = new class userController extends controller {
 
             const userID = req.user.id
             const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
-            const ticketNumber = newTicketsNumber(userTickets)
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+            const ticketNumber = ticketsReport(userTickets)
+            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
             res.locals = {
                 users, 
                 persianDate,
-                ticketNumber
+                recevedTicketsNumber
             }
             return res.render('admin/showUsers')
         } catch (err) {
@@ -35,13 +36,14 @@ module.exports = new class userController extends controller {
 
             const userID = req.user.id
             const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
-            const ticketNumber = newTicketsNumber(userTickets)
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+            const ticketNumber = ticketsReport(userTickets)
+            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
             res.locals = {
                 persianDate, 
                 user,
-                ticketNumber
+                recevedTicketsNumber
             } 
             res.render('admin/editUser')            
         } catch (err) {
@@ -101,12 +103,13 @@ module.exports = new class userController extends controller {
                 try {
                     const userID = req.user.id
                     const adminDepartment = req.user.department
-                    const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
-                    const ticketNumber = newTicketsNumber(userTickets)
-                    
+                    const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+                    const ticketNumber = ticketsReport(userTickets)
+                    const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                            
                     res.locals = {
                         persianDate,
-                        ticketNumber,
+                        recevedTicketsNumber,
                         errors: req.flash('errors'),
                     }
                     return res.render('admin/userRegister')

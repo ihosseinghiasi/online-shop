@@ -1,5 +1,5 @@
 .addAdmin {
-    height: 500px;
+    height: 600px;
     box-shadow: 1px 1px 70px lightgray;
 }
 
@@ -10,7 +10,6 @@
 .addBody {
     position: absolute;
     margin-top: 80px;
-
 }
 
 .passwordEye {
@@ -29,4 +28,9 @@
     right: 410px;
     cursor: pointer;
     color: gray;
+}
+
+.ticketChart {
+    width: 90%;
+    margin-right: 7px;
 }

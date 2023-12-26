@@ -1,17 +1,19 @@
 const controller = require('../controller')
 const persianDate = require('date/persianDate')
 const Ticket = require('models/ticket')
-const newTicketsNumber = require('serverModules/userNewTicketsNumber')
+const ticketsReport = require('serverModules/ticketsReport')
 module.exports = new class counterController extends controller {
     async counter(req, res, next) {
         try {
             const userID = req.user.id
-            const userTickets = await Ticket.find({ user: userID }).select('newUserTickets')
-            const ticketNumber = newTicketsNumber(userTickets)
-            
+            const adminDepartment = req.user.department
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+            const ticketNumber = ticketsReport(userTickets)
+            const sendTicketsNumber = ticketNumber.recevedTicketsNumber
+    
             res.locals = {
                 persianDate,
-                ticketNumber
+                sendTicketsNumber
            }
             res.render('user/counter')
         } catch (err) {

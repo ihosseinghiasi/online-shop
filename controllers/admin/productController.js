@@ -4,7 +4,7 @@ const Product = require('models/product')
 const Ticket = require('models/ticket')
 const Category = require('models/category')
 const { validationResult } = require('express-validator')
-const newTicketsNumber = require('serverModules/userNewTicketsNumber')
+const ticketsReport = require('serverModules/ticketsReport')
 
 module.exports = new class productController extends controller {
 
@@ -19,12 +19,13 @@ module.exports = new class productController extends controller {
 
                 const userID = req.user.id
                 const adminDepartment = req.user.department
-                const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
-                const ticketNumber = newTicketsNumber(userTickets)
-            
+                const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+                const ticketNumber = ticketsReport(userTickets)
+                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                
                 res.locals = {
                     persianDate,
-                    ticketNumber
+                    recevedTicketsNumber
             }
                function createFields() {
                 const newFields = req.body.fields
@@ -70,12 +71,13 @@ module.exports = new class productController extends controller {
 
             const userID = req.user.id
             const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
-            const ticketNumber = newTicketsNumber(userTickets)
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+            const ticketNumber = ticketsReport(userTickets)
+            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
             
             res.locals = {
                 persianDate,
-                ticketNumber,
+                recevedTicketsNumber,
                 categoryTitles,
                 errors: req.flash('errors')
            }
@@ -92,12 +94,13 @@ module.exports = new class productController extends controller {
 
             const userID = req.user.id
             const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
-            const ticketNumber = newTicketsNumber(userTickets)
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+            const ticketNumber = ticketsReport(userTickets)
+            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
             res.locals = {
                 persianDate,
-                ticketNumber,
+                recevedTicketsNumber,
                 products,
            }          
            return res.render('admin/showProducts')
@@ -128,12 +131,13 @@ module.exports = new class productController extends controller {
 
             const userID = req.user.id
             const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
-            const ticketNumber = newTicketsNumber(userTickets)
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+            const ticketNumber = ticketsReport(userTickets)
+            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
             res.locals = {
                 persianDate,
-                ticketNumber,
+                recevedTicketsNumber,
                 product,
                 categoryTitles,
                 purefieldNames,

@@ -44,42 +44,42 @@
                 <div class="addAdmin col-11 my-5 mx-5">
                     <%- include('../components/validationError') -%>
                     <div class="addtitle my-3 mx-2 col-8">
-                        <img src="/icons/pie-chart.svg"  alt=" گزارش تیکت ها ">
+                        <img src="/icons/pie-chart-black.svg"  alt=" گزارش تیکت ها ">
                         گزارش تیکت ها
                     </div>
 
                
                     <div class="addBody col-9 mx-5">
-                        <canvas id="myChart" style="width:100%;max-width:1600px"></canvas>
+                        <div class="ticketChart">
+                            <canvas id="myChart" style="width:100%;max-width:1600px"></canvas>
+                        </div>
 
-<script>
-const xValues = ["تیکت های پاسخ داده نشده", "تیکت های پاسخ داده شده", "تیکت های دریافتی", "تیکت های ارسالی", "کل تیکت ها"];
-const yValues = [27, 49, 32, 67, 100];
-const barColors = [
-  "#b91d47",
-  "#00aba9",
-  "#2b5797",
-  "#e8c3b9",
-  "#1e7145"
-];
+                    <script>
+                    const xValues = ["تیکت های دریافتی", "تیکت های ارسالی", "کل تیکت ها"];
+                    const yValues = ["<%= recevedTicketsNumber %>" ,"<%= sentTicketsNumber %>", "<%= allTicketsNumber %>"];
+                    const barColors = [
+                        "#2b5797",
+                        "#00aba9",
+                        "#b91d47",
+                    ];
 
-new Chart("myChart", {
-  type: "polarArea",
-  data: {
-    labels: xValues,
-    datasets: [{
-      backgroundColor: barColors,
-      data: yValues
-    }]
-  },
-  options: {
-    title: {
-      display: true,
-      text: "گزارش تیکت های ارسالی"
-    }
-  }
-});
-</script>
+                    new Chart("myChart", {
+                    type: "polarArea",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                        backgroundColor: barColors,
+                        data: yValues
+                        }]
+                    },
+                    options: {
+                        title: {
+                        display: true,
+                        text: "گزارش تیکت های ارسالی"
+                        }
+                    }
+                    });
+                    </script>
                     </div>
                         </div>
                     </div>

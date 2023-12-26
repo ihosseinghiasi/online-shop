@@ -4,22 +4,24 @@ const persianDate = require('date/persianDate')
 const mongoose = require('mongoose')
 const { validationResult } = require('express-validator')
 const Ticket = require('models/ticket')
-const newTicketsNumber = require('serverModules/userNewTicketsNumber')
+const ticketsReport = require('serverModules/ticketsReport')
 
 module.exports = new class profileController extends controller {
 
     async showProfile(req, res, next) {
         try {
             const userID = req.user.id
-            const userTickets = await Ticket.find({ user: userID }).select('newUserTickets')
-            const ticketNumber = newTicketsNumber(userTickets)
+            const adminDepartment = req.user.department
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+            const ticketNumber = ticketsReport(userTickets)
+            const sendTicketsNumber = ticketNumber.recevedTicketsNumber
 
             const id = (req.user.id).trim()
             const user = await User.findOne({_id: id})
             res.locals = {
                 persianDate,
                 user,
-                ticketNumber
+                sendTicketsNumber
             } 
             return res.render('user/profile')            
         } catch (err) {

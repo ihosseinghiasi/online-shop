@@ -5,7 +5,7 @@ const { model } = require('mongoose')
 const Ticket = require('models/ticket')
 const bcrypt = require('bcryptjs')
 const { validationResult } = require('express-validator')
-const newTicketsNumber = require('serverModules/userNewTicketsNumber')
+const ticketsReport = require('serverModules/ticketsReport')
 
 module.exports = new class adminController extends controller {
     
@@ -20,9 +20,10 @@ module.exports = new class adminController extends controller {
             
             const userID = req.user.id
             const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
-            const ticketNumber = newTicketsNumber(userTickets)
-            
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+            const ticketNumber = ticketsReport(userTickets)
+            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+
             const newAdmin = new Admin({
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
@@ -44,7 +45,7 @@ module.exports = new class adminController extends controller {
 
             res.locals = {
                 persianDate,
-                ticketNumber
+                recevedTicketsNumber,
            }
             return res.redirect('/admin-cPanel/admin/showAdmins')
         } catch (err) {
@@ -57,12 +58,14 @@ module.exports = new class adminController extends controller {
 
             const userID = req.user.id
             const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
-            const ticketNumber = newTicketsNumber(userTickets)
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+            const ticketNumber = ticketsReport(userTickets)
+            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+
 
             res.locals = {
                 persianDate,
-                ticketNumber,
+                recevedTicketsNumber,
                 errors: req.flash('errors')
            }
             return res.render('admin/adminRegister')
@@ -76,14 +79,15 @@ module.exports = new class adminController extends controller {
         const admins = await Admin.find({})
 
         const userID = req.user.id
-            const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
-            const ticketNumber = newTicketsNumber(userTickets)
+        const adminDepartment = req.user.department
+        const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+        const ticketNumber = ticketsReport(userTickets)
+        const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
         try {
             res.locals = {
                 persianDate,
-                ticketNumber,
+                recevedTicketsNumber,
                 admins
            }          
            return res.render('admin/showAdmins')
@@ -99,12 +103,13 @@ module.exports = new class adminController extends controller {
 
             const userID = req.user.id
             const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]}).select('newUserTickets')
-            const ticketNumber = newTicketsNumber(userTickets)
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+            const ticketNumber = ticketsReport(userTickets)
+            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
             res.locals = {
                 persianDate,
-                ticketNumber,
+                recevedTicketsNumber,
                 admin,
                 errors: req.flash('errors')
             }    

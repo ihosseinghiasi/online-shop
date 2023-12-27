@@ -6,14 +6,16 @@ module.exports = new class counterController extends controller {
     async counter(req, res, next) {
         try {
             const userID = req.user.id
-            const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+            const userTickets = await Ticket.find({ user: userID })
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
-    
+            const sentTicketsNumber = ticketNumber.sentTicketsNumber
+            const allTicketsNumber = ticketNumber.allTicketsNumber
             res.locals = {
                 persianDate,
-                recevedTicketsNumber
+                recevedTicketsNumber,
+                sentTicketsNumber,
+                allTicketsNumber
            }
             res.render('user/counter')
         } catch (err) {

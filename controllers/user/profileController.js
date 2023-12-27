@@ -11,10 +11,10 @@ module.exports = new class profileController extends controller {
     async showProfile(req, res, next) {
         try {
             const userID = req.user.id
-            const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+            const userTickets = await Ticket.find({ user: userID })
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+
 
             const id = (req.user.id).trim()
             const user = await User.findOne({_id: id})

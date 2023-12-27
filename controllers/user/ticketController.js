@@ -10,8 +10,7 @@ module.exports = new class ticketController extends controller {
     async showAllTickets(req, res, next) {
         try {
             const userID = req.user.id
-            const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+            const userTickets = await Ticket.find({ user: userID })
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
@@ -37,8 +36,7 @@ module.exports = new class ticketController extends controller {
     async newTicket(req, res, next) {
         try {
             const userID = req.user.id
-            const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+            const userTickets = await Ticket.find({ user: userID })
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
@@ -108,10 +106,10 @@ module.exports = new class ticketController extends controller {
             })
 
             const userID = req.user.id
-            const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+            const userTickets = await Ticket.find({ user: userID })
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+
 
             res.locals = {
                 persianDate, 

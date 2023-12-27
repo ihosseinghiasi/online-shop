@@ -1,0 +1,36 @@
+.addAdmin {
+    height: 600px;
+    box-shadow: 1px 1px 70px lightgray;
+}
+
+.addtitle {
+    position: absolute;
+}
+
+.addBody {
+    position: absolute;
+    margin-top: 80px;
+}
+
+.passwordEye {
+    position: absolute;
+    font-size: 1.3em;
+    top: 237px;
+    right: 410px;
+    cursor: pointer;
+    color: gray;
+}
+
+.confirmPasswordEye {
+    position: absolute;
+    font-size: 1.3em;
+    top: 292px;
+    right: 410px;
+    cursor: pointer;
+    color: gray;
+}
+
+.ticketChart {
+    width: 90%;
+    margin-right: 7px;
+}

@@ -7,10 +7,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/user/general.css">
     <link rel="stylesheet" href="/css/user/counter.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    
     <title>‍ پنل کاربر </title>
 </head>
 <body>
-
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
      integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
      crossorigin="anonymous">
@@ -23,7 +25,7 @@
     <div class="container container-fluid">
         <div class="row ">
       
-            <%- include('../components/userLeftMenu') -%>
+            <%- include('../components/userRightMenu') -%>
 
             <script>
                 document.getElementById('counter').style.backgroundColor = "rgba(24, 1, 3, 0.986)"
@@ -39,6 +41,48 @@
                        <p><%= persianDate %></p>
                     </div>
                 </div>
+
+                <div class="addAdmin col-11 my-5 mx-5">
+                    <%- include('../components/validationError') -%>
+                    <div class="addtitle my-3 mx-2 col-8">
+                        <img src="/icons/pie-chart-black.svg"  alt=" گزارش تیکت ها ">
+                        گزارش تیکت ها
+                    </div>
+
+               
+                    <div class="addBody col-9 mx-5">
+                        <div class="ticketChart">
+                            <canvas id="myChart" style="width:100%;max-width:1600px;"></canvas>
+                        </div>
+
+                    <script>
+                    const xValues = ["تیکت های دریافتی", "تیکت های ارسالی", "کل تیکت ها"];
+                    const yValues = ["<%= recevedTicketsNumber %>" ,"<%= sentTicketsNumber %>", "<%= allTicketsNumber %>"];
+                    const barColors = [
+                        "#2b5797",
+                        "#00aba9",
+                        "#b91d47",
+                    ];
+
+                    new Chart("myChart", {
+                    type: "polarArea",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                        backgroundColor: barColors,
+                        data: yValues
+                        }]
+                    },
+                    options: {
+                        title: {
+                        display: true,
+                        text: "گزارش تیکت های ارسالی"
+                        }
+                    }
+                    });
+                    </script>
+                    </div>
+                        </div>
             </div>
         </div>
     </div>

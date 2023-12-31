@@ -1,0 +1,24 @@
+.addAdmin {
+    height: 850px;
+    box-shadow: 1px 1px 70px lightgray;
+}
+
+.addtitle {
+    position: absolute;
+}
+
+.addBody {
+    position: absolute;
+    margin-top: 80px;
+
+}
+
+.fileUloadArea {
+    padding: 5px;
+    border-bottom: 2px solid gray;
+    border-radius: 25px;
+}
+
+.titleWidth {
+    width: 892px;
+}

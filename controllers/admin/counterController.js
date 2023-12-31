@@ -1,5 +1,5 @@
 const controller = require('../controller')
-let persianDate = require('date/persianDate')
+const persianDate = require('date/persianDate')
 const Ticket = require('models/ticket')
 const ticketsReport = require('serverModules/ticketsReport')
 

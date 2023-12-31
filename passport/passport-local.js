@@ -6,7 +6,6 @@ const bcrypt = require('bcryptjs')
 const { Strategy } = require('passport-local')
 
 passport.serializeUser((user, done)=> {
-    console.log(user.lastName)
     done(null, user.id)
 })
 

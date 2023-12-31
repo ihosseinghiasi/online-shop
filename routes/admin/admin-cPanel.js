@@ -10,5 +10,6 @@ router.use('/product', require('./product'))
 router.use('/card', require('./card'))
 router.use('/ticket', require('./ticket'))
 router.use('/report', require('./report'))
+router.use('/email', require('./email'))
 
 module.exports = router

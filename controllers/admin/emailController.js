@@ -1,7 +1,9 @@
 const controller = require('../controller')
 const persianDate = require('date/persianDate')
 const Email = require('models/email')
+const EmailTemplate = require('models/emailTemplate')
 const Ticket = require('models/ticket')
+const nodemailer = require('nodemailer')
 const { validationResult } = require('express-validator')
 const ticketsReport = require('serverModules/ticketsReport')
 
@@ -33,15 +35,15 @@ module.exports = new class emailController extends controller {
                 // errors: req.flash('errors')
            }
 
-            const tagIgnore = /(<([^>]+)>)/g
-            let emailDescription = req.body.description
-            const description = emailDescription.replace(tagIgnore,"")
-            const newEmail = new Email({
+            // const tagIgnore = /(<([^>]+)>)/g
+            // let emailDescription = req.body.description
+            // const description = emailDescription.replace(tagIgnore,"")
+            const newEmailTemplate = new EmailTemplate({
                 title: req.body.title,
-                description
+                description: req.body.description
             }) 
 
-            await newEmail.save()
+            await newEmailTemplate.save()
             return res.redirect('/admin-cPanel/email/newEmail')
         } catch (err) {
             next(err)
@@ -75,7 +77,7 @@ module.exports = new class emailController extends controller {
     async showEmails(req, res, next) {
 
         try {
-            const Emails = await Email.find({})
+            const emails = await Email.find({})
 
             const userID = req.user.id
             const adminDepartment = req.user.department
@@ -90,7 +92,7 @@ module.exports = new class emailController extends controller {
                 recevedTicketsNumber,
                 sentTicketsNumber,
                 allTicketsNumber,
-                Emails,
+                emails,
            }          
            return res.render('admin/showEmails')
         } catch (err) {
@@ -98,10 +100,10 @@ module.exports = new class emailController extends controller {
         }
     }
 
-    async showCategory(req, res, next) {
+    async showEmailTemplates(req, res, next) {
+
         try {
-            const id = (req.params.id).trim()
-            const category = await Category.findOne({ _id: id })
+            const emailTemplates = await EmailTemplate.find({})
 
             const userID = req.user.id
             const adminDepartment = req.user.department
@@ -111,15 +113,80 @@ module.exports = new class emailController extends controller {
             const sentTicketsNumber = ticketNumber.sentTicketsNumber
             const allTicketsNumber = ticketNumber.allTicketsNumber
 
+            //nodemailer
+
+            const transporter = nodemailer.createTransport({
+                service: "gmail",
+                host: "smtp.gmail.com",
+            auth: {
+                user: "expresscard.eshopping@gmail.com",
+                pass: "akcu dhxm kuta lkql",
+            },
+            })
+
+            // async..await is not allowed in global scope, must use a wrapper
+            async function main() {
+            // send mail with defined transport object
+            const info = await transporter.sendMail({
+                from: '<expresscard.eshopping@gmail.com>', // sender address
+                to: "hossein.ghiasi.info@gmail.com", // list of receivers
+                subject: "ExpressCard", // Subject line
+                text: "hello Hossein ghiasi", // plain text body
+                html: "<b>Hello Hossein Ghiasi</b>", // html body
+            });
+
+            console.log("Message sent: %s", info.messageId);
+            // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
+            }
+
+            main().catch(console.error)
+
+
+            //end nodemailer
+
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
                 sentTicketsNumber,
                 allTicketsNumber,
-                category,
+                emailTemplates,
+           }          
+           return res.render('admin/showEmailTemplates')
+        } catch (err) {
+            next(err)
+        }
+    }
+
+    async showEmailTemplate(req, res, next) {
+        try {
+            const id = (req.params.id).trim()
+            const emailTemplate = await EmailTemplate.findOne({ _id: id })
+
+            const userID = req.user.id
+            const adminDepartment = req.user.department
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+            const ticketNumber = ticketsReport(userTickets)
+            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+            const sentTicketsNumber = ticketNumber.sentTicketsNumber
+            const allTicketsNumber = ticketNumber.allTicketsNumber
+
+            const newEmail = new Email ({
+                title: "dsgjgjfgfjgjf",
+                description: "dhgjfgjgfjgfdjfgdjfdfjgfdjgfdjfdgjfgfdjgfdjgfd11111",
+                emailTarget: "hosseinghiasi.info@gmail.com"
+            })
+
+            await newEmail.save()
+
+            res.locals = {
+                persianDate,
+                recevedTicketsNumber,
+                sentTicketsNumber,
+                allTicketsNumber,
+                emailTemplate,
                 errors: req.flash('errors') 
             }
-            res.render('admin/editCategory')
+            res.render('admin/showEmailTemplate')
         } catch (err) {
             next(err)
         }

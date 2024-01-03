@@ -5,8 +5,9 @@ const emailController = require('controllers/admin/emailController')
 router.get('/newEmail', emailController.newEmail)
 router.post('/newEmail', emailController.addNewEmail)
 router.get('/showEmails', emailController.showEmails)
-// router.delete('/showAdmins/:id', adminController.deleteAdmin)
-// router.get('/editAdmin/:id', adminController.showAdmin)
+router.get('/showEmailTemplates', emailController.showEmailTemplates)
+router.get('/showEmailTemplate/:id', emailController.showEmailTemplate)
 // router.put('/editAdmin/:id', adminValidator.adminHandle(), adminController.updateAdmin)
+// router.delete('/showAdmins/:id', adminController.deleteAdmin)
 
 module.exports = router

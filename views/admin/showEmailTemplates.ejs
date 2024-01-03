@@ -25,8 +25,8 @@
             <%- include('../components/adminRightMenu') -%>
 
             <script>
-                document.getElementById('showEmails').style.backgroundColor = "rgba(4, 37, 36, 0.986)"
-                document.getElementById('showEmails').borderRadius = "5px"
+                document.getElementById('emailSetting').style.backgroundColor = "rgba(4, 37, 36, 0.986)"
+                document.getElementById('emailSetting').borderRadius = "5px"
             </script>
                 <div class="col-10">
                     <div class="col-11 mx-5 counter">
@@ -50,24 +50,22 @@
                                 <thead>
                                   <tr>
                                     <th class="col-1" scope="col">#</th>
-                                    <th class="col-2" scope="col"> آدرس </th>
-                                    <th class="col-2" scope="col"> عنوان ایمیل</th>
+                                    <th class="col-5" scope="col"> عنوان ایمیل</th>
                                     <th class="col-1" scope="col"> عملیات </th>
                                   </tr>
                                 </thead>
                                 <tbody>
     
-                                <% emails.forEach((email, i) => {%>
+                                <% emailTemplates.forEach((email, i) => {%>
                                    
                                     <tr>
                                         <td><%= ++i %></td>
-                                        <td><%= email.emailTarget %></td>
                                         <td><%= email.title %></td>
                                         <td>
                                             <div class="container">
                                                 <div class="row justify-content-center">
                                                   <div>
-                                                        <a href="/admin-cPanel/email/editEmail/<%= email.id %>" class="btn btn-primary" role="button">
+                                                        <a href="/admin-cPanel/email/showEmailTemplate/<%= email.id %>" class="btn btn-primary" role="button">
                                                             <img src="/icons/eye.svg" alt="edit">
                                                         </a>   
                                                   </div>

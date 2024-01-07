@@ -150,7 +150,7 @@ module.exports = new class categoryController extends controller {
             } else {
                 data.image = m.image
             }
-            let category = await Category.updateOne({ _id: id }, { $set: data })
+            const category = await Category.updateOne({ _id: id }, { $set: data })
             return res.redirect('/admin-cPanel/category/showCategories')
         } catch (err) {
             next(err)

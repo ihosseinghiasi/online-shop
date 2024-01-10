@@ -3,6 +3,7 @@ const persianDate = require('date/persianDate')
 const Ticket = require('models/ticket')
 const User = require('models/user')
 const Admin = require('models/admin')
+const lodash = require('lodash')
 const mongoose = require('mongoose')
 const { validationResult } = require('express-validator')
 const ticketsReport = require('serverModules/ticketsReport')
@@ -18,20 +19,19 @@ module.exports = new class ticketController extends controller {
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
-
             const tickets = await Ticket.find({ })
-
-            
             let adminTicketsList = []
             Object.values(tickets).forEach(ticket => {
                 if(ticket.user == userID || adminDepartment === ticket.targetDepartment) {
                     adminTicketsList.push(ticket)
                 }
             })
-            const myTickets = newTicketsOverview(tickets)
+            const numberOfAdminTicketsList = adminTicketsList.length
+            const reversedAdminTicketsList = lodash.reverse(adminTicketsList)
 
             res.locals = {
-                adminTicketsList, 
+                numberOfAdminTicketsList, 
+                reversedAdminTicketsList,
                 persianDate,
                 recevedTicketsNumber
             }

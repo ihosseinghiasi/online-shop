@@ -32,7 +32,11 @@
             <div class="productFrame">
                 <% Object.values(products).forEach( product => { %>
                     <a href="/admin-cPanel/product/<%= product.productName %>/<%= product.id %>">
-                        <div class="productItem">
+                        <% if (product.count === 0) { %>
+                            <div class="productItem" style="pointer-events: none;">
+                        <% } else { %>
+                            <div class="productItem">
+                                <% } %>
                             <img src="<%= product.image %>" alt="productImage">
                             <p><%= product.title %></p>
                             <p class="price">

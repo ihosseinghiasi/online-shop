@@ -5,6 +5,7 @@ const Category = require('models/category')
 const Ticket = require('models/ticket')
 const Product = require('models/product')
 const Card = require('models/card')
+const lodash = require('lodash')
 const ticketsReport = require('serverModules/ticketsReport')
 
 module.exports = new class cardController extends controller {
@@ -110,6 +111,8 @@ module.exports = new class cardController extends controller {
 
         try {
             const cards = await Card.find({})
+            const numberOfCards = cards.length
+            const reversedCards = lodash.reverse(cards) 
 
             const userID = req.user.id
             const adminDepartment = req.user.department
@@ -120,7 +123,8 @@ module.exports = new class cardController extends controller {
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
-                cards,
+                reversedCards,
+                numberOfCards
            }          
            return res.render('admin/showCards')
         } catch (err) {

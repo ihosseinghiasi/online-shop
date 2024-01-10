@@ -57,10 +57,11 @@
                                 </thead>
                                 <tbody>
     
-                                <% emails.forEach((email, i) => {%>
+                                <% reversedEmails.forEach((email) => {%>
                                    
                                     <tr>
-                                        <td><%= ++i %></td>
+                                        <td><%= numberOfEmails %></td>
+                                        <% numberOfEmails-- %>
                                         <td><%= email.emailTarget %></td>
                                         <td><%= email.title %></td>
                                         <td>

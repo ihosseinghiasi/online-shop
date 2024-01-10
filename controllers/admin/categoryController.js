@@ -2,6 +2,7 @@ const controller = require('../controller')
 const persianDate = require('date/persianDate')
 const Category = require('models/category')
 const Product = require('models/product')
+const lodash = require('lodash')
 const Ticket = require('models/ticket')
 const { validationResult } = require('express-validator')
 const ticketsReport = require('serverModules/ticketsReport')
@@ -75,6 +76,8 @@ module.exports = new class categoryController extends controller {
 
         try {
             const categories = await Category.find({})
+            const numberOfCategories = categories.length
+            const reverseCategories = lodash.reverse(categories)
 
             const userID = req.user.id
             const adminDepartment = req.user.department
@@ -89,7 +92,8 @@ module.exports = new class categoryController extends controller {
                 recevedTicketsNumber,
                 sentTicketsNumber,
                 allTicketsNumber,
-                categories,
+                numberOfCategories,
+                reverseCategories
            }          
            return res.render('admin/showCategories')
         } catch (err) {

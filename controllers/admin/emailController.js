@@ -3,6 +3,7 @@ const persianDate = require('date/persianDate')
 const Email = require('models/email')
 const EmailTemplate = require('models/emailTemplate')
 const Ticket = require('models/ticket')
+const lodash = require(('lodash'))
 const nodemailer = require('nodemailer')
 const { validationResult } = require('express-validator')
 const ticketsReport = require('serverModules/ticketsReport')
@@ -107,6 +108,8 @@ module.exports = new class emailController extends controller {
 
         try {
             const emails = await Email.find({})
+            const numberOfEmails = emails.length
+            const reversedEmails = lodash.reverse(emails)
 
             const userID = req.user.id
             const adminDepartment = req.user.department
@@ -121,7 +124,8 @@ module.exports = new class emailController extends controller {
                 recevedTicketsNumber,
                 sentTicketsNumber,
                 allTicketsNumber,
-                emails,
+                numberOfEmails,
+                reversedEmails
            }          
            return res.render('admin/showEmails')
         } catch (err) {

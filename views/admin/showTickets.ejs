@@ -57,10 +57,11 @@
                             </thead>
                             <tbody>
     
-                            <% adminTicketsList.forEach((ticket, i) => {%>
+                            <% reversedAdminTicketsList.forEach((ticket) => {%>
                                
                                 <tr>
-                                    <td><%= ++i %></td>
+                                    <td><%= numberOfAdminTicketsList %></td>
+                                    <% numberOfAdminTicketsList-- %>
                                     <td><%= ticket.targetDepartment %></td>
                                     <td><%= ticket.title %></td>
                                     <td> <%= ticket.status %> </td>

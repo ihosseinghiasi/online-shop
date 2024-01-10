@@ -61,10 +61,11 @@
                                 </thead>
                                 <tbody>
     
-                                <% products.forEach((product, i) => {%>
+                                <% reversedProducts.forEach((product) => {%>
                                    
                                     <tr>
-                                        <td><%= ++i %></td>
+                                        <td><%= numberOfProducts %></td>
+                                        <% numberOfProducts-- %>
                                         <td><%= product.title %></td>
                                         <td class="enField"><%= product.productName %></td>
                                         <td><%= product.categoryTitle %></td>

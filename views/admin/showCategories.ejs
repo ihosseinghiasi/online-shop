@@ -58,10 +58,11 @@
                                 </thead>
                                 <tbody>
     
-                                <% categories.forEach((category, i) => {%>
+                                <%reverseCategories.forEach((category) => {%>
                                    
                                     <tr>
-                                        <td><%= ++i %></td>
+                                        <td><%= numberOfCategories %></td>
+                                        <% numberOfCategories-- %>
                                         <td><%= category.title %></td>
                                         <td class="enField"><%= category.categoryName %></td>
                                         <td>

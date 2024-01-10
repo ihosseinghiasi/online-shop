@@ -16,6 +16,8 @@ module.exports = new class counterController extends controller {
             const sentTicketsNumber = ticketNumber.sentTicketsNumber
             const allTicketsNumber = ticketNumber.allTicketsNumber
 
+            
+
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,

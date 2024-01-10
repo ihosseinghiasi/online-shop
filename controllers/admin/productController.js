@@ -3,6 +3,7 @@ const persianDate = require('date/persianDate')
 const Product = require('models/product')
 const Ticket = require('models/ticket')
 const Category = require('models/category')
+const lodash = require('lodash')
 const { validationResult } = require('express-validator')
 const ticketsReport = require('serverModules/ticketsReport')
 
@@ -91,6 +92,8 @@ module.exports = new class productController extends controller {
 
         try {
             const products = await Product.find({})
+            const numberOfProducts = products.length
+            const reversedProducts = lodash.reverse(products)
 
             const userID = req.user.id
             const adminDepartment = req.user.department
@@ -101,7 +104,8 @@ module.exports = new class productController extends controller {
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
-                products,
+                numberOfProducts,
+                reversedProducts
            }          
            return res.render('admin/showProducts')
         } catch (err) {

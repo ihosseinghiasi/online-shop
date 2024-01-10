@@ -6,6 +6,7 @@ const flash = require('connect-flash');
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const chartJs = require('chart.js/auto')
+const lodash = require('lodash')
 const {default: mongoose} = require('mongoose')
 const cors = require('cors');
 const { mkdir } = require('mkdirp')

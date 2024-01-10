@@ -59,10 +59,11 @@
                                 </thead>
                                 <tbody>
     
-                                <% cards.forEach((card, i) => {%>
+                                <% reversedCards.forEach((card) => {%>
                                    
                                     <tr>
-                                        <td><%= ++i %></td>
+                                        <td><%= numberOfCards %></td>
+                                        <% numberOfCards-- %>
                                         <td><%= card.cardCategory %></td>
                                         <td class="enField"><%= card.cardProduct %></td>
                                         <td><%= card.cardStatus %></td>

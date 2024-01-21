@@ -44,8 +44,8 @@
                 <div class="addAdmin col-11 my-5 mx-5">
                     <%- include('../components/validationError') -%>
                     <div class="addtitle my-3 mx-2 col-8">
-                        <img src="/icons/pie-chart-black.svg"  alt=" گزارش تیکت ها ">
-                        گزارش تیکت ها
+                        <img src="/icons/pie-chart-black.svg"  alt=" گزارش  فروش ">
+                        گزارش فروش 
                     </div>
                
                     <div class="addBody col-9 mx-5">
@@ -54,21 +54,69 @@
                         </div>
 
                     <script>
-                    const xValues = ["تیکت های دریافتی", "تیکت های ارسالی", "کل تیکت ها"];
-                    const yValues = ["<%= recevedTicketsNumber %>" ,"<%= sentTicketsNumber %>", "<%= allTicketsNumber %>"];
-                    const barColors = [
+                    
+                        const sellTitles = "<%= sellTitles %>"
+                        const sellTitlesArray = sellTitles.split(",")
+                        const sellValues = "<%= sellValues %>"
+                        const sellValuesArray = sellValues.split(",")
+                        const barColors = [
+                            "#2b5797",
+                            "#00aba9",
+                            "#b91df7",
+                            "#c91d47",
+                            "#bf1547",
+                            "#091247",
+                            "#baad47",
+                        ];
+
+                        new Chart("myChart", {
+                        type: "polarArea",
+                        data: {
+                            labels: sellTitlesArray,
+                            datasets: [{
+                            backgroundColor: barColors,
+                            data: sellValuesArray
+                            }]
+                        },
+                        options: {
+                            title: {
+                            display: true,
+                            text: "گزارش فروش محصولات"
+                            }
+                        }
+                        });
+                    </script>
+                    </div>
+                        </div>
+
+                <div class="addAdmin col-11 my-5 mx-5">
+                    <%- include('../components/validationError') -%>
+                    <div class="addtitle my-3 mx-2 col-8">
+                        <img src="/icons/pie-chart-black.svg"  alt=" گزارش تیکت ها ">
+                        گزارش تیکت ها
+                    </div>
+               
+                    <div class="addBody col-9 mx-5">
+                        <div class="ticketChart">
+                            <canvas id="ticketChart" style="width:100%;max-width:1600px"></canvas>
+                        </div>
+
+                    <script>
+                    const ticketTitles = ["تیکت های دریافتی", "تیکت های ارسالی", "کل تیکت ها"];
+                    const ticketValues = ["<%= recevedTicketsNumber %>" ,"<%= sentTicketsNumber %>", "<%= allTicketsNumber %>"];
+                    const ticketBarColors = [
                         "#2b5797",
                         "#00aba9",
                         "#b91d47",
                     ];
 
-                    new Chart("myChart", {
+                    new Chart("ticketChart", {
                     type: "polarArea",
                     data: {
-                        labels: xValues,
+                        labels: ticketTitles,
                         datasets: [{
-                        backgroundColor: barColors,
-                        data: yValues
+                        backgroundColor: ticketBarColors,
+                        data: ticketValues
                         }]
                     },
                     options: {

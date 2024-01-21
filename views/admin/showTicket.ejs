@@ -81,8 +81,8 @@
                                             <p> <%= tickets.sender %> در تاریخ <%= tickets.date %> گفت : </p>
                                         <% } %> 
                                     </div>
-                                    <div class="ticket mt-5 me-3 position-absolute" id="ticket"> 
-                                         <%= tickets.text %>
+                                    <div class="ticket mt-5 me-3 position-absolute" id="ticketText"> 
+                                        <p><%= tickets.text %></p>
                                     </div>
                                 </div>
                             </div>
@@ -164,5 +164,8 @@
     }
     }
   </script>
+
+
+
 
 

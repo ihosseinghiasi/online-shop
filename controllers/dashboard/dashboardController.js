@@ -50,6 +50,7 @@ module.exports = new class dashboardController extends controller {
                     user: req.user.id,
                     count: req.body.count,
                     price,
+                    title: req.body.title,
                     totalPrice,
                     resnumber: response.data.data.authority, 
                 }) 

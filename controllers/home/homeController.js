@@ -18,6 +18,7 @@ module.exports = new class homeController extends controller {
             // }
 
             const payment = await Payment.findOne({resnumber: req.query.Authority})
+            
             if(!payment) {
                 return res.send('چنین تراکنشی یافت نشد')
             }

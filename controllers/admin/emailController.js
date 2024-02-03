@@ -147,6 +147,7 @@ module.exports = new class emailController extends controller {
             const allTicketsNumber = ticketNumber.allTicketsNumber
 
             //nodemailer
+            
             const userEmail = req.user.email
             const userName = req.user.firstName + " " + req.user.lastName
             const emailTemplate = await EmailTemplate.findOne({ _id: "6597725e29b6b47b2f81271f" })

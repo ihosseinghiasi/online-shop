@@ -170,17 +170,16 @@
                                            <tr>
                                             <script>
                                                 const fields = "<%= purefieldNames %>"
-                                                const arrayF = fields.split(",")
+                                                const arrayFilelds = fields.split(",")
                                                 if(fields){
                                                     const lengthFields = "<%= purefieldNames.length %>"
 
                                                      window.addEventListener('load', async ()=> {
                                                     
                                                      if(lengthFields == 1) {
-                                                        document.getElementById('fields').value
-                                                         = arrayF[0]
+                                                        document.getElementById('fields').value = arrayFilelds[0]
                                                     } else {
-                                                        document.getElementById('fields').value = arrayF[0]
+                                                        document.getElementById('fields').value = arrayFilelds[0]
                                                         for (var i = 1; i< lengthFields; i++) {
                                                             let formField = document.getElementById('formField')
                                                             const fieldsLength = formField.getElementsByTagName('input')
@@ -193,7 +192,7 @@
                                                                 newfield.setAttribute('name', 'fields')
                                                                 newfield.setAttribute('class', 'form-control mt-1')
                                                                 newfield.setAttribute('id', 'fields')
-                                                                newfield.setAttribute('value', `${arrayF[i]}`)
+                                                                newfield.setAttribute('value', `${arrayFilelds[i]}`)
                                                                 newfield.setAttribute('placeholder', 'نام فیلد')
                                                                 formField.appendChild(newfield)
 

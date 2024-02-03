@@ -78,9 +78,7 @@ module.exports = new class ticketController extends controller {
             const adminID = req.user.id
             const admin = await Admin.findOne({ _id: adminID })
             function createticket() {
-                let newTicket = req.body.ticket
-                const tagIgnore = /(<([^>]+)>)/g
-                newTicket = newTicket.replace(tagIgnore,"")
+                const newTicket = req.body.ticket
                 let tickets = {}
                 if(newTicket) {
                     tickets = {ticket1 : { sender: admin.department, text: newTicket, date: persianDate }} 
@@ -148,9 +146,7 @@ module.exports = new class ticketController extends controller {
         let ticketsNumber = ++(tickets.tickets)
         let newTickets = tickets.newAdminTickets
        
-        let newTicketText = req.body.newTicket
-        const tagIgnore = /(<([^>]+)>)/g
-        newTicketText = newTicketText.replace(tagIgnore,"")
+        const newTicketText = req.body.newTicket
         const newText = []
         newText.push(newTicketText)
         const ticket = await Ticket.findOne({ _id: id }).select('ticket')

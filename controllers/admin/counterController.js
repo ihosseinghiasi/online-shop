@@ -4,6 +4,7 @@ const Ticket = require('models/ticket')
 const ticketsReport = require('serverModules/ticketsReport')
 const Payment = require('models/payment')
 const Product = require('models/product')
+const Card = require('models/card')
 
 
 module.exports = new class counterController extends controller {
@@ -29,7 +30,6 @@ module.exports = new class counterController extends controller {
             })
 
             const payment = await Payment.find({})
-            let countOfSell = 0
             let totalPriceOfSell = 0
             Object.values(payment).forEach(total => {
                 Object.values(total).forEach(payment => {
@@ -50,6 +50,33 @@ module.exports = new class counterController extends controller {
                 sellTitles.push(products.title)
                 sellValues.push(products.priceOfSell)
             })
+
+            // This Is Block Of Code For Sellling Email
+
+            const authority = "A00000000000000000000000000499613932" 
+            const myPayment = await Payment.findOne({ resnumber: authority })
+            const titleOfSell = myPayment.title
+            const countOfSell = myPayment.count
+
+            const cards = await Card.find({ $and: [{ cardProduct: "اکانت 3 ماهه ESET"}, { cardStatus: "فعال" }] })
+            // console.log(cards)
+
+            // const fields = cards.map(function(val, index){ 
+            //     return val; 
+            // })
+            // console.log(fields)
+
+            const newIndex = cards.slice(0, 1);
+            Object.values(newIndex).forEach(card => {
+                Object.values(card.cardFields).forEach(card => {
+                    console.log(card)
+                })
+                
+                
+            })
+
+
+            //
 
             res.locals = {
                 persianDate,

@@ -5,6 +5,9 @@ const ticketsReport = require('serverModules/ticketsReport')
 const Payment = require('models/payment')
 const Product = require('models/product')
 const Card = require('models/card')
+const emailSender = require('serverModules/emailSender')
+const EmailTemplate = require('models/emailTemplate')
+
 
 
 module.exports = new class counterController extends controller {
@@ -66,17 +69,23 @@ module.exports = new class counterController extends controller {
             // })
             // console.log(fields)
 
-            const newIndex = cards.slice(0, 1);
+
+            // Create Array Of Fields
+
+            const userEmail = req.user.email
+            const userName = req.user.firstName + " " + req.user.lastName
+            const emailTemplate = await EmailTemplate.findOne({ _id: "65c8ee210f2681a8d27c15c8" })
+            const newIndex = cards.slice(0, 2);
+
             Object.values(newIndex).forEach(card => {
+                const fields = []
+                console.log(card.cardStatus)
                 Object.values(card.cardFields).forEach(card => {
-                    console.log(card)
-                })
-                
-                
+                    fields.push(card)
+                })  
+            emailSender(userName, userEmail, emailTemplate, fields)
             })
-
-
-            //
+            // --------------------------------------
 
             res.locals = {
                 persianDate,

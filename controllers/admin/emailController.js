@@ -3,7 +3,7 @@ const persianDate = require('date/persianDate')
 const Email = require('models/email')
 const EmailTemplate = require('models/emailTemplate')
 const Ticket = require('models/ticket')
-const lodash = require(('lodash'))
+const lodash = require('lodash')
 const nodemailer = require('nodemailer')
 const { validationResult } = require('express-validator')
 const ticketsReport = require('serverModules/ticketsReport')
@@ -152,7 +152,7 @@ module.exports = new class emailController extends controller {
             const userName = req.user.firstName + " " + req.user.lastName
             const emailTemplate = await EmailTemplate.findOne({ _id: "6597725e29b6b47b2f81271f" })
 
-            emailSender(userName, userEmail, emailTemplate)
+            // emailSender(userName, userEmail, emailTemplate)
             //end nodemailer
 
             res.locals = {

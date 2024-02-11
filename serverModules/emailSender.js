@@ -1,9 +1,18 @@
 const nodemailer = require('nodemailer')
 
-module.exports = function emailSender (userName, userEmail, emailTemplate) {
-    const emailSubject = emailTemplate.title.replaceAll("%%site_title%%"," اکسپرس کارت ")
+module.exports = function emailSender (userName, userEmail, emailTemplate, fields = []) {
+
+    let fieldsDetail = ""
+    if(fields) {
+        Object.values(fields).forEach(field => {
+            fieldsDetail += field.fieldName + " : " + field.fieldValue + "<br>"
+        })
+    }
+    
+    const emailSubject = emailTemplate.title.replaceAll("%%site_title%%", " اکسپرس کارت ")
+        .replaceAll("%%user_name%%", userName).replaceAll("%%sell_fields%%", fieldsDetail)
     const emailDescription = emailTemplate.description.replaceAll("%%user_name%%", userName)
-        .replaceAll("%%site_title%%"," اکسپرس کارت ") 
+        .replaceAll("%%site_title%%"," اکسپرس کارت ").replaceAll("%%sell_fields%%", fieldsDetail) 
 
     const transporter = nodemailer.createTransport({
         service: "gmail",

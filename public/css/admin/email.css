@@ -1,5 +1,5 @@
 .addAdmin {
-    height: 850px;
+    height: 120vh;
     box-shadow: 1px 1px 70px lightgray;
 }
 
@@ -21,4 +21,24 @@
 
 .titleWidth {
     width: 892px;
+}
+
+.expressCard {
+    margin-top: 55px;
+    text-align: center;
+}
+
+.emailFrame {
+    height: 100vh;
+    width: 65%;
+    margin: 50px 250px;
+    box-shadow: 1px 1px 70px lightgray;
+}
+
+.description {
+    position: absolute;
+   height: 100%;
+   width: 80%;
+   font-size: 1.2em;
+   margin: 50px 50px;
 }

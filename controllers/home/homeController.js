@@ -4,6 +4,7 @@ const router = express.Router()
 const persianDate = require('persian-date');
 const Category = require('models/category')
 const passport = require('passport');
+const Email = require('models/email')
 const Payment = require('models/payment')
 const Card = require('models/card')
 const EmailTemplate = require('models/emailTemplate')
@@ -39,16 +40,6 @@ module.exports = new class homeController extends controller {
                 payment.payment = true
                 await payment.save()
 
-                console.log(cards)
-                // console.log(cards)
-    
-                // const fields = cards.map(function(val, index){ 
-                //     return val; 
-                // })
-                // console.log(fields)
-    
-    
-                
                 const userEmail = req.user.email
                 const userName = req.user.firstName + " " + req.user.lastName
                 const emailTemplate = await EmailTemplate.findOne({ _id: "65c8ee210f2681a8d27c15c8" })
@@ -62,9 +53,17 @@ module.exports = new class homeController extends controller {
                         fields.push(card)
                     })  
                 emailSender(userName, userEmail, emailTemplate, fields)
+
+                const newEmail = new Email ({
+                    title: emailTemplate.title,
+                    description: emailTemplate.description,
+                    emailTarget: userEmail
+                })
+                newEmail.save()
+
                 })
                 // --------------------------------------
-    
+               
 
                 res.redirect('/dashboard')
             }else{

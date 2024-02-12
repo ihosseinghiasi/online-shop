@@ -1,7 +1,7 @@
 const controller = require('../controller')
 const persianDate = require('date/persianDate')
-const Email = require('models/email')
 const EmailTemplate = require('models/emailTemplate')
+const Email = require('models/email')
 const Ticket = require('models/ticket')
 const lodash = require('lodash')
 const nodemailer = require('nodemailer')
@@ -37,9 +37,6 @@ module.exports = new class emailController extends controller {
                 // errors: req.flash('errors')
            }
 
-            // const tagIgnore = /(<([^>]+)>)/g
-            // let emailDescription = req.body.description
-            // const description = emailDescription.replace(tagIgnore,"")
             const newEmailTemplate = new EmailTemplate({
                 title: req.body.title,
                 description: req.body.description
@@ -148,9 +145,9 @@ module.exports = new class emailController extends controller {
 
             //nodemailer
             
-            const userEmail = req.user.email
-            const userName = req.user.firstName + " " + req.user.lastName
-            const emailTemplate = await EmailTemplate.findOne({ _id: "6597725e29b6b47b2f81271f" })
+            // const userEmail = req.user.email
+            // const userName = req.user.firstName + " " + req.user.lastName
+            // const emailTemplate = await EmailTemplate.findOne({ _id: "6597725e29b6b47b2f81271f" })
 
             // emailSender(userName, userEmail, emailTemplate)
             //end nodemailer
@@ -181,21 +178,13 @@ module.exports = new class emailController extends controller {
             const sentTicketsNumber = ticketNumber.sentTicketsNumber
             const allTicketsNumber = ticketNumber.allTicketsNumber
 
-            // const newEmail = new Email ({
-            //     title: "dsgjgjfgfjgjf",
-            //     description: emailTemplate.description,
-            //     emailTarget: "hosseinghiasi.info@gmail.com"
-            // })
-
-            // await newEmail.save()
-
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
                 sentTicketsNumber,
                 allTicketsNumber,
                 emailTemplate,
-                errors: req.flash('errors') 
+                // errors: req.flash('errors') 
             }
             res.render('admin/showEmailTemplate')
         } catch (err) {

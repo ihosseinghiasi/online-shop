@@ -83,7 +83,7 @@ module.exports = new class counterController extends controller {
                 Object.values(card.cardFields).forEach(card => {
                     fields.push(card)
                 })  
-            emailSender(userName, userEmail, emailTemplate, fields)
+            // emailSender(userName, userEmail, emailTemplate, fields)
             })
             // --------------------------------------
 

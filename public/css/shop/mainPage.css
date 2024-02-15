@@ -152,15 +152,66 @@ body {
 }
 
 footer {
-    height: 100px;
+    height: 70vh;
     width: 100%;
     background-color: #020720;
     margin-top: 100px;
 }
 
-footer p {
-    text-align: center;
-    color: #fff;
-    font-size: 2em;
-    padding-top: 40px;
+.contacts {
+    height: 60vh;
+    width: 30%;
+    float: right;
+    margin: 50px 35px 0 0;
+}
+
+.links {
+    height: 60vh;
+    width: 33%;
+    float: right;
+    margin: 50px 35px 0 0;
+}
+
+.symbols {
+    height: 60vh;
+    width: 28%;
+    float: right;
+    margin: 50px 35px 0 0;
+}
+
+.contactsTitle {
+    margin: 25px 15px 40px 0;
+    color: lightgray;
+    font-size: 2.0em;
+}
+
+.contactsDetail {
+    height: 7vh;
+    width: 80%;
+    margin: 20px 20px 0 0;
+}
+
+.contactsParagraph {
+    font-size: 1.2em;
+    color: white;
+}
+
+.divLinks {
+    height: 40vh;
+    width: 45%;
+    float: right;
+    margin: 0 5px 0 0;
+}
+
+.divSymbols {
+    height: 40vh;
+    width: 47%;
+    float: right;
+    margin: 0 5px 0 0;
+}
+
+.symbol {
+    height: 25vh;
+    width: 25vh;
+    margin: 0;
 }

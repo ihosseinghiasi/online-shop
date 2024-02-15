@@ -180,7 +180,11 @@ module.exports = new class categoryController extends controller {
             const category = await Category.findOne({ _id: id })
             const products = await Product.find({ categoryTitle: category.title })
             const categories = await Category.find({})
-            let userStatus = "quest" 
+            let userStatus = "quest"
+            let userType = "" 
+            Object.values(req.user).forEach(user => {
+                userType = user.userType
+            })
             if(req.isAuthenticated()) {
                 userStatus = "user"
             }
@@ -189,7 +193,8 @@ module.exports = new class categoryController extends controller {
                 category,
                 categories,
                 userStatus,
-                user: req.user
+                user: req.user,
+                userType
             }
             res.render('shop/category')
         } catch (err) {

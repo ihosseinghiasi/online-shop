@@ -30,6 +30,7 @@ module.exports = new class adminController extends controller {
                 email: req.body.email,
                 password: bcrypt.hashSync(req.body.password, 10),
                 department: req.body.department,
+                userType: "admin",
                 isPassword: req.body.isPassword,
                 isAdmin: req.body.isAdmin,
                 isProduct: req.body.isProduct,

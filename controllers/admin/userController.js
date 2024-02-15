@@ -64,6 +64,7 @@ module.exports = new class userController extends controller {
                 email: req.body.email,
                 password: bcrypt.hashSync(req.body.password, 10),
                 phone: req.body.phone,
+                userType: "user"
             })
             await newUser.save()
             return res.redirect('/admin-cPanel/user/showUsers')

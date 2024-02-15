@@ -1,5 +1,6 @@
 .addAdmin {
     height: 120vh;
+    max-width: 800px;
     box-shadow: 1px 1px 70px lightgray;
 }
 
@@ -31,14 +32,14 @@
 .emailFrame {
     height: 100vh;
     width: 65%;
-    margin: 50px 250px;
+    margin: 50px 250px 0 0;
     box-shadow: 1px 1px 70px lightgray;
 }
 
 .description {
-    position: absolute;
-   height: 100%;
-   width: 80%;
+   position: absolute;
+   height: 90vh;
+   width: 57%;
    font-size: 1.2em;
    margin: 50px 50px;
 }

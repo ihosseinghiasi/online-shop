@@ -20,7 +20,6 @@
            
         </ul>
 
-    
         <ul class="navbar-nav me-auto me-5">
 
             <li class="nav-item ms-3 mt-1">
@@ -42,7 +41,11 @@
                 <img src="/icons/user1.svg" alt="shopping">
               </a>
               <ul class="dropdown-menu dropdownMenu">
-                <li><a class="dropdown-item dropdownItem" href="/admin-cPanel/counter"> ورود به پنل </a></li>
+                <% if (userType === "admin") { %>
+                  <li><a class="dropdown-item dropdownItem" href="/admin-cPanel/counter"> ورود به پنل </a></li>
+                 <% } else { %>
+                  <li><a class="dropdown-item dropdownItem" href="/user-cPanel/counter"> ورود به پنل </a></li>
+                 <% } %> 
                 <li><a class="dropdown-item dropdownItem" href="/logout"> خروج </a></li>
               </ul>
             </li>   

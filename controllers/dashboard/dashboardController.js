@@ -16,11 +16,17 @@ module.exports = new class dashboardController extends controller {
           let newDate = new persianDate().format('dddd - DD MMMM YYYY')
           const categories = await Category.find({})
           const userStatus = "user"
+          let userType = ""
+          Object.values(req.user).forEach(user => {
+            userType = user.userType
+          })
+
           res.locals = {
               newDate,
               categories,
               userStatus,
-              user: req.user
+              user: req.user,
+              userType
           }
           res.render('index')
         } catch (err) {

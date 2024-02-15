@@ -54,9 +54,22 @@ module.exports = new class homeController extends controller {
                     })  
                 emailSender(userName, userEmail, emailTemplate, fields)
 
+                let fieldsDetail = ""
+                if(fields) {
+                    Object.values(fields).forEach(field => {
+                        fieldsDetail += field.fieldName + " : " + field.fieldValue + "<br>"
+                    })
+                }
+
+                const title = emailTemplate.title.replaceAll("%%site_title%%", " اکسپرس کارت ")
+                .replaceAll("%%user_name%%", userName).replaceAll("%%sell_fields%%", fieldsDetail)
+            const description = emailTemplate.description.replaceAll("%%user_name%%", userName)
+                .replaceAll("%%site_title%%"," اکسپرس کارت ").replaceAll("%%sell_fields%%", fieldsDetail) 
+        
+
                 const newEmail = new Email ({
-                    title: emailTemplate.title,
-                    description: emailTemplate.description,
+                    title,
+                    description,
                     emailTarget: userEmail
                 })
                 newEmail.save()

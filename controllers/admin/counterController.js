@@ -62,15 +62,6 @@ module.exports = new class counterController extends controller {
             const countOfSell = myPayment.count
 
             const cards = await Card.find({ $and: [{ cardProduct: "اکانت 3 ماهه ESET"}, { cardStatus: "فعال" }] })
-            // console.log(cards)
-
-            // const fields = cards.map(function(val, index){ 
-            //     return val; 
-            // })
-            // console.log(fields)
-
-
-            // Create Array Of Fields
 
             const userEmail = req.user.email
             const userName = req.user.firstName + " " + req.user.lastName

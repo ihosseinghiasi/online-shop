@@ -14,9 +14,9 @@
         <div class="smsForm">
             <form action="/authentication/smsConfirm" method="POST">
                 <p class="mt-4 phoneNumber"> <%= phoneNumber %> </p>
-                <input type="tel" class="smsText form-control" tabindex="1" name="phone" id="phone">
-                <div timer id='timer' class=timer></div>
-                <button class="btn btn-danger mt-1">ثبت</button>
+                <input type="tel" class="smsText form-control" name="code" id="code">
+                <div timer id='timer' class="timer" name="timer"></div>
+                <button class="btn btn-danger mt-1" id="submitButton">ثبت</button>
             </form>
         </div>
         
@@ -27,7 +27,7 @@
 
     window.addEventListener('load', ()=> {
         countdown(2,0)
-    })
+        })
 
     var timeoutHandle;
 function countdown(minutes, seconds) {
@@ -38,6 +38,7 @@ function countdown(minutes, seconds) {
         seconds--;
         if (seconds >= 0) {
             timeoutHandle = setTimeout(tick, 1000);
+            
         } else {
             if (minutes >= 1) {
                 // countdown(mins-1);   never reach “00″ issue solved:Contributed by Victor Streithorst
@@ -46,6 +47,9 @@ function countdown(minutes, seconds) {
                 }, 1000);
             }
         }
+        if(seconds == 0 && minutes == 0) {
+                document.getElementById('submitButton').disabled = true
+            }
     }
     tick();
 }

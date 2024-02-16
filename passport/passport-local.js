@@ -62,7 +62,7 @@ passport.use('local.register', new LocalStrategy(
             lastName: req.body.lastName,
             email: req.body.email,
             password: bcrypt.hashSync(req.body.password, 10),
-            phone: "09122300017",
+            phone: req.body.phoneNumber,
         })
         await newUser.save()
         done(null, newUser)

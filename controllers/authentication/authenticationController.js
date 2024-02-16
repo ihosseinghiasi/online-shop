@@ -6,6 +6,8 @@ const User = require('models/user')
 const {Smsir} = require('smsir-js');
 const passport = require('passport');
 const bcrypt = require('bcryptjs')
+const EmailTemplate = require('models/emailTemplate')
+const emailSender = require('serverModules/emailSender')
 const { validationResult } = require('express-validator')
 
 
@@ -113,18 +115,18 @@ module.exports = new class authController extends controller {
             //     return res.redirect('/authentication/smsRequest')
             // }
 
-            // localStorage.clear()
-            // const phoneNumber = req.body.phone
-            // localStorage.setItem('phoneNumber', phoneNumber)
-            // const code = Math.floor(100000 + Math.random() * 900000)
-            // smsir.SendVerifyCode("09192300017", 100000,  [
-            //     {
-            //       "name": "code",
-            //       "value": "12345"
-            //     }
-            //   ])
+            localStorage.clear()
+            const phoneNumber = req.body.phone
+            localStorage.setItem('phoneNumber', phoneNumber)
+            const code = Math.floor(100000 + Math.random() * 900000)
+            localStorage.setItem('verfyCode', code)
+            smsir.SendVerifyCode(phoneNumber, 930321,  [
+                {
+                  "name": "code",
+                  "value": code.toString()
+                }
+              ])
 
-            // console.log('smsForm')
             res.redirect('/authentication/smsConfirm')
         } catch (err) {
             next(err)
@@ -145,9 +147,11 @@ module.exports = new class authController extends controller {
 
     async smsConfirm(req, res, next) {
         try {
-            // const phoneNumber = localStorage.getItem('phoneNumber')
-            // console.log('smsConfirm')
-            res.redirect('/authentication/register')
+            const verfyCode = localStorage.getItem('verfyCode')
+            const code = req.body.code
+            if(code === verfyCode) {
+                res.redirect('/authentication/register')
+            }            
         } catch (err) {
             next(err)
         }
@@ -156,7 +160,13 @@ module.exports = new class authController extends controller {
 
     async registerForm(req, res, next) {
         try {
+            const phoneNumber = localStorage.getItem('phoneNumber')
+            res.locals = {
+                phoneNumber
+            }
+
             res.render('authentication/register')
+
         } catch (err) {
             next(err)
         }
@@ -174,9 +184,14 @@ module.exports = new class authController extends controller {
                 successRedirect: '/dashboard',
                 failureRedirect: '/authentication/smsRequest',
                 failureFlash: true
-            })(req, res, next)
-            // console.log('register')
-            // return res.redirect('/')
+            })(req, res, next)    
+            
+            const userEmail = req.body.email
+            const userName = req.body.firstName + " " + req.body.lastName
+            const emailTemplate = await EmailTemplate.findOne({ _id: "6597725e29b6b47b2f81271f" })
+
+            emailSender(userName, userEmail, emailTemplate)
+
         } catch (err) {
             next(err)
         }

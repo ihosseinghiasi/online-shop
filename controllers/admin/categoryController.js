@@ -185,9 +185,11 @@ module.exports = new class categoryController extends controller {
             Object.values(req.user).forEach(user => {
                 userType = user.userType
             })
+            
             if(req.isAuthenticated()) {
                 userStatus = "user"
             }
+        
             res.locals = {
                 products,
                 category,

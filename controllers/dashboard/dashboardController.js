@@ -28,6 +28,7 @@ module.exports = new class dashboardController extends controller {
               user: req.user,
               userType
           }
+          
           res.render('index')
         } catch (err) {
             next(err)

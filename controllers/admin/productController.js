@@ -231,11 +231,15 @@ module.exports = new class productController extends controller {
             const tax = (product.price * 9) / 100
             const payment = product.price + tax
             const count = product.count
+            if(count >= 10) {
+                count = 10
+            }
             let userStatus = "quest"
             let userType = "" 
             Object.values(req.user).forEach(user => {
                 userType = user.userType
             })
+            
             if(req.isAuthenticated()) {
                 userStatus = "user"
             }
@@ -246,7 +250,7 @@ module.exports = new class productController extends controller {
                 user: req.user,
                 tax,
                 payment,
-                count: 10,
+                count,
                 userType
             }
             res.render('shop/product')

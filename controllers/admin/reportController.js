@@ -107,18 +107,45 @@ module.exports = new class reportController extends controller {
                 values.push(counts.count)
             })
 
-            console.log(titles)
-            console.log(values)
+            res.locals = {
+                persianDate,
+                recevedTicketsNumber,
+                sentTicketsNumber,
+                allTicketsNumber,
+                titles,
+                values
+            }
+            res.render('admin/storeReport')
+        } catch (err) {
+            next(err)
+        }
+    }
+
+    async generalPaymentReport(req, res, next) {
+        try {
+
+            const userID = req.user.id
+            const adminDepartment = req.user.department
+            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+            const ticketNumber = ticketsReport(userTickets)
+            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+            const sentTicketsNumber = ticketNumber.sentTicketsNumber
+            const allTicketsNumber = ticketNumber.allTicketsNumber
+
+            
+            const payments = await Payment.find({})
+            console.log(payments)
 
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
                 sentTicketsNumber,
                 allTicketsNumber,
-                // sellTitles,
-                // sellValues
-           }
-            res.render('admin/storeReport')
+                
+            }
+            res.render('admin/paymentReport')
+
+
         } catch (err) {
             next(err)
         }

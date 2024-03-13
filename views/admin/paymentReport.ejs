@@ -34,7 +34,7 @@
             <div class="col-10">
                 <div class="col-11 mx-5 counter">
                     <div class="titleCounter">
-                        <p> پیشخوان > گزارش گیری > گزارش موجودی انبار </p>
+                        <p> پیشخوان > گزارش گیری > گزارش  خرید </p>
                     </div>
                     <div class="d-flex justify-content-start parsianDate">
                        <p><%= persianDate %></p>
@@ -48,47 +48,8 @@
                         گزارش کلی موجودی انبار 
                     </div>
 
-                    <div class="addBody col-9 mx-5">
-                        <div class="ticketChart">
-                            <canvas id="myChart" style="width:100%;max-width:1600px"></canvas>
-                        </div>
 
-                    <script>
-                    
-                        const titles = "<%= titles %>"
-                        const titlesArray = titles.split(",")
-                        const values = "<%= values %>"
-                        const valuesArray = values.split(",")
-                        let valuesWithToman = []
-                        Object.values(valuesArray).forEach(value => {
-                            valuesWithToman.push(value + "toman")
-                        })
-                        const barColors = [
-                            "#2b5797",
-                            "#00aba9",
-                            "#b91df7",
-                            "#c91d47",
-                            "#bf1547",
-                            "#091247",
-                            "#baad47",
-                        ];
-
-                        new Chart("myChart", {
-                        type: "bar",
-                        data: {
-                            labels: titlesArray,
-                            datasets: [{
-                            label: "موجودی انبار",
-                            backgroundColor: barColors,
-                            data: valuesArray
-                            }]
-                        },
-                        });
-                    </script>
-                    </div>
-
-               
-                   </div>
+                </div>
                   </div>
                 </div>
             </div>

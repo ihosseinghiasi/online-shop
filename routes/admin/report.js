@@ -5,5 +5,6 @@ const reportController = require('controllers/admin/reportController')
 router.get('/ticket', reportController.generalTicketsReport)
 router.get('/sell', reportController.generalSellReport)
 router.get('/store', reportController.generalStoreReport)
+router.get('/payment', reportController.generalPaymentReport)
 
 module.exports = router

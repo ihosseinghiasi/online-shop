@@ -3,6 +3,7 @@ let persianDate = require('date/persianDate')
 const Ticket = require('models/ticket')
 const Product = require('models/product')
 const Payment = require('models/payment')
+const lodash = require('lodash')
 const ticketsReport = require('serverModules/ticketsReport')
 
 module.exports = new class reportController extends controller {
@@ -40,25 +41,31 @@ module.exports = new class reportController extends controller {
             const sentTicketsNumber = ticketNumber.sentTicketsNumber
             const allTicketsNumber = ticketNumber.allTicketsNumber
 
-            const productsTotalPrice = []
+            const productsTotalPriceAndCount = []
             function productDetail(title) {
                 this.title = title
                 this.priceOfSell = 0 
+                this.countOfSell = 0
             }
             const products = await Product.find({})
             Object.values(products).forEach(product => {
-                productsTotalPrice.push(new productDetail(product.title))
+                productsTotalPriceAndCount.push(new productDetail(product.title))
             })
 
-            const payment = await Payment.find({})
+            const payments = await Payment.find({})
+            const paymentsLength = payments.length
+            const reversedPayments = lodash.reverse(payments)
             let totalPriceOfSell = 0
-            Object.values(payment).forEach(total => {
+            let totalCountOfSell = 0
+            Object.values(payments).forEach(total => {
                 Object.values(total).forEach(payment => {
                    if(payment.payment === true ||  payment.payment === false) {
                         totalPriceOfSell += payment.totalPrice
-                        Object.values(productsTotalPrice).forEach(productValues => {
+                        totalCountOfSell += payment.count
+                        Object.values(productsTotalPriceAndCount).forEach(productValues => {
                             if(productValues.title === payment.title) {
                                 productValues.priceOfSell += payment.totalPrice
+                                productValues.countOfSell += payment.count
                             }
                         })          
                    }
@@ -66,21 +73,24 @@ module.exports = new class reportController extends controller {
             })
 
             let sellTitles = ["کل فروش"]
-            let sellValues = [totalPriceOfSell]
-            Object.values(productsTotalPrice).forEach(products => {
+            let sellPriceValues = [totalPriceOfSell]
+            let sellCountValues = [totalCountOfSell]
+            Object.values(productsTotalPriceAndCount).forEach(products => {
                 sellTitles.push(products.title)
-                sellValues.push(products.priceOfSell)
+                sellPriceValues.push(products.priceOfSell)
+                sellCountValues.push(products.countOfSell)
             })
-
-            
 
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
                 sentTicketsNumber,
                 allTicketsNumber,
+                reversedPayments,
+                paymentsLength,
                 sellTitles,
-                sellValues
+                sellPriceValues,
+                sellCountValues,
            }
             res.render('admin/sellReport')
         } catch (err) {
@@ -121,9 +131,8 @@ module.exports = new class reportController extends controller {
         }
     }
 
-    async generalPaymentReport(req, res, next) {
-        try {
-
+    async showPayment(req, res, next) {
+       try {
             const userID = req.user.id
             const adminDepartment = req.user.department
             const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
@@ -132,23 +141,20 @@ module.exports = new class reportController extends controller {
             const sentTicketsNumber = ticketNumber.sentTicketsNumber
             const allTicketsNumber = ticketNumber.allTicketsNumber
 
-            
-            const payments = await Payment.find({})
-            console.log(payments)
+            const id = req.params.id.trim()
+            const payment = await Payment.findOne({ _id: id })
 
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
                 sentTicketsNumber,
                 allTicketsNumber,
-                
+                payment
             }
-            res.render('admin/paymentReport')
-
-
-        } catch (err) {
-            next(err)
-        }
+            res.render('admin/showPayment')
+       } catch (err) {
+        next(err)
+       }
     }
 
 }

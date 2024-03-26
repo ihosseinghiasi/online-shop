@@ -49,18 +49,17 @@
                     </div>
                
                     <div class="addBody col-9 mx-5">
-                        <div class="ticketChart">
-                            <canvas id="myChart" style="width:100%;max-width:1600px"></canvas>
+                        <div class="PriceChart col-11">
+                            <canvas id="myPriceChart" style="width:100%;max-width:1600px"></canvas>
                         </div>
 
                     <script>
                     
                         const sellTitles = "<%= sellTitles %>"
                         const sellTitlesArray = sellTitles.split(",")
-                        const sellValues = "<%= sellValues %>"
+                        const sellValues = "<%= sellPriceValues %>"
                         const sellValuesArray = sellValues.split(",")
                         Object.values(sellValuesArray).forEach(value => {
-                            value += value + "djkhdfhkdhfk"
                         })
                         const barColors = [
                             "#2b5797",
@@ -72,7 +71,7 @@
                             "#baad47",
                         ];
 
-                        new Chart("myChart", {
+                        new Chart("myPriceChart", {
                         type: "polarArea",
                         data: {
                             labels: sellTitlesArray,
@@ -91,6 +90,105 @@
                     </script>
                     </div>
                    </div>
+
+                   <div class="addAdmin col-11 my-5 mx-5">
+                    <%- include('../components/validationError') -%>
+                    <div class="addtitle my-3 mx-2 col-8">
+                        <img src="/icons/pie-chart-black.svg"  alt=" گزارش تعداد فروش محصولات">
+                        گزارش تعداد فروش محصولات
+                    </div>
+               
+                    <div class="addBody col-9 mx-5">
+                        <div class="numberOfSellChart col-11">
+                            <canvas id="numberOfSellChart" style="width:100%;max-width:1600px"></canvas>
+                        </div>
+
+                    <script>
+                    
+                        const sellCountTitles = "<%= sellTitles %>"
+                        const sellCountTitlesArray = sellCountTitles.split(",")
+                        const sellCountValues = "<%= sellCountValues %>"
+                        const sellCountValuesArray = sellCountValues.split(",")
+                        Object.values(sellValuesArray).forEach(value => {
+                        })
+                        const barCountColors = [
+                            "#2b5797",
+                            "#00aba9",
+                            "#b91df7",
+                            "#c91d47",
+                            "#bf1547",
+                            "#091247",
+                            "#baad47",
+                        ];
+
+                        new Chart("numberOfSellChart", {
+                        type: "bar",
+                        data: {
+                            labels: sellCountTitlesArray,
+                            datasets: [{
+                            backgroundColor: barCountColors,
+                            label: "موجودی انبار",
+                            data: sellCountValuesArray
+                            }]
+                        },
+                        options: {
+                            title: {
+                            display: true,
+                            text: "گزارش فروش محصولات"
+                            }
+                        }
+                        });
+                    </script>
+                    </div>
+                   </div>
+
+                   <div class="addAdmin col-11 my-5 mx-5">
+                    <%- include('../components/validationError') -%>
+                    <div class="addtitle my-3 mx-2 col-8">
+                        <img src="/icons/pie-chart-black.svg"  alt=" گزارش تعداد فروش محصولات">
+                         فروش محصولات
+                    </div>
+
+                   <div class="addBody col-9 mx-5">
+                    <div class="my-3 position-absolute col-10">
+                        <table class="table table-bordered my-5 mx-5 col-12 text-center align-middle">
+                            <thead>
+                              <tr>
+                                <th class="col-1" scope="col">#</th>
+                                <th class="col-2" scope="col"> عنوان </th>
+                                <th class="col-4" scope="col"> کد خرید </th>
+                                <th class="col-2" scope="col"> قیمت کل </th>
+                                <th class="col-2" scope="col"> عملیات </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+
+                            <% reversedPayments.forEach((payment) => {%>
+                               
+                                <tr>
+                                    <td><%= paymentsLength %></td>
+                                    <% paymentsLength-- %>
+                                    <td><%= payment.title %></td>
+                                    <td class="enField"><%= payment.resnumber %></td>
+                                    <td><%= payment.totalPrice %>  تومان</td>
+                                    <td>
+                                        <div class="container">
+                                            <div class="row justify-content-center">
+                                              <div class="col-4" style="margin-right: -18px;">
+                                                <a href="/admin-cPanel/report/payment/<%= payment.id %>" class="btn btn-success" role="button">
+                                                    <img src="/icons/eye.svg" alt="edit">
+                                                </a>   
+                                              </div>
+                                        </div>
+                                          </div>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                            </tbody>
+                          </table>
+                    </div> 
+                    <div> 
+                </div>
                   </div>
                 </div>
             </div>

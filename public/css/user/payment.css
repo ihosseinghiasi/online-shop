@@ -1,0 +1,38 @@
+.addAdmin {
+    height: 120vh;
+    box-shadow: 1px 1px 70px lightgray;
+}
+
+.addtitle {
+    position: absolute;
+}
+
+.addBody {
+    position: absolute;
+    margin-top: 80px;
+
+}
+
+.titleWidth {
+    width: 892px;
+}
+
+.expressCard {
+    margin-top: 55px;
+    text-align: center;
+}
+
+.paymentFrame {
+    height: 100vh;
+    width: 65%;
+    margin: 50px 250px 0 0;
+    box-shadow: 1px 1px 70px lightgray;
+}
+
+.description {
+   position: absolute;
+   height: 90vh;
+   width: 57%;
+   font-size: 1.2em;
+   margin: 50px 50px;
+}

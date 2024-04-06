@@ -3,6 +3,7 @@ const persianDate = require('date/persianDate')
 const EmailTemplate = require('models/emailTemplate')
 const Email = require('models/email')
 const Ticket = require('models/ticket')
+const Payment = require('models/payment')
 const lodash = require('lodash')
 const nodemailer = require('nodemailer')
 const { validationResult } = require('express-validator')
@@ -26,14 +27,14 @@ module.exports = new class emailController extends controller {
             const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
-            const sentTicketsNumber = ticketNumber.sentTicketsNumber
-            const allTicketsNumber = ticketNumber.allTicketsNumber
 
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
+            
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
-                sentTicketsNumber,
-                allTicketsNumber,
+                newPayments
                 // errors: req.flash('errors')
            }
 
@@ -57,14 +58,14 @@ module.exports = new class emailController extends controller {
             const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
-            const sentTicketsNumber = ticketNumber.sentTicketsNumber
-            const allTicketsNumber = ticketNumber.allTicketsNumber
+
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
 
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
-                sentTicketsNumber,
-                allTicketsNumber,
+                newPayments,
                 errors: req.flash('errors')
            }
             return res.render('admin/emailRegister')
@@ -83,14 +84,14 @@ module.exports = new class emailController extends controller {
             const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
-            const sentTicketsNumber = ticketNumber.sentTicketsNumber
-            const allTicketsNumber = ticketNumber.allTicketsNumber
+
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
 
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
-                sentTicketsNumber,
-                allTicketsNumber,
+                newPayments,
                 email,
                 errors: req.flash('errors') 
             }
@@ -113,14 +114,14 @@ module.exports = new class emailController extends controller {
             const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
-            const sentTicketsNumber = ticketNumber.sentTicketsNumber
-            const allTicketsNumber = ticketNumber.allTicketsNumber
+
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
 
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
-                sentTicketsNumber,
-                allTicketsNumber,
+                newPayments,
                 numberOfEmails,
                 reversedEmails
            }          
@@ -140,8 +141,9 @@ module.exports = new class emailController extends controller {
             const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
-            const sentTicketsNumber = ticketNumber.sentTicketsNumber
-            const allTicketsNumber = ticketNumber.allTicketsNumber
+
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
 
             //nodemailer
             
@@ -155,8 +157,7 @@ module.exports = new class emailController extends controller {
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
-                sentTicketsNumber,
-                allTicketsNumber,
+                newPayments,
                 emailTemplates,
            }          
            return res.render('admin/showEmailTemplates')
@@ -175,14 +176,14 @@ module.exports = new class emailController extends controller {
             const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
-            const sentTicketsNumber = ticketNumber.sentTicketsNumber
-            const allTicketsNumber = ticketNumber.allTicketsNumber
+
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
 
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
-                sentTicketsNumber,
-                allTicketsNumber,
+                newPayments,
                 emailTemplate,
                 // errors: req.flash('errors') 
             }
@@ -197,25 +198,16 @@ module.exports = new class emailController extends controller {
             const id = (req.params.id).trim()
             const emailTemplate = await EmailTemplate.findOne({ _id: id })
 
-            const userID = req.user.id
-            const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
-            const ticketNumber = ticketsReport(userTickets)
-            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
-            const sentTicketsNumber = ticketNumber.sentTicketsNumber
-            const allTicketsNumber = ticketNumber.allTicketsNumber
-
             const data = {
                 title: req.body.title,
                 description: req.body.description
             }
 
             const updateEmailTemplate = await EmailTemplate.updateOne({ _id: id }, { $set: data })
-
             res.redirect(`/admin-cPanel/email/showEmailTemplate/${id}`)
 
         } catch (err) {
-            
+            next(err)           
         }
     }
 }

@@ -2,6 +2,7 @@ const controller = require('../controller')
 const persianDate = require('date/persianDate')
 const Ticket = require('models/ticket')
 const mongoose = require('mongoose')
+const Payment = require('models/payment')
 const { validationResult } = require('express-validator')
 const ticketsReport = require('serverModules/ticketsReport')
 
@@ -14,6 +15,9 @@ module.exports = new class ticketController extends controller {
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
+            const payments = await Payment.find({ $and:[{ user: userID }, { isNewPaymentForUser: true }] })
+            const newPayments = payments.length
+
             const tickets = await Ticket.find({})
             let userTicketsList = []
             const userFullName = req.user.firstName + " " + req.user.lastName
@@ -25,7 +29,8 @@ module.exports = new class ticketController extends controller {
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
-                userTicketsList
+                userTicketsList,
+                newPayments
             } 
             return res.render('user/showTickets')
         } catch (err) {
@@ -40,8 +45,12 @@ module.exports = new class ticketController extends controller {
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
+            const payments = await Payment.find({ $and:[{ user: userID }, { isNewPaymentForUser: true }] })
+            const newPayments = payments.length
+
             res.locals = {
                 persianDate,
+                newPayments,
                 errors: req.flash('errors'),
                 recevedTicketsNumber
             }
@@ -89,6 +98,7 @@ module.exports = new class ticketController extends controller {
 
     async showTicket(req, res, next) {
         try {
+            
             let ticketText = []
             const id = (req.params.id).trim()
             const ticket = await Ticket.findOne({ _id: id })
@@ -110,11 +120,14 @@ module.exports = new class ticketController extends controller {
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
+            const payments = await Payment.find({ $and:[{ user: userID }, { isNewPaymentForUser: true }] })
+            const newPayments = payments.length
 
             res.locals = {
                 persianDate, 
                 ticket,
                 ticketText,
+                newPayments,
                 user: req.user,
                 recevedTicketsNumber
             } 

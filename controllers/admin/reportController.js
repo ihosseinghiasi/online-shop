@@ -18,11 +18,15 @@ module.exports = new class reportController extends controller {
             const sentTicketsNumber = ticketNumber.sentTicketsNumber
             const allTicketsNumber = ticketNumber.allTicketsNumber
 
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
+
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
                 sentTicketsNumber,
-                allTicketsNumber
+                allTicketsNumber,
+                newPayments
            }
             res.render('admin/ticketReport')
         } catch (err) {
@@ -40,6 +44,9 @@ module.exports = new class reportController extends controller {
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
             const sentTicketsNumber = ticketNumber.sentTicketsNumber
             const allTicketsNumber = ticketNumber.allTicketsNumber
+
+            const payment = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payment.length
 
             const productsTotalPriceAndCount = []
             function productDetail(title) {
@@ -91,6 +98,7 @@ module.exports = new class reportController extends controller {
                 sellTitles,
                 sellPriceValues,
                 sellCountValues,
+                newPayments
            }
             res.render('admin/sellReport')
         } catch (err) {
@@ -109,6 +117,9 @@ module.exports = new class reportController extends controller {
             const sentTicketsNumber = ticketNumber.sentTicketsNumber
             const allTicketsNumber = ticketNumber.allTicketsNumber
 
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
+
             const countOfProduct = await Product.find()
             let titles = []
             let values = []
@@ -122,6 +133,7 @@ module.exports = new class reportController extends controller {
                 recevedTicketsNumber,
                 sentTicketsNumber,
                 allTicketsNumber,
+                newPayments,
                 titles,
                 values
             }
@@ -141,15 +153,23 @@ module.exports = new class reportController extends controller {
             const sentTicketsNumber = ticketNumber.sentTicketsNumber
             const allTicketsNumber = ticketNumber.allTicketsNumber
 
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
+
+            const paymentss = await Payment.find({ isNewPaymentForAdmin: false })
+            const newPaymentss = paymentss.length
+
             const id = req.params.id.trim()
             const payment = await Payment.findOne({ _id: id })
+            const updatePayment = await Payment.updateOne({ _id: id }, { $set: { isNewPaymentForAdmin: false } })
 
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
                 sentTicketsNumber,
                 allTicketsNumber,
-                payment
+                payment,
+                newPayments
             }
             res.render('admin/showPayment')
        } catch (err) {

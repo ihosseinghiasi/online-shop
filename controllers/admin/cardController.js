@@ -4,6 +4,7 @@ const { validationResult } = require('express-validator')
 const Category = require('models/category')
 const Ticket = require('models/ticket')
 const Product = require('models/product')
+const Payment =require('models/payment')
 const Card = require('models/card')
 const lodash = require('lodash')
 const ticketsReport = require('serverModules/ticketsReport')
@@ -24,9 +25,13 @@ module.exports = new class cardController extends controller {
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
+
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
+                newPayments
         }
         const productSelected = req.body.cardProduct
         
@@ -94,11 +99,15 @@ module.exports = new class cardController extends controller {
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
+
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
                 categoryTitles,
                 products,
+                newPayments,
                 errors: req.flash('errors')
            }
             return res.render('admin/cardRegister')
@@ -120,11 +129,15 @@ module.exports = new class cardController extends controller {
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
+
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
                 reversedCards,
-                numberOfCards
+                numberOfCards,
+                newPayments
            }          
            return res.render('admin/showCards')
         } catch (err) {
@@ -145,12 +158,16 @@ module.exports = new class cardController extends controller {
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
+
             res.locals = {
                 persianDate,
                 products,
                 recevedTicketsNumber,
                 categoryTitles,
                 card,
+                newPayments,
                 errors: req.flash('errors') 
             }
             res.render('admin/editCard')

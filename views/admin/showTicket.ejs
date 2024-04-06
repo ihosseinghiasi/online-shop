@@ -81,20 +81,8 @@
                                             <p> <%= tickets.sender %> در تاریخ <%= tickets.date %> گفت : </p>
                                         <% } %> 
                                     </div>
-                                    <div class="ticket mt-5 me-3 position-absolute" id="ticketText"> 
-                                        <script>
-                                            window.addEventListener("load", async (event) => {
-                                                let text = `<%= String(tickets.text) %>`
-                                                $('#ticketText').html(
-                                          // create an element where the html content as the string
-                                          $('<div/>', {
-                                            html: text
-                                          // get text content from element for decoded text  
-                                          }).text()
-                                        )
-                                            })
-                                        </script>
-                                        
+                                    <div class=" mt-5 me-3 position-absolute" id="ticket"> 
+                                         <%= tickets.text %>
                                     </div>
                                 </div>
                             </div>

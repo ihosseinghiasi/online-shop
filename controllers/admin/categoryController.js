@@ -2,6 +2,7 @@ const controller = require('../controller')
 const persianDate = require('date/persianDate')
 const Category = require('models/category')
 const Product = require('models/product')
+const Payment = require('models/payment')
 const lodash = require('lodash')
 const Ticket = require('models/ticket')
 const { validationResult } = require('express-validator')
@@ -24,14 +25,14 @@ module.exports = new class categoryController extends controller {
             const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
-            const sentTicketsNumber = ticketNumber.sentTicketsNumber
-            const allTicketsNumber = ticketNumber.allTicketsNumber
+
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
 
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
-                sentTicketsNumber,
-                allTicketsNumber,
+                newPayments,
                 errors: req.flash('errors')
            }
             const categoryImage = req.file.path.replace(/\\/g, '/').substring(6)
@@ -56,14 +57,14 @@ module.exports = new class categoryController extends controller {
             const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
-            const sentTicketsNumber = ticketNumber.sentTicketsNumber
-            const allTicketsNumber = ticketNumber.allTicketsNumber
+
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
 
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
-                sentTicketsNumber,
-                allTicketsNumber,
+                newPayments,
                 errors: req.flash('errors')
            }
             return res.render('admin/categoryRegister')
@@ -84,16 +85,16 @@ module.exports = new class categoryController extends controller {
             const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
-            const sentTicketsNumber = ticketNumber.sentTicketsNumber
-            const allTicketsNumber = ticketNumber.allTicketsNumber
+
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
 
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
-                sentTicketsNumber,
-                allTicketsNumber,
                 numberOfCategories,
-                reverseCategories
+                reverseCategories,
+                newPayments
            }          
            return res.render('admin/showCategories')
         } catch (err) {
@@ -111,15 +112,15 @@ module.exports = new class categoryController extends controller {
             const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
-            const sentTicketsNumber = ticketNumber.sentTicketsNumber
-            const allTicketsNumber = ticketNumber.allTicketsNumber
+
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
 
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
-                sentTicketsNumber,
-                allTicketsNumber,
                 category,
+                newPayments,
                 errors: req.flash('errors') 
             }
             res.render('admin/editCategory')

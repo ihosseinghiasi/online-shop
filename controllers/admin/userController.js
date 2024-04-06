@@ -3,6 +3,7 @@ const User = require('models/user')
 const Ticket = require('models/ticket')
 const persianDate = require('date/persianDate')
 const mongoose = require('mongoose')
+const Payment = require('models/payment')
 const bcrypt = require('bcryptjs')
 const { validationResult } = require('express-validator')
 const ticketsReport = require('serverModules/ticketsReport')
@@ -18,10 +19,14 @@ module.exports = new class userController extends controller {
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
+
             res.locals = {
                 users, 
                 persianDate,
-                recevedTicketsNumber
+                recevedTicketsNumber,
+                newPayments
             }
             return res.render('admin/showUsers')
         } catch (err) {
@@ -40,10 +45,14 @@ module.exports = new class userController extends controller {
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
+
             res.locals = {
                 persianDate, 
                 user,
-                recevedTicketsNumber
+                recevedTicketsNumber,
+                newPayments
             } 
             res.render('admin/editUser')            
         } catch (err) {
@@ -107,10 +116,14 @@ module.exports = new class userController extends controller {
                     const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
                     const ticketNumber = ticketsReport(userTickets)
                     const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+
+                    const payments = await Payment.find({ isNewPaymentForAdmin: true })
+                    const newPayments = payments.length
                             
                     res.locals = {
                         persianDate,
                         recevedTicketsNumber,
+                        newPayments,
                         errors: req.flash('errors'),
                     }
                     return res.render('admin/userRegister')

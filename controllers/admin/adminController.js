@@ -3,6 +3,7 @@ let persianDate = require('date/persianDate')
 const Admin = require('models/admin')
 const { model } = require('mongoose')
 const Ticket = require('models/ticket')
+const Payment = require('models/payment')
 const bcrypt = require('bcryptjs')
 const { validationResult } = require('express-validator')
 const ticketsReport = require('serverModules/ticketsReport')
@@ -23,6 +24,9 @@ module.exports = new class adminController extends controller {
             const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
 
             const newAdmin = new Admin({
                 firstName: req.body.firstName,
@@ -47,6 +51,7 @@ module.exports = new class adminController extends controller {
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
+                newPayments
            }
             return res.redirect('/admin-cPanel/admin/showAdmins')
         } catch (err) {
@@ -63,10 +68,13 @@ module.exports = new class adminController extends controller {
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
 
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
+                newPayments,
                 errors: req.flash('errors')
            }
             return res.render('admin/adminRegister')
@@ -85,10 +93,14 @@ module.exports = new class adminController extends controller {
         const ticketNumber = ticketsReport(userTickets)
         const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
+        const payments = await Payment.find({ isNewPaymentForAdmin: true })
+        const newPayments = payments.length
+
         try {
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
+                newPayments,
                 admins
            }          
            return res.render('admin/showAdmins')
@@ -108,10 +120,14 @@ module.exports = new class adminController extends controller {
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
+
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
                 admin,
+                newPayments,
                 errors: req.flash('errors')
             }    
             res.render('admin/editAdmin')

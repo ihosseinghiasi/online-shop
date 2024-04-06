@@ -78,13 +78,17 @@ module.exports = new class counterController extends controller {
             })
             // --------------------------------------
 
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
+
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
                 sentTicketsNumber,
                 allTicketsNumber,
                 sellTitles,
-                sellValues
+                sellValues,
+                newPayments
             }
             res.render('admin/counter')
         } catch (err) {

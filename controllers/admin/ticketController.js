@@ -3,6 +3,7 @@ const persianDate = require('date/persianDate')
 const Ticket = require('models/ticket')
 const User = require('models/user')
 const Admin = require('models/admin')
+const Payment = require('models/payment')
 const lodash = require('lodash')
 const mongoose = require('mongoose')
 const { validationResult } = require('express-validator')
@@ -19,6 +20,9 @@ module.exports = new class ticketController extends controller {
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
+
             const tickets = await Ticket.find({ })
             let adminTicketsList = []
             Object.values(tickets).forEach(ticket => {
@@ -33,7 +37,8 @@ module.exports = new class ticketController extends controller {
                 numberOfAdminTicketsList, 
                 reversedAdminTicketsList,
                 persianDate,
-                recevedTicketsNumber
+                recevedTicketsNumber,
+                newPayments
             }
             return res.render('admin/showTickets')
         } catch (err) {
@@ -55,11 +60,15 @@ module.exports = new class ticketController extends controller {
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
+
             res.locals = {
                 persianDate,
                 errors: req.flash('errors'),
                 userNames,
-                recevedTicketsNumber
+                recevedTicketsNumber,
+                newPayments
             }
             return res.render('admin/ticketRegister')
         } catch (err) {
@@ -126,12 +135,16 @@ module.exports = new class ticketController extends controller {
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
+
             res.locals = {
                 persianDate, 
                 ticket,
                 ticketText,
                 user: req.user,
-                recevedTicketsNumber
+                recevedTicketsNumber,
+                newPayments
             } 
             res.render('admin/showTicket')            
         } catch (err) {

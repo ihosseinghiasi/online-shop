@@ -1,6 +1,7 @@
 const controller = require('../controller')
 const persianDate = require('date/persianDate')
 const Product = require('models/product')
+const Payment = require('models/payment')
 const Ticket = require('models/ticket')
 const Category = require('models/category')
 const lodash = require('lodash')
@@ -23,10 +24,14 @@ module.exports = new class productController extends controller {
                 const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
                 const ticketNumber = ticketsReport(userTickets)
                 const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+
+                const payments = await Payment.find({ isNewPaymentForAdmin: true })
+                const newPayments = payments.length
                 
                 res.locals = {
                     persianDate,
-                    recevedTicketsNumber
+                    recevedTicketsNumber,
+                    newPayments
             }
                function createFields() {
                 const newFields = req.body.fields
@@ -75,11 +80,15 @@ module.exports = new class productController extends controller {
             const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
             
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
                 categoryTitles,
+                newPayments,
                 errors: req.flash('errors')
            }
             return res.render('admin/productRegister')
@@ -101,11 +110,15 @@ module.exports = new class productController extends controller {
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
+
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
                 numberOfProducts,
-                reversedProducts
+                reversedProducts,
+                newPayments
            }          
            return res.render('admin/showProducts')
         } catch (err) {
@@ -139,12 +152,16 @@ module.exports = new class productController extends controller {
             const ticketNumber = ticketsReport(userTickets)
             const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
+            const payments = await Payment.find({ isNewPaymentForAdmin: true })
+            const newPayments = payments.length
+
             res.locals = {
                 persianDate,
                 recevedTicketsNumber,
                 product,
                 categoryTitles,
                 purefieldNames,
+                newPayments,
                 errors: req.flash('errors') 
             }
             res.render('admin/editProduct')

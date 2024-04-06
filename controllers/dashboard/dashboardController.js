@@ -59,7 +59,9 @@ module.exports = new class dashboardController extends controller {
                     price,
                     title: req.body.title,
                     totalPrice,
-                    resnumber: response.data.data.authority, 
+                    resnumber: response.data.data.authority,
+                    isNewPaymentForAdmin: true, 
+                    isNewPaymentForUser: true 
                 }) 
                 await newPayment.save()
                 res.redirect(`https://www.zarinpal.com/pg/StartPay/${response.data.data.authority}`)

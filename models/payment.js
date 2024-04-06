@@ -12,6 +12,8 @@ const paymentSchema = new Schema({
     POT: {type: Number}, // Period Of Time
     resnumber: {type: String}, 
     payment: {type: Boolean, default: false}, 
+    isNewPaymentForAdmin: {type: Boolean, default: true},
+    isNewPaymentForUser: {type: Boolean, default: true}
 })
 
 module.exports = mongoose.model('payment', paymentSchema, 'payment')

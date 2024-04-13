@@ -60,7 +60,7 @@
 
                             <% users.forEach((user, i) => {%>
                                
-                                <tr>
+                                <tr data-id="<%= user.id %>">
                                     <td><%= ++i %></td>
                                     <td><%= user.lastName %></td>
                                     <td class="enField"><%=user.email%></td>

@@ -4,7 +4,6 @@ module.exports = function ticketsReport (adminTickets) {
     let allTicketsNumber = 0 
     Object.values(adminTickets).forEach(newTicket => {
         recevedTicketsNumber += newTicket.newAdminTickets
-        console.log(recevedTicketsNumber)
         sentTicketsNumber += newTicket.newUserTickets
         allTicketsNumber += newTicket.tickets
     })

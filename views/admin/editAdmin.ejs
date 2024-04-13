@@ -56,9 +56,9 @@
                                     <input type="text" class="form-control mt-3"  placeholder="نام" name="firstName" value="<%= admin.firstName %>">
                                     <input type="text" class="form-control mt-3"  placeholder="نام خانوادگی" name="lastName" value="<%= admin.lastName %>">
                                     <input type="email" class="form-control mt-3 enField"  placeholder="ایمیل" name="email" value="<%= admin.email %>">
-                                    <select class="form-select mt-3" name="department" id="department" value="<%= admin.department %>">
-                                        <option selected>مدیر سایت</option>
-                                        <option value="پشتیبان سایت">پشتیبان سایت</option>
+                                    <select class="form-select mt-3" name="department" id="department">
+                                        <option id="admin">مدیرت</option>
+                                        <option id="support">پشتیبانی</option>
                                       </select>
                                     <input type="password" class="form-control mt-3 enField"
                                       placeholder="کلمه عبور" name="password" id="password" value="<%= admin.password %>">
@@ -82,8 +82,8 @@
                                             <label class="btn btn-outline-success" for="chkProduct">محصولات</label><br>                                        
                                           </div>
                                           <div class="form-check form-switch float-end my-1 me-2">
-                                            <input type="checkbox" class="btn-check" id="chkOrder" name="isOrder" autocomplete="off">
-                                            <label class="btn btn-outline-success" for="chkOrder">سفارش ها</label><br>                                        
+                                            <input type="checkbox" class="btn-check" id="chkCard" name="isCard" autocomplete="off">
+                                            <label class="btn btn-outline-success" for="chkCard">کارت ها</label><br>                                        
                                           </div>
                                           <div class="form-check form-switch float-end my-1 me-5">
                                             <input type="checkbox" class="btn-check" id="chkEmail" name="isEmail" autocomplete="off">
@@ -105,9 +105,9 @@
                                             <input type="checkbox" class="btn-check" id="chkUser" name="isUser" autocomplete="off">
                                             <label class="btn btn-outline-success" for="chkUser">کاربران</label><br>                                        
                                           </div>
-                                          <div class="form-check form-switch float-end mt-1 mb-5 me-2>
-                                            <input type="checkbox" class="btn-check" id="chkSetting" name="isSetting" autocomplete="off">
-                                            <label class="btn btn-outline-success" for="chkSetting">تنظیمات</label><br>                                        
+                                          <div class="form-check form-switch float-end mt-1 mb-5 me-2">
+                                            <input type="checkbox" class="btn-check" id="chkPayment" name="isPayment" autocomplete="off">
+                                            <label class="btn btn-outline-success" for="chkPayment">پرداخت ها</label><br>                                        
                                           </div> 
                                           <div class="mt-5 mx-5">
                                             <div class="col-8 mt-5 mx-5">
@@ -138,9 +138,9 @@
                 document.getElementById('chkProduct').checked = true
             }
 
-            let checkOrder = "<%= JSON.parse(JSON.stringify(admin.isOrder)) %>"
+            let checkOrder = "<%= JSON.parse(JSON.stringify(admin.isCard)) %>"
             if (checkOrder === "on") {
-                document.getElementById('chkOrder').checked = true
+                document.getElementById('chkCard').checked = true
             }
 
             let checkEmail = "<%= JSON.parse(JSON.stringify(admin.isEmail)) %>"
@@ -168,19 +168,21 @@
                 document.getElementById('chkUser').checked = true
             }
 
-            let checkSetting = "<%= JSON.parse(JSON.stringify(admin.isSetting)) %>"
+            let checkSetting = "<%= JSON.parse(JSON.stringify(admin.isPayment)) %>"
             if (checkSetting === "on") {
-                document.getElementById('chkSetting').checked = true
+                document.getElementById('chkPayment').checked = true
             }
         }
 
     </script>
 
 <script>
-    window.addEventListener('load', (event)=> {
-        const selectedItem = String("<%= admin.department %>")
-        document.getElementById('department').value = selectedItem
-    })
+            const selectedItem = String("<%= JSON.parse(JSON.stringify(admin.department)) %>")
+            if(selectedItem === "admin") {
+                document.getElementById('admin').selected = true
+            }else {
+                document.getElementById('support').selected = true
+            }
 </script>
 
 <script>

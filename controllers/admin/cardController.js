@@ -13,76 +13,75 @@ module.exports = new class cardController extends controller {
 
     async addNewCard(req, res, next) {
         try {
-            const errors = validationResult(req)
-            if (!errors.isEmpty()) {
-                let myErrors = errors.array()
-                req.flash('errors', myErrors)
-                return res.redirect('/admin-cPanel/card/newCard')
+                const errors = validationResult(req)
+                if (!errors.isEmpty()) {
+                    let myErrors = errors.array()
+                    req.flash('errors', myErrors)
+                    return res.redirect('/admin-cPanel/card/newCard')
+                }
+                const userID = req.user.id
+                const adminDepartment = req.user.department
+                const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+                const ticketNumber = ticketsReport(userTickets)
+                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+
+                const payments = await Payment.find({ isNewPaymentForAdmin: true })
+                const newPayments = payments.length
+
+                res.locals = {
+                    persianDate,
+                    recevedTicketsNumber,
+                    newPayments
             }
-            const userID = req.user.id
-            const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
-            const ticketNumber = ticketsReport(userTickets)
-            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
-
-            const payments = await Payment.find({ isNewPaymentForAdmin: true })
-            const newPayments = payments.length
-
-            res.locals = {
-                persianDate,
-                recevedTicketsNumber,
-                newPayments
-        }
-        const productSelected = req.body.cardProduct
-        
-        const productFields = await Product.findOne({ title: productSelected }).select('fields')
-        const pureFields = productFields.fields
-        var purefieldNames = []
-        if(pureFields) {
-            const fieldNames = Object.values(pureFields)
-            for (const value of Object.values(fieldNames)) {
-                for (let v in value) {
-                    if(v === "fieldName") {
-                        purefieldNames.push(value[v])
+            const productSelected = req.body.cardProduct
+            
+            const productFields = await Product.findOne({ title: productSelected }).select('fields')
+            const pureFields = productFields.fields
+            var purefieldNames = []
+            if(pureFields) {
+                const fieldNames = Object.values(pureFields)
+                for (const value of Object.values(fieldNames)) {
+                    for (let v in value) {
+                        if(v === "fieldName") {
+                            purefieldNames.push(value[v])
+                        }
                     }
                 }
             }
-        }
-        
-        var cardFieldValues = req.body.cardFields
-
-        function createFields() {
             
-            let fields = {}
-            if(cardFieldValues[0] !== "") {
-                fields = Object.fromEntries(
-                    purefieldNames.map((fieldName, index) => [`field${[index]}`, 
-                        {"fieldName": fieldName, "fieldValue": cardFieldValues[index]}
-                    ])
-                    )
-            }
-            return fields
-            }
-            const cardFields = createFields()
-            const cardCategory = req.body.cardCategory
-            const cardProduct = req.body.cardProduct
-            const cardStatus = req.body.cardStatus
+            var cardFieldValues = req.body.cardFields
 
-            const newCard = new Card({
-            cardCategory,
-            cardProduct,
-            cardFields,
-            cardStatus
-        })  
-            await newCard.save()
+            function createFields() {
+                
+                let fields = {}
+                if(cardFieldValues[0] !== "") {
+                    fields = Object.fromEntries(
+                        purefieldNames.map((fieldName, index) => [`field${[index]}`, 
+                            {"fieldName": fieldName, "fieldValue": cardFieldValues[index]}
+                        ])
+                        )
+                }
+                return fields
+                }
+                const cardFields = createFields()
+                const cardCategory = req.body.cardCategory
+                const cardProduct = req.body.cardProduct
+                const cardStatus = req.body.cardStatus
 
-            const count = await Product.findOne({title: productSelected}).select('count')
-            let updateCount = count.count
-            updateCount++
-            const productCountUpdate = await Product.updateOne({ title: productSelected }, {$set : { count: updateCount }})
-            
-        return res.redirect('/admin-cPanel/card/showCards')
+                const newCard = new Card({
+                cardCategory,
+                cardProduct,
+                cardFields,
+                cardStatus
+            })  
+                await newCard.save()
 
+                const count = await Product.findOne({title: productSelected}).select('count')
+                let updateCount = count.count
+                updateCount++
+                const productCountUpdate = await Product.updateOne({ title: productSelected }, {$set : { count: updateCount }})
+                
+            return res.redirect('/admin-cPanel/card/showCards')
         } catch (err) {
             next(err)
         }

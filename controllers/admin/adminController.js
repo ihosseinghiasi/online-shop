@@ -81,7 +81,11 @@ module.exports = new class adminController extends controller {
                     newPayments,
                     errors: req.flash('errors')
             }
-                return res.render('admin/adminRegister')
+                if(req.user.isAdmin === "on") {
+                    return res.render('admin/adminRegister')
+                }else{
+                    return res.render('errors/Inaccessibility')
+                }
         } catch (err) {
             next(err)
         }
@@ -107,7 +111,11 @@ module.exports = new class adminController extends controller {
                 newPayments,
                 admins
            }          
-           return res.render('admin/showAdmins')
+           if(req.user.isAdmin === "on") {
+            return res.render('admin/showAdmins')
+        }else{
+            return res.render('errors/Inaccessibility')
+        }
         } catch (err) {
             next(err)
         }
@@ -134,7 +142,12 @@ module.exports = new class adminController extends controller {
                 newPayments,
                 errors: req.flash('errors')
             }    
-            res.render('admin/editAdmin')
+            
+            if(req.user.isAdmin === "on") {
+                return res.render('admin/editAdmin')
+            }else{
+                return res.render('errors/Inaccessibility')
+            }
         } catch (err) {
             next(err)
         }

@@ -18,15 +18,6 @@ module.exports = new class adminController extends controller {
                     req.flash('errors', errors.array())
                     return res.redirect('/admin-cPanel/admin/newAdmin')
                 }
-                
-                const userID = req.user.id
-                const adminDepartment = req.user.department
-                const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
-                const ticketNumber = ticketsReport(userTickets)
-                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
-
-                const payments = await Payment.find({ isNewPaymentForAdmin: true })
-                const newPayments = payments.length
 
                 let userType = "admin"
                 if(req.body.department !== "مدیریت") {
@@ -53,12 +44,7 @@ module.exports = new class adminController extends controller {
                 })
                 await newAdmin.save()
 
-                res.locals = {
-                    persianDate,
-                    recevedTicketsNumber,
-                    newPayments
-            }
-            return res.redirect('/admin-cPanel/admin/showAdmins')
+               return res.redirect('/admin-cPanel/admin/showAdmins')
         } catch (err) {
             next(err)
         }
@@ -165,6 +151,7 @@ module.exports = new class adminController extends controller {
                 const bodyDetails = req.body
                 const myadmin = updateAdmin(bodyDetails)
                 const update = await Admin.updateOne({ _id: id }, { $set: myadmin })
+
                 return res.redirect('/admin-cPanel/admin/showAdmins')
         } catch (err) {
             next(err)
@@ -173,9 +160,10 @@ module.exports = new class adminController extends controller {
 
     async deleteAdmin(req, res, next) {
         try {
-            const id = (req.params.id).trim()
-            const admin = await Admin.deleteOne({ _id: id})
-            return res.redirect('/admin-cPanel/admin/showAdmins')
+                const id = (req.params.id).trim()
+                const admin = await Admin.deleteOne({ _id: id})
+                
+                return res.redirect('/admin-cPanel/admin/showAdmins')
         } catch (err) {
             next(err)
         }

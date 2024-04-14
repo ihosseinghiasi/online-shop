@@ -8,6 +8,9 @@ const Payment =require('models/payment')
 const Card = require('models/card')
 const lodash = require('lodash')
 const ticketsReport = require('serverModules/ticketsReport')
+const getNamesOfFields = require('serverModules/getNamesOfFields')
+const createFields = require('serverModules/createFields')
+
 
 module.exports = new class cardController extends controller {
 
@@ -19,55 +22,17 @@ module.exports = new class cardController extends controller {
                     req.flash('errors', myErrors)
                     return res.redirect('/admin-cPanel/card/newCard')
                 }
-                const userID = req.user.id
-                const adminDepartment = req.user.department
-                const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
-                const ticketNumber = ticketsReport(userTickets)
-                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
-                const payments = await Payment.find({ isNewPaymentForAdmin: true })
-                const newPayments = payments.length
+                const productSelected = req.body.cardProduct
+                const productFields = await Product.findOne({ title: productSelected }).select('fields')            
+                const namesOfFields = getNamesOfFields(productFields)
 
-                res.locals = {
-                    persianDate,
-                    recevedTicketsNumber,
-                    newPayments
-            }
-            const productSelected = req.body.cardProduct
-            
-            const productFields = await Product.findOne({ title: productSelected }).select('fields')
-            const pureFields = productFields.fields
-            var purefieldNames = []
-            if(pureFields) {
-                const fieldNames = Object.values(pureFields)
-                for (const value of Object.values(fieldNames)) {
-                    for (let v in value) {
-                        if(v === "fieldName") {
-                            purefieldNames.push(value[v])
-                        }
-                    }
-                }
-            }
-            
-            var cardFieldValues = req.body.cardFields
+                const cardFieldValues = req.body.cardFields
+                const cardFields = createFields(namesOfFields, cardFieldValues)
 
-            function createFields() {
-                
-                let fields = {}
-                if(cardFieldValues[0] !== "") {
-                    fields = Object.fromEntries(
-                        purefieldNames.map((fieldName, index) => [`field${[index]}`, 
-                            {"fieldName": fieldName, "fieldValue": cardFieldValues[index]}
-                        ])
-                        )
-                }
-                return fields
-                }
-                const cardFields = createFields()
                 const cardCategory = req.body.cardCategory
                 const cardProduct = req.body.cardProduct
                 const cardStatus = req.body.cardStatus
-
                 const newCard = new Card({
                 cardCategory,
                 cardProduct,
@@ -80,8 +45,8 @@ module.exports = new class cardController extends controller {
                 let updateCount = count.count
                 updateCount++
                 const productCountUpdate = await Product.updateOne({ title: productSelected }, {$set : { count: updateCount }})
-                
-            return res.redirect('/admin-cPanel/card/showCards')
+
+                return res.redirect('/admin-cPanel/card/showCards')
         } catch (err) {
             next(err)
         }
@@ -89,27 +54,31 @@ module.exports = new class cardController extends controller {
 
     async newCard(req, res, next) {
         try {
-            const categoryTitles = await Category.find({}).select('title')
-            const products = await Product.find({})
+                const categoryTitles = await Category.find({}).select('title')
+                const products = await Product.find({})
 
-            const userID = req.user.id
-            const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
-            const ticketNumber = ticketsReport(userTickets)
-            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                const userID = req.user.id
+                const adminDepartment = req.user.department
+                const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+                const ticketNumber = ticketsReport(userTickets)
+                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
-            const payments = await Payment.find({ isNewPaymentForAdmin: true })
-            const newPayments = payments.length
+                const payments = await Payment.find({ isNewPaymentForAdmin: true })
+                const newPayments = payments.length
 
-            res.locals = {
-                persianDate,
-                recevedTicketsNumber,
-                categoryTitles,
-                products,
-                newPayments,
-                errors: req.flash('errors')
-           }
-            return res.render('admin/cardRegister')
+                res.locals = {
+                    persianDate,
+                    recevedTicketsNumber,
+                    categoryTitles,
+                    products,
+                    newPayments,
+                    errors: req.flash('errors')
+            }
+                if(req.user.isCard === "on") {
+                    return res.render('admin/cardRegister')
+                }else{
+                    return res.render('errors/Inaccessibility')
+                }
         } catch (err) {
             next(err)
         }
@@ -118,27 +87,32 @@ module.exports = new class cardController extends controller {
     async showCards(req, res, next) {
 
         try {
-            const cards = await Card.find({})
-            const numberOfCards = cards.length
-            const reversedCards = lodash.reverse(cards) 
+                const cards = await Card.find({})
+                const numberOfCards = cards.length
+                const reversedCards = lodash.reverse(cards) 
 
-            const userID = req.user.id
-            const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
-            const ticketNumber = ticketsReport(userTickets)
-            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                const userID = req.user.id
+                const adminDepartment = req.user.department
+                const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+                const ticketNumber = ticketsReport(userTickets)
+                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
-            const payments = await Payment.find({ isNewPaymentForAdmin: true })
-            const newPayments = payments.length
+                const payments = await Payment.find({ isNewPaymentForAdmin: true })
+                const newPayments = payments.length
 
-            res.locals = {
-                persianDate,
-                recevedTicketsNumber,
-                reversedCards,
-                numberOfCards,
-                newPayments
-           }          
-           return res.render('admin/showCards')
+                res.locals = {
+                    persianDate,
+                    recevedTicketsNumber,
+                    reversedCards,
+                    numberOfCards,
+                    newPayments
+            }        
+
+                if(req.user.isCard === "on") {
+                    return res.render('admin/showCards')
+                }else{
+                    return res.render('errors/Inaccessibility')
+                }    
         } catch (err) {
             next(err)
         }
@@ -146,30 +120,34 @@ module.exports = new class cardController extends controller {
 
     async showCard(req, res, next) {
         try {
-            const id = (req.params.id).trim()
-            const card = await Card.findOne({ _id: id })
-            const categoryTitles = await Category.find({}).select('title')
-            const products = await Product.find({})
+                const userID = req.user.id
+                const adminDepartment = req.user.department
+                const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+                const ticketNumber = ticketsReport(userTickets)
+                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                
+                const id = (req.params.id).trim()
+                const card = await Card.findOne({ _id: id })
+                const categoryTitles = await Category.find({}).select('title')
+                const products = await Product.find({})
 
-            const userID = req.user.id
-            const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
-            const ticketNumber = ticketsReport(userTickets)
-            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                const payments = await Payment.find({ isNewPaymentForAdmin: true })
+                const newPayments = payments.length
 
-            const payments = await Payment.find({ isNewPaymentForAdmin: true })
-            const newPayments = payments.length
-
-            res.locals = {
-                persianDate,
-                products,
-                recevedTicketsNumber,
-                categoryTitles,
-                card,
-                newPayments,
-                errors: req.flash('errors') 
-            }
-            res.render('admin/editCard')
+                res.locals = {
+                    persianDate,
+                    products,
+                    recevedTicketsNumber,
+                    categoryTitles,
+                    card,
+                    newPayments,
+                    errors: req.flash('errors') 
+                }
+                if(req.user.isCard === "on") {
+                    return res.render('admin/editCard')
+                }else{
+                    return res.render('errors/Inaccessibility')
+                }
         } catch (err) {
             next(err)
         }
@@ -177,57 +155,31 @@ module.exports = new class cardController extends controller {
 
     async updateCard(req, res, next) {
         try {
-            const id = (req.params.id).trim()
-
-            const errors = validationResult(req)
-            if (!errors.isEmpty()) {
-                let myErrors = errors.array()
-                req.flash('errors', myErrors)
-                return res.redirect(`/admin-cPanel/card/editCard/${id}`)
-            }
-            res.locals = {
-                persianDate,
-        }
-        const productSelected = req.body.cardProduct
-        
-        const productFields = await Product.findOne({ title: productSelected }).select('fields')
-        const pureFields = productFields.fields
-        var purefieldNames = []
-        if(pureFields) {
-            const fieldNames = Object.values(pureFields)
-            for (const value of Object.values(fieldNames)) {
-                for (let v in value) {
-                    if(v === "fieldName") {
-                        purefieldNames.push(value[v])
-                    }
+                const errors = validationResult(req)
+                if (!errors.isEmpty()) {
+                    let myErrors = errors.array()
+                    req.flash('errors', myErrors)
+                    return res.redirect(`/admin-cPanel/card/editCard/${id}`)
                 }
-            }
-        }
+                
+                const productSelected = req.body.cardProduct
+                const productFields = await Product.findOne({ title: productSelected }).select('fields')
+                const namesOfFields = getNamesOfFields(productFields)
+                
+                const cardFieldValues = req.body.cardFields
+                const cardFields = createFields(namesOfFields, cardFieldValues)
         
-        var cardFieldValues = req.body.cardFields
+                const updateData = {
+                    cardFields,
+                    cardCategory: req.body.cardCategory,
+                    cardProduct: req.body.cardProduct,
+                    cardStatus: req.body.cardStatus                    
+                }
 
-        function createFields() {
-            
-            let fields = {}
-            if(cardFieldValues[0] !== "") {
-                fields = Object.fromEntries(
-                    purefieldNames.map((fieldName, index) => [`field${[index]}`, 
-                        {"fieldName": fieldName, "fieldValue": cardFieldValues[index]}
-                    ])
-                    )
-            }
-            return fields
-            }
+                const id = (req.params.id).trim()
+                const updateCard = await Card.updateOne({ _id: id }, { $set: updateData})
 
-            const updateData = {
-                 cardFields: createFields(),
-                 cardCategory: req.body.cardCategory,
-                 cardProduct: req.body.cardProduct,
-                 cardStatus: req.body.cardStatus                    
-            }
-
-           const updateCard = await Card.updateOne({ _id: id }, { $set: updateData})
-        return res.redirect('/admin-cPanel/card/showCards')
+                return res.redirect('/admin-cPanel/card/showCards')
 
         } catch (err) {
             next(err)
@@ -236,9 +188,6 @@ module.exports = new class cardController extends controller {
 
     async deleteCard(req, res, next) {
         try {
-            res.locals = {
-                persianDate,
-           }
             const id = (req.params.id).trim()
             const oneCard = await Card.findOne({ _id: id })
             const productSelected = oneCard.cardProduct

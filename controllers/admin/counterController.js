@@ -27,10 +27,10 @@ module.exports = new class counterController extends controller {
                 const listOfProductsSell = getSellOfProducts(products)
                 
                 const payment = await Payment.find({})
-                const totalPriceOfSell = getProductsSellReport(payment, listOfProductsSell)    
+                const totalSell = getProductsSellReport(payment, listOfProductsSell)    
 
                 let sellTitles = ["کل فروش"]
-                let sellValues = [totalPriceOfSell]
+                let sellValues = [totalSell.totalPriceOfSell]
                 Object.values(listOfProductsSell).forEach(products => {
                     sellTitles.push(products.title)
                     sellValues.push(products.priceOfSell)

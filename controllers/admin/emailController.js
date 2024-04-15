@@ -15,36 +15,19 @@ module.exports = new class emailController extends controller {
 
     async addNewEmailTemplate(req, res, next) {
         try {
-            // const errors = validationResult(req)
-            // if(!errors.isEmpty()) {
-            //     let myErrors = errors.array()
-            //     req.flash('errors', myErrors)
-            //     return res.redirect('/admin-cPanel/category/newCategory')
-            // }
-            
-            const userID = req.user.id
-            const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
-            const ticketNumber = ticketsReport(userTickets)
-            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
-
-            const payments = await Payment.find({ isNewPaymentForAdmin: true })
-            const newPayments = payments.length
-            
-            res.locals = {
-                persianDate,
-                recevedTicketsNumber,
-                newPayments
-                // errors: req.flash('errors')
-           }
-
-            const newEmailTemplate = new EmailTemplate({
-                title: req.body.title,
-                description: req.body.description
-            }) 
-
-            await newEmailTemplate.save()
-            return res.redirect('/admin-cPanel/email/newEmail')
+                const errors = validationResult(req)
+                if(!errors.isEmpty()) {
+                    const myErrors = errors.array()
+                    req.flash('errors', myErrors)
+                    return res.redirect('/admin-cPanel/email/newEmail')
+                }
+        
+                const newEmailTemplate = new EmailTemplate({
+                    title: req.body.title,
+                    description: req.body.description
+                }) 
+                await newEmailTemplate.save()
+                return res.redirect('/admin-cPanel/email/newEmail')
         } catch (err) {
             next(err)
         }
@@ -52,23 +35,22 @@ module.exports = new class emailController extends controller {
 
     async newEmailTemplate(req, res, next) {
         try {
+                const userID = req.user.id
+                const adminDepartment = req.user.department
+                const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+                const ticketNumber = ticketsReport(userTickets)
+                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
-            const userID = req.user.id
-            const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
-            const ticketNumber = ticketsReport(userTickets)
-            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                const payments = await Payment.find({ isNewPaymentForAdmin: true })
+                const newPayments = payments.length
 
-            const payments = await Payment.find({ isNewPaymentForAdmin: true })
-            const newPayments = payments.length
-
-            res.locals = {
-                persianDate,
-                recevedTicketsNumber,
-                newPayments,
-                errors: req.flash('errors')
-           }
-            return res.render('admin/emailRegister')
+                res.locals = {
+                    persianDate,
+                    recevedTicketsNumber,
+                    newPayments,
+                    errors: req.flash('errors')
+                }
+                return res.render('admin/emailRegister')
         } catch (err) {
             next(err)
         }
@@ -76,26 +58,26 @@ module.exports = new class emailController extends controller {
 
     async showEmail(req, res, next) {
         try {
-            const id = (req.params.id).trim()
-            const email = await Email.findOne({ _id: id })
+                const userID = req.user.id
+                const adminDepartment = req.user.department
+                const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+                const ticketNumber = ticketsReport(userTickets)
+                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                
+                const payments = await Payment.find({ isNewPaymentForAdmin: true })
+                const newPayments = payments.length
 
-            const userID = req.user.id
-            const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
-            const ticketNumber = ticketsReport(userTickets)
-            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                const id = (req.params.id).trim()
+                const email = await Email.findOne({ _id: id })
 
-            const payments = await Payment.find({ isNewPaymentForAdmin: true })
-            const newPayments = payments.length
-
-            res.locals = {
-                persianDate,
-                recevedTicketsNumber,
-                newPayments,
-                email,
-                errors: req.flash('errors') 
-            }
-            res.render('admin/showEmail')
+                res.locals = {
+                    persianDate,
+                    recevedTicketsNumber,
+                    newPayments,
+                    email,
+                    errors: req.flash('errors') 
+                }
+                res.render('admin/showEmail')
         } catch (err) {
             next(err)
         }
@@ -105,27 +87,27 @@ module.exports = new class emailController extends controller {
     async showEmails(req, res, next) {
 
         try {
-            const emails = await Email.find({})
-            const numberOfEmails = emails.length
-            const reversedEmails = lodash.reverse(emails)
+                const emails = await Email.find({})
+                const numberOfEmails = emails.length
+                const reversedEmails = lodash.reverse(emails)
 
-            const userID = req.user.id
-            const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
-            const ticketNumber = ticketsReport(userTickets)
-            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                const userID = req.user.id
+                const adminDepartment = req.user.department
+                const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+                const ticketNumber = ticketsReport(userTickets)
+                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
-            const payments = await Payment.find({ isNewPaymentForAdmin: true })
-            const newPayments = payments.length
+                const payments = await Payment.find({ isNewPaymentForAdmin: true })
+                const newPayments = payments.length
 
-            res.locals = {
-                persianDate,
-                recevedTicketsNumber,
-                newPayments,
-                numberOfEmails,
-                reversedEmails
-           }          
-           return res.render('admin/showEmails')
+                res.locals = {
+                    persianDate,
+                    recevedTicketsNumber,
+                    newPayments,
+                    numberOfEmails,
+                    reversedEmails
+                }          
+                return res.render('admin/showEmails')
         } catch (err) {
             next(err)
         }
@@ -134,77 +116,74 @@ module.exports = new class emailController extends controller {
     async showEmailTemplates(req, res, next) {
 
         try {
-            const emailTemplates = await EmailTemplate.find({})
+                const userID = req.user.id
+                const adminDepartment = req.user.department
+                const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+                const ticketNumber = ticketsReport(userTickets)
+                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                
+                const payments = await Payment.find({ isNewPaymentForAdmin: true })
+                const newPayments = payments.length
 
-            const userID = req.user.id
-            const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
-            const ticketNumber = ticketsReport(userTickets)
-            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                const emailTemplates = await EmailTemplate.find({})
 
-            const payments = await Payment.find({ isNewPaymentForAdmin: true })
-            const newPayments = payments.length
-
-            //nodemailer
-            
-            // const userEmail = req.user.email
-            // const userName = req.user.firstName + " " + req.user.lastName
-            // const emailTemplate = await EmailTemplate.findOne({ _id: "6597725e29b6b47b2f81271f" })
-
-            // emailSender(userName, userEmail, emailTemplate)
-            //end nodemailer
-
-            res.locals = {
-                persianDate,
-                recevedTicketsNumber,
-                newPayments,
-                emailTemplates,
-           }          
-           return res.render('admin/showEmailTemplates')
+                res.locals = {
+                    persianDate,
+                    recevedTicketsNumber,
+                    newPayments,
+                    emailTemplates,
+               }          
+                return res.render('admin/showEmailTemplates')
         } catch (err) {
             next(err)
         }
     }
 
     async showEmailTemplate(req, res, next) {
-        try {
-            const id = (req.params.id).trim()
-            const emailTemplate = await EmailTemplate.findOne({ _id: id })
+        try {  
+                const userID = req.user.id
+                const adminDepartment = req.user.department
+                const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+                const ticketNumber = ticketsReport(userTickets)
+                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                
+                const payments = await Payment.find({ isNewPaymentForAdmin: true })
+                const newPayments = payments.length
 
-            const userID = req.user.id
-            const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
-            const ticketNumber = ticketsReport(userTickets)
-            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
-
-            const payments = await Payment.find({ isNewPaymentForAdmin: true })
-            const newPayments = payments.length
-
-            res.locals = {
-                persianDate,
-                recevedTicketsNumber,
-                newPayments,
-                emailTemplate,
-                // errors: req.flash('errors') 
-            }
-            res.render('admin/showEmailTemplate')
+                const id = (req.params.id).trim()
+                const emailTemplate = await EmailTemplate.findOne({ _id: id })
+                
+                res.locals = {
+                    persianDate,
+                    recevedTicketsNumber,
+                    newPayments,
+                    emailTemplate,
+                    errors: req.flash('errors') 
+                }
+                res.render('admin/showEmailTemplate')
         } catch (err) {
             next(err)
         }
     }
     async updateEmailTemplate(req, res, next) {
         try {
-            
-            const id = (req.params.id).trim()
-            const emailTemplate = await EmailTemplate.findOne({ _id: id })
+                const id = (req.params.id).trim()
+                const errors = validationResult(req)
+                if(!errors.isEmpty()) {
+                    const myErrors = errors.array()
+                    req.flash('errors', myErrors)
+                    return res.redirect(`/admin-cPanel/email/showEmailTemplate/${id}`)
+                }
 
-            const data = {
-                title: req.body.title,
-                description: req.body.description
-            }
+                const emailTemplate = await EmailTemplate.findOne({ _id: id })
 
-            const updateEmailTemplate = await EmailTemplate.updateOne({ _id: id }, { $set: data })
-            res.redirect(`/admin-cPanel/email/showEmailTemplate/${id}`)
+                const data = {
+                    title: req.body.title,
+                    description: req.body.description
+                }
+
+                const updateEmailTemplate = await EmailTemplate.updateOne({ _id: id }, { $set: data })
+                res.redirect(`/admin-cPanel/email/showEmailTemplates`)
 
         } catch (err) {
             next(err)           

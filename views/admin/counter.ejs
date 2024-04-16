@@ -102,12 +102,14 @@
                         </div>
 
                     <script>
-                    const ticketTitles = ["تیکت های دریافتی", "تیکت های ارسالی", "کل تیکت ها"];
-                    const ticketValues = ["<%= recevedTicketsNumber %>" ,"<%= sentTicketsNumber %>", "<%= allTicketsNumber %>"];
+                    const ticketTitles = [   "تیکت های جدبد دریافتی","تیکت های جدبد ارسالی", "تیکت های دریافتی", "تیکت های ارسالی", "کل تیکت ها"];
+                    const ticketValues = [ "<%= recevedTicketsNumber %>" ,"<%= sentTicketsNumber %>", "<%= readRecevedTicketsNumber %>" , "<%= readSentTicketsNumber %>" , "<%= allTicketsNumber %>"];
                     const ticketBarColors = [
                         "#2b5797",
                         "#00aba9",
                         "#b91d47",
+                        "#c00bc7",
+                        "#a91d40",
                     ];
 
                     new Chart("ticketChart", {

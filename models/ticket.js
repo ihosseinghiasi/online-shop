@@ -9,6 +9,8 @@ const ticketSchema = new Schema({
     status: {type: String},
     targetDepartment: {type: String},
     tickets: {type: Number, default: 0},
+    adminTickets: {type: Number, default: 0},
+    userTickets: {type: Number, default: 0},
     newUserTickets: {type: Number, default: 0},
     newAdminTickets: {type: Number, default: 0},
     ticket: {},

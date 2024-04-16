@@ -56,7 +56,8 @@ module.exports = new class adminController extends controller {
                 const adminDepartment = req.user.department
                 const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
                 const ticketNumber = ticketsReport(userTickets)
-                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                const recevedTicketsNumber = ticketNumber.newSentTicketsNumber
+
 
                 const payments = await Payment.find({ isNewPaymentForAdmin: true })
                 const newPayments = payments.length
@@ -85,7 +86,8 @@ module.exports = new class adminController extends controller {
         const adminDepartment = req.user.department
         const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
         const ticketNumber = ticketsReport(userTickets)
-        const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+        const recevedTicketsNumber = ticketNumber.newSentTicketsNumber
+
 
         const payments = await Payment.find({ isNewPaymentForAdmin: true })
         const newPayments = payments.length
@@ -116,7 +118,8 @@ module.exports = new class adminController extends controller {
             const adminDepartment = req.user.department
             const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
             const ticketNumber = ticketsReport(userTickets)
-            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+            const recevedTicketsNumber = ticketNumber.newSentTicketsNumber
+
 
             const payments = await Payment.find({ isNewPaymentForAdmin: true })
             const newPayments = payments.length

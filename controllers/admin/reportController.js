@@ -15,8 +15,10 @@ module.exports = new class reportController extends controller {
                 const adminDepartment = req.user.department
                 const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
                 const ticketNumber = ticketsReport(userTickets)
-                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
-                const sentTicketsNumber = ticketNumber.sentTicketsNumber
+                const recevedTicketsNumber = ticketNumber.newSentTicketsNumber
+                const sentTicketsNumber = ticketNumber.newRecevedTicketsNumber
+                const readRecevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                const readSentTicketsNumber = ticketNumber.sentTicketsNumber
                 const allTicketsNumber = ticketNumber.allTicketsNumber
 
                 const payments = await Payment.find({ isNewPaymentForAdmin: true })
@@ -26,6 +28,8 @@ module.exports = new class reportController extends controller {
                     persianDate,
                     recevedTicketsNumber,
                     sentTicketsNumber,
+                    readRecevedTicketsNumber,
+                    readSentTicketsNumber,
                     allTicketsNumber,
                     newPayments
             }
@@ -41,7 +45,7 @@ module.exports = new class reportController extends controller {
                 const adminDepartment = req.user.department
                 const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
                 const ticketNumber = ticketsReport(userTickets)
-                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                const recevedTicketsNumber = ticketNumber.newSentTicketsNumber
 
                 const payment = await Payment.find({ isNewPaymentForAdmin: true })
                 const newPayments = payment.length
@@ -85,7 +89,7 @@ module.exports = new class reportController extends controller {
                 const adminDepartment = req.user.department
                 const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
                 const ticketNumber = ticketsReport(userTickets)
-                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                const recevedTicketsNumber = ticketNumber.newSentTicketsNumber
 
                 const payments = await Payment.find({ isNewPaymentForAdmin: true })
                 const newPayments = payments.length

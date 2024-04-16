@@ -16,8 +16,10 @@ module.exports = new class counterController extends controller {
                 const adminDepartment = req.user.department
                 const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
                 const ticketNumber = ticketsReport(userTickets)
-                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
-                const sentTicketsNumber = ticketNumber.sentTicketsNumber
+                const recevedTicketsNumber = ticketNumber.newSentTicketsNumber
+                const sentTicketsNumber = ticketNumber.newRecevedTicketsNumber
+                const readRecevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                const readSentTicketsNumber = ticketNumber.sentTicketsNumber
                 const allTicketsNumber = ticketNumber.allTicketsNumber
 
                 const payments = await Payment.find({ isNewPaymentForAdmin: true })
@@ -35,10 +37,12 @@ module.exports = new class counterController extends controller {
                     sellTitles.push(products.title)
                     sellValues.push(products.priceOfSell)
                 })
-           
+
                 res.locals = {
                     persianDate,
                     recevedTicketsNumber,
+                    readRecevedTicketsNumber,
+                    readSentTicketsNumber,
                     sentTicketsNumber,
                     allTicketsNumber,
                     sellTitles,

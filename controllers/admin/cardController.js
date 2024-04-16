@@ -61,7 +61,7 @@ module.exports = new class cardController extends controller {
                 const adminDepartment = req.user.department
                 const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
                 const ticketNumber = ticketsReport(userTickets)
-                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                const recevedTicketsNumber = ticketNumber.newSentTicketsNumber
 
                 const payments = await Payment.find({ isNewPaymentForAdmin: true })
                 const newPayments = payments.length
@@ -87,18 +87,19 @@ module.exports = new class cardController extends controller {
     async showCards(req, res, next) {
 
         try {
-                const cards = await Card.find({})
-                const numberOfCards = cards.length
-                const reversedCards = lodash.reverse(cards) 
-
                 const userID = req.user.id
                 const adminDepartment = req.user.department
                 const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
                 const ticketNumber = ticketsReport(userTickets)
-                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                const recevedTicketsNumber = ticketNumber.newSentTicketsNumber
 
                 const payments = await Payment.find({ isNewPaymentForAdmin: true })
                 const newPayments = payments.length
+
+                const cards = await Card.find({})
+                const numberOfCards = cards.length
+                const reversedCards = lodash.reverse(cards) 
+
 
                 res.locals = {
                     persianDate,
@@ -124,7 +125,7 @@ module.exports = new class cardController extends controller {
                 const adminDepartment = req.user.department
                 const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
                 const ticketNumber = ticketsReport(userTickets)
-                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                const recevedTicketsNumber = ticketNumber.newSentTicketsNumber
                 
                 const id = (req.params.id).trim()
                 const card = await Card.findOne({ _id: id })

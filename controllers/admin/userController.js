@@ -11,24 +11,24 @@ module.exports = new class userController extends controller {
 
     async showAllUsers(req, res, next) {
         try {
-            const users = await User.find({})
+                const userID = req.user.id
+                const adminDepartment = req.user.department
+                const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+                const ticketNumber = ticketsReport(userTickets)
+                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
-            const userID = req.user.id
-            const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
-            const ticketNumber = ticketsReport(userTickets)
-            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                const payments = await Payment.find({ isNewPaymentForAdmin: true })
+                const newPayments = payments.length
+                
+                const users = await User.find({})
 
-            const payments = await Payment.find({ isNewPaymentForAdmin: true })
-            const newPayments = payments.length
-
-            res.locals = {
-                users, 
-                persianDate,
-                recevedTicketsNumber,
-                newPayments
-            }
-            return res.render('admin/showUsers')
+                res.locals = {
+                    users, 
+                    persianDate,
+                    recevedTicketsNumber,
+                    newPayments
+                }
+                return res.render('admin/showUsers')
         } catch (err) {
             next(err)
             }                
@@ -36,25 +36,26 @@ module.exports = new class userController extends controller {
 
     async showUser(req, res, next) {
         try {
-            const id = (req.params.id).trim()
-            const user = await User.findOne({ _id: id })
+                const userID = req.user.id
+                const adminDepartment = req.user.department
+                const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+                const ticketNumber = ticketsReport(userTickets)
+                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
-            const userID = req.user.id
-            const adminDepartment = req.user.department
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
-            const ticketNumber = ticketsReport(userTickets)
-            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                const payments = await Payment.find({ isNewPaymentForAdmin: true })
+                const newPayments = payments.length
 
-            const payments = await Payment.find({ isNewPaymentForAdmin: true })
-            const newPayments = payments.length
+                const id = (req.params.id).trim()
+                const user = await User.findOne({ _id: id })
 
-            res.locals = {
-                persianDate, 
-                user,
-                recevedTicketsNumber,
-                newPayments
-            } 
-            res.render('admin/editUser')            
+                res.locals = {
+                    persianDate, 
+                    user,
+                    recevedTicketsNumber,
+                    newPayments,
+                    errors: req.flash('errors')
+                } 
+                res.render('admin/editUser')            
         } catch (err) {
             next(err)
             }        
@@ -62,21 +63,22 @@ module.exports = new class userController extends controller {
 
     async addNewUser(req, res, next) {
            try {
-                const errors = validationResult(req)
-            if (!errors.isEmpty()) {
-                req.flash('errors', errors.array())
-                return res.redirect('/admin-cPanel/user/newUser')
-            }
-            const newUser = new User({
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                email: req.body.email,
-                password: bcrypt.hashSync(req.body.password, 10),
-                phone: req.body.phone,
-                userType: "user"
-            })
-            await newUser.save()
-            return res.redirect('/admin-cPanel/user/showUsers')
+                    const errors = validationResult(req)
+                    if (!errors.isEmpty()) {
+                        req.flash('errors', errors.array())
+                        return res.redirect('/admin-cPanel/user/newUser')
+                    }
+                    const newUser = new User({
+                        firstName: req.body.firstName,
+                        lastName: req.body.lastName,
+                        email: req.body.email,
+                        password: bcrypt.hashSync(req.body.password, 10),
+                        phone: req.body.phone,
+                        userType: "user"
+                    })
+                    await newUser.save()
+
+                    return res.redirect('/admin-cPanel/user/showUsers')
            } catch (err) {
                 next(err)
            }
@@ -84,16 +86,23 @@ module.exports = new class userController extends controller {
 
             async updateUser(req, res, next) {
             try {
-                const id = (req.params.id).trim()
-                const params = {
-                    firstName: req.body.firstName,
-                    lastName: req.body.lastName,
-                    email: req.body.email,
-                    password: bcrypt.hashSync(req.body.password, 10),
-                    phone: req.body.phone,
-                }
-                const user = await User.updateOne({ _id: id }, { $set: params })
-                res.redirect('/admin-cPanel/user/showUsers')
+                    const id = (req.params.id).trim()
+
+                    const errors = validationResult(req)
+                    if (!errors.isEmpty()) {
+                        req.flash('errors', errors.array())
+                        return res.redirect(`/admin-cPanel/user/editUser/${id}`)
+                    }
+                    
+                    const params = {
+                        firstName: req.body.firstName,
+                        lastName: req.body.lastName,
+                        email: req.body.email,
+                        password: bcrypt.hashSync(req.body.password, 10),
+                        phone: req.body.phone,
+                    }
+                    const user = await User.updateOne({ _id: id }, { $set: params })
+                    res.redirect('/admin-cPanel/user/showUsers')
             } catch (err) {
                 next(err)
             }
@@ -111,22 +120,22 @@ module.exports = new class userController extends controller {
 
             async newUser(req, res, next) {
                 try {
-                    const userID = req.user.id
-                    const adminDepartment = req.user.department
-                    const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
-                    const ticketNumber = ticketsReport(userTickets)
-                    const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                        const userID = req.user.id
+                        const adminDepartment = req.user.department
+                        const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+                        const ticketNumber = ticketsReport(userTickets)
+                        const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
 
-                    const payments = await Payment.find({ isNewPaymentForAdmin: true })
-                    const newPayments = payments.length
-                            
-                    res.locals = {
-                        persianDate,
-                        recevedTicketsNumber,
-                        newPayments,
-                        errors: req.flash('errors'),
-                    }
-                    return res.render('admin/userRegister')
+                        const payments = await Payment.find({ isNewPaymentForAdmin: true })
+                        const newPayments = payments.length
+                                
+                        res.locals = {
+                            persianDate,
+                            recevedTicketsNumber,
+                            newPayments,
+                            errors: req.flash('errors'),
+                        }
+                        return res.render('admin/userRegister')
                 } catch (err) {
                     next(err)
                 }

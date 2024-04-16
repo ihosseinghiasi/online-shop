@@ -10,6 +10,6 @@ router.delete('/showUsers/:id', userController.deleteUser)
 router.get('/newUser', userController.newUser)
 router.post('/newUser', userValidator.userHandle(), userController.addNewUser)
 router.get('/editUser/:id', userController.showUser)
-router.put('/editUser/:id', userController.updateUser)
+router.put('/editUser/:id', userValidator.userHandle(), userController.updateUser)
 
 module.exports = router

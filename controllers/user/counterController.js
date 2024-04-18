@@ -6,25 +6,29 @@ const ticketsReport = require('serverModules/ticketsReport')
 module.exports = new class counterController extends controller {
     async counter(req, res, next) {
         try {
-            const userID = req.user.id
-            const userTarget = req.user.firstName + " " + req.user.lastName 
-            const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: userTarget }]})
-            const ticketNumber = ticketsReport(userTickets)
-            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
-            const sentTicketsNumber = ticketNumber.sendTicketsNumber
-            const allTicketsNumber = ticketNumber.allTicketsNumber
+                const userID = req.user.id
+                const adminDepartment = req.user.department
+                const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
+                const ticketNumber = ticketsReport(userTickets)
+                const sentTicketsNumber = ticketNumber.newSentTicketsNumber
+                const recevedTicketsNumber = ticketNumber.newRecevedTicketsNumber
+                const readSentTicketsNumber = ticketNumber.recevedTicketsNumber
+                const readRecevedTicketsNumber = ticketNumber.sentTicketsNumber
+                const allTicketsNumber = ticketNumber.allTicketsNumber
 
-            const payments = await Payment.find({ $and:[{ user: userID }, { isNewPaymentForUser: true }] })
-            const newPayments = payments.length
+                const payments = await Payment.find({ $and:[{ user: userID }, { isNewPaymentForUser: true }] })
+                const newPayments = payments.length
             
-            res.locals = {
-                persianDate,
-                recevedTicketsNumber,
-                sentTicketsNumber,
-                allTicketsNumber,
-                newPayments
-               }
-            res.render('user/counter')
+                res.locals = {
+                    persianDate,
+                    recevedTicketsNumber,
+                    sentTicketsNumber,
+                    readRecevedTicketsNumber,
+                    readSentTicketsNumber,
+                    allTicketsNumber,
+                    newPayments
+                }
+                res.render('user/counter')
         } catch (err) {
             next(err)
         }

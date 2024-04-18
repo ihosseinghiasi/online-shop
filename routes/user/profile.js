@@ -2,9 +2,9 @@ const express  = require('express')
 const router = express.Router()
 const User = require('models/user')
 const profileController = require('controllers/user/profileController')
-// const userValidator = require('validations/userValidator')
+const userValidator = require('validations/userValidator')
 
 router.get('/', profileController.showProfile)
-router.put('/', profileController.updateProfile)
+router.put('/:id', userValidator.userHandle(), profileController.updateProfile)
 
 module.exports = router

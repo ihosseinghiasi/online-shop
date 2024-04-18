@@ -10,7 +10,6 @@ const EmailTemplate = require('models/emailTemplate')
 const emailSender = require('serverModules/emailSender')
 const { validationResult } = require('express-validator')
 
-
 if (typeof localStorage === "undefined" || localStorage === null) {
     var LocalStorage = require('node-localstorage').LocalStorage;
     localStorage = new LocalStorage('./scratch');
@@ -22,12 +21,12 @@ module.exports = new class authController extends controller {
 
     async adminLoginForm(req, res, next) {
         try {
-            const admin = await Admin.findOne({})
-            res.locals = {
-                admin,
-                errors: req.flash('errors')
-            }
-            res.render('authentication/adminLogin')
+                const admin = await Admin.findOne({})
+                res.locals = {
+                    admin,
+                    errors: req.flash('errors'),
+                }
+                res.render('authentication/adminLogin')
         } catch (err) {
             next(err)
         }
@@ -35,26 +34,25 @@ module.exports = new class authController extends controller {
 
     async adminLogin(req, res, next) {
         try {
-            // const errors = validationResult(req)
-            // if(!errors.isEmpty()) {
-            //     let myErrors = errors.array()
-            //     req.flash('errors', myErrors)
-            //     return res.redirect('/authentication/adminLogin')
-            // }
-            
-            const email = req.body.email
-            const password = req.body.password
-            const user = await Admin.findOne({email, password})
-            passport.authenticate('local.login', (err, user)=> {
-                if(!user) {
+                const errors = validationResult(req)
+                if(!errors.isEmpty()) {
+                    const myErrors = errors.array()
+                    req.flash('errors', myErrors)
                     return res.redirect('/authentication/adminLogin')
-                } else {
-                    req.logIn(user, err => {
-                        return res.redirect('/dashboard')
-                    })
                 }
-            })(req, res, next)
-
+                
+                const email = req.body.email
+                const password = req.body.password
+                const user = await Admin.findOne({email, password})
+                passport.authenticate('local.login', (err, user)=> {
+                    if(!user) {
+                        return res.redirect('/authentication/adminLogin')
+                    } else {
+                        req.logIn(user, err => {
+                            return res.redirect('/dashboard')
+                        })
+                    }
+                })(req, res, next)
         } catch (err) {
             next(err)
         }
@@ -62,11 +60,12 @@ module.exports = new class authController extends controller {
 
     async userLoginForm(req, res, next) {
         try {
-            const user = await User.findOne({})
-            res.locals = {
-                user
-            }
-            res.render('authentication/userLogin')
+                const user = await User.findOne({})
+                res.locals = {
+                    user,
+                    errors: req.flash('errors'),
+                }
+                res.render('authentication/userLogin')
         } catch (err) {
             next(err)
         }
@@ -74,19 +73,26 @@ module.exports = new class authController extends controller {
 
     async userLogin(req, res, next) {
         try {
-            const email = req.body.email
-            const password = req.body.password
-            const user = await User.findOne({email, password})
-
-            passport.authenticate('local.login', (err, user)=> {
-                if(!user) {
+                const errors = validationResult(req)
+                if(!errors.isEmpty()) {
+                    const myErrors = errors.array()
+                    req.flash('errors', myErrors)
                     return res.redirect('/authentication/userLogin')
-                } else {
-                    req.logIn(user, err => {
-                        return res.redirect('/dashboard')
-                    })
                 }
-            })(req, res, next)
+
+                const email = req.body.email
+                const password = req.body.password
+                const user = await User.findOne({email, password})
+
+                passport.authenticate('local.login', (err, user)=> {
+                    if(!user) {
+                        return res.redirect('/authentication/userLogin')
+                    } else {
+                        req.logIn(user, err => {
+                            return res.redirect('/dashboard')
+                        })
+                    }
+                })(req, res, next)
 
         } catch (err) {
             next(err)
@@ -99,7 +105,6 @@ module.exports = new class authController extends controller {
             res.locals = {
                 errors: req.flash('errors')
             }
-
             res.render('authentication/smsForm')
         } catch (err) {
             next(err)
@@ -108,26 +113,25 @@ module.exports = new class authController extends controller {
 
     async smsRequest(req, res, next) {
         try {           
-            // const errors = validationResult(req)
-            // if(!errors.isEmpty()) {
-            //     let myErrors = errors.array()
-            //     req.flash('errors', myErrors)
-            //     return res.redirect('/authentication/smsRequest')
-            // }
-
-            localStorage.clear()
-            const phoneNumber = req.body.phone
-            localStorage.setItem('phoneNumber', phoneNumber)
-            const code = Math.floor(100000 + Math.random() * 900000)
-            localStorage.setItem('verfyCode', code)
-            smsir.SendVerifyCode(phoneNumber, 930321,  [
-                {
-                  "name": "code",
-                  "value": code.toString()
+                const errors = validationResult(req)
+                if(!errors.isEmpty()) {
+                    let myErrors = errors.array()
+                    req.flash('errors', myErrors)
+                    return res.redirect('/authentication/smsRequest')
                 }
-              ])
 
-            res.redirect('/authentication/smsConfirm')
+                localStorage.clear()
+                const phoneNumber = req.body.phone
+                localStorage.setItem('phoneNumber', phoneNumber)
+                const code = Math.floor(100000 + Math.random() * 900000)
+                localStorage.setItem('verfyCode', code)
+                smsir.SendVerifyCode(phoneNumber, 930321,  [
+                    {
+                    "name": "code",
+                    "value": code.toString()
+                    }
+                ])
+                res.redirect('/authentication/smsConfirm')
         } catch (err) {
             next(err)
         }
@@ -135,11 +139,12 @@ module.exports = new class authController extends controller {
 
     async smsConfirmForm(req, res, next) {
         try {
-            const phoneNumber = localStorage.getItem('phoneNumber')
-            res.locals = {
-                phoneNumber
-            }
-            res.render('authentication/confirmSmsForm')
+                const phoneNumber = localStorage.getItem('phoneNumber')
+
+                res.locals = {
+                    phoneNumber
+                }
+                res.render('authentication/confirmSmsForm')
         } catch (err) {
             next(err)
         }
@@ -147,11 +152,11 @@ module.exports = new class authController extends controller {
 
     async smsConfirm(req, res, next) {
         try {
-            const verfyCode = localStorage.getItem('verfyCode')
-            const code = req.body.code
-            if(code === verfyCode) {
-                res.redirect('/authentication/register')
-            }            
+                const verfyCode = localStorage.getItem('verfyCode')
+                const code = req.body.code
+                if(code === verfyCode) {
+                    res.redirect('/authentication/register')
+                }            
         } catch (err) {
             next(err)
         }
@@ -160,13 +165,13 @@ module.exports = new class authController extends controller {
 
     async registerForm(req, res, next) {
         try {
-            const phoneNumber = localStorage.getItem('phoneNumber')
+                const phoneNumber = localStorage.getItem('phoneNumber')
+
             res.locals = {
-                phoneNumber
+                phoneNumber,
+                errors: req.flash('errors')
             }
-
             res.render('authentication/register')
-
         } catch (err) {
             next(err)
         }
@@ -174,29 +179,26 @@ module.exports = new class authController extends controller {
 
     async register(req, res, next) {
         try {
-            // const errors = validationResult(req)
-            // if(!errors.isEmpty()) {
-            //     let myErrors = errors.array()
-            //     req.flash('errors', myErrors)
-            //     return res.redirect('/authentication/personalForm')
-            // }
-            passport.authenticate('local.register', {
-                successRedirect: '/dashboard',
-                failureRedirect: '/authentication/smsRequest',
-                failureFlash: true
-            })(req, res, next)    
-            
-            const userEmail = req.body.email
-            const userName = req.body.firstName + " " + req.body.lastName
-            const emailTemplate = await EmailTemplate.findOne({ _id: "6597725e29b6b47b2f81271f" })
+                const errors = validationResult(req)
+                if(!errors.isEmpty()) {
+                    const myErrors = errors.array()
+                    req.flash('errors', myErrors)
+                    return res.redirect('/authentication/register')
+                }
 
-            emailSender(userName, userEmail, emailTemplate)
+                passport.authenticate('local.register', {
+                    successRedirect: '/dashboard',
+                    failureRedirect: '/authentication/register',
+                    failureFlash: true
+                })(req, res, next)    
+                
+                const userEmail = req.body.email
+                const userName = req.body.firstName + " " + req.body.lastName
+                const emailTemplate = await EmailTemplate.findOne({ _id: "6597725e29b6b47b2f81271f" })
 
+                emailSender(userName, userEmail, emailTemplate)
         } catch (err) {
             next(err)
         }
     }
-
-
-
 }

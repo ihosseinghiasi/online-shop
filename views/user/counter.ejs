@@ -31,7 +31,7 @@
                 document.getElementById('counter').style.backgroundColor = "rgba(24, 1, 3, 0.986)"
                 document.getElementById('counter').borderRadius = "5px"
             </script>
-
+ 
             <div class="col-10">
                 <div class="col-11 mx-5 counter">
                     <div class="titleCounter">
@@ -90,34 +90,3 @@
     </footer>
 </body>
 </html>
-
-<script>
-    const accHeading = document.querySelectorAll(".accordion");
-    const accPanel = document.querySelectorAll(".accordion-panel");
-
-    for (let i = 0; i < accHeading.length; i++) {
-        // Execute whenever an accordion is clicked 
-        accHeading[i].onclick = function() {
-            if (this.nextElementSibling.style.maxHeight) {
-            hidePanels();     // Hide All open Panels 
-            } else {
-            showPanel(this);  // Show the panel
-            } 
-        };
-    }
-
-    // Function to Show a Panel
-    function showPanel(elem) {
-    hidePanels();
-    elem.classList.add("active");
-    elem.nextElementSibling.style.maxHeight = elem.nextElementSibling.scrollHeight + "px";
-    }
-
-    // Function to Hide all shown Panels
-    function hidePanels() {
-    for (let i = 0; i < accPanel.length; i++) {
-        accPanel[i].style.maxHeight = null;
-        accHeading[i].classList.remove("active");
-    }
-    }
-  </script>

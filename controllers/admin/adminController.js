@@ -144,13 +144,13 @@ module.exports = new class adminController extends controller {
 
     async updateAdmin(req, res, next) {
         try {
+                const id = (req.params.id).trim()
                 const errors = validationResult(req)
                 if(!errors.isEmpty()) {
                     req.flash('errors', errors.array())
                     return res.redirect(`/admin-cPanel/admin/editAdmin/${id}`)
                 }
             
-                const id = (req.params.id).trim()
                 const bodyDetails = req.body
                 const myadmin = updateAdmin(bodyDetails)
                 const update = await Admin.updateOne({ _id: id }, { $set: myadmin })

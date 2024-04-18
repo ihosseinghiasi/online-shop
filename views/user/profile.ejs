@@ -24,7 +24,7 @@
     <div class="container container-fluid">
         <div class="row">
             <%- include('../components/userRightMenu') -%>
-
+ 
             <script>
                 document.getElementById('userProfile').style.backgroundColor = "rgba(24, 1, 4, 0.986)"
                 document.getElementById('userProfile').borderRadius = "5px"
@@ -48,7 +48,7 @@
                     </div>
                
                     <div class="addBody col-8 mx-5">
-                        <form action="/admin-cPanel/user/profile/<%= user.id %>?_method=PUT" method="post" class="mx-5">
+                        <form action="/user-cPanel/profile/<%= user.id %>?_method=PUT" method="post" class="mx-5">
                             <div class="row col-5 userForm">
                                 <div>  
                                     <input type="text" class="form-control mt-3"  placeholder="نام" name="firstName"
@@ -107,9 +107,38 @@
         // toggle the type attribute
         const type = confirmPassword.getAttribute("type") === "password" ? "text" : "password";
         confirmPassword.setAttribute("type", type);
-        
         // toggle the icon
         this.classList.toggle("bi-eye");
     });
 </script>
 
+<script>
+    const accHeading = document.querySelectorAll(".accordion");
+    const accPanel = document.querySelectorAll(".accordion-panel");
+
+    for (let i = 0; i < accHeading.length; i++) {
+        // Execute whenever an accordion is clicked 
+        accHeading[i].onclick = function() {
+            if (this.nextElementSibling.style.maxHeight) {
+            hidePanels();     // Hide All open Panels 
+            } else {
+            showPanel(this);  // Show the panel
+            } 
+        };
+    }
+
+    // Function to Show a Panel
+    function showPanel(elem) {
+    hidePanels();
+    elem.classList.add("active");
+    elem.nextElementSibling.style.maxHeight = elem.nextElementSibling.scrollHeight + "px";
+    }
+
+    // Function to Hide all shown Panels
+    function hidePanels() {
+    for (let i = 0; i < accPanel.length; i++) {
+        accPanel[i].style.maxHeight = null;
+        accHeading[i].classList.remove("active");
+    }
+    }
+  </script>

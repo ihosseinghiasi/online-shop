@@ -31,7 +31,7 @@
 
     <title>‍ پنل مدیریت </title>
 </head>
-<body>
+<body> 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
      integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
@@ -73,9 +73,9 @@
                             method="POST" enctype="multipart/form-data" >
                           <div class="row">
                             <div class="col-8">
-                                <input type="text" name="categoryName" class="form-control mt-3 enField
-                                 placeholder="نامک دسته بندی" value="<%= category.categoryName %>">
-                                <span class="badge bg-secondary nemeAddressBadge">http://localhost/admin-cPanel/category/***</span>
+                                <input type="text" name="categoryName" id="categoryName" class="form-control mt-3 enField"
+                                 list="productNameList" placeholder="نامک دسته بندی" value="<%= category.categoryName %>">
+                                <span class="badge bg-secondary nemeAddressBadge" id="namak">http://localhost/admin-cPanel/category/<%= category.categoryName %></span>
                                 <p class="mt-5 text-secondary">
                                     از نامک دسته بندی برای ساخت آدرس صفحه دسته بندی استفاده میشود .
                                 </p>
@@ -189,6 +189,18 @@ image.src = URL.createObjectURL(event.target.files[0]);
         accHeading[i].classList.remove("active");
     }
     }
+</script>
+
+<script>
+    const categoryName = document.getElementById('categoryName')
+    const namak = document.getElementById('namak')
+
+    const namakHandeler = function(text) {
+        namak.innerText = 'http://localhost/admin-cPanel/category/' + text.target.value
+    }
+
+    categoryName.addEventListener('input', namakHandeler)
+    categoryName.addEventListener('propertychange', namakHandeler)
 </script>
 
 

@@ -12,6 +12,11 @@
     margin-top: 80px;
 }
 
+.sell {
+    height: 2000px;
+    box-shadow: 1px 1px 70px lightgray;
+}
+
 .passwordEye {
     position: absolute;
     font-size: 1.3em;

@@ -56,7 +56,6 @@ module.exports = new class cardController extends controller {
         try {
                 const categoryTitles = await Category.find({}).select('title')
                 const products = await Product.find({})
-
                 const userID = req.user.id
                 const adminDepartment = req.user.department
                 const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})

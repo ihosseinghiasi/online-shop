@@ -130,6 +130,8 @@
 
                                     function addRemoveOptions() {
                                     const products = JSON.parse('<%- JSON.stringify(products) %>')
+                                    alert(typeof(products))
+                                    alert(products)
                                     const cardProduct = document.getElementById('cardProduct')
                                     const length = cardProduct.options.length;
                                     for (i = length-1; i >= 0; i--) {
@@ -231,9 +233,9 @@
 <script>
       // Function to Show a Panel
       function showPanel(elem) {
-    hidePanels();
-    elem.classList.add("active");
-    elem.nextElementSibling.style.maxHeight = elem.nextElementSibling.scrollHeight + "px";
+        hidePanels();
+        elem.classList.add("active");
+        elem.nextElementSibling.style.maxHeight = elem.nextElementSibling.scrollHeight + "px";
     }
 </script>
 <script>
@@ -245,4 +247,3 @@
     }
     }
 </script>
-

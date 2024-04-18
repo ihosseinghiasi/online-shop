@@ -67,7 +67,7 @@ module.exports = new class adminController extends controller {
                     recevedTicketsNumber,
                     newPayments,
                     errors: req.flash('errors')
-            }
+                 }
                 if(req.user.isAdmin === "on") {
                     return res.render('admin/adminRegister')
                 }else{

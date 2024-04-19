@@ -14,7 +14,7 @@ module.exports = new class profileController extends controller {
                 const userID = req.user.id
                 const userTickets = await Ticket.find({ user: userID })
                 const ticketNumber = ticketsReport(userTickets)
-                const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+                const recevedTicketsNumber = ticketNumber.newRecevedTicketsNumber
 
                 const payments = await Payment.find({ $and:[{ user: userID }, { isNewPaymentForUser: true }] })
                 const newPayments = payments.length

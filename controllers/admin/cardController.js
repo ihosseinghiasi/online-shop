@@ -55,7 +55,7 @@ module.exports = new class cardController extends controller {
     async newCard(req, res, next) {
         try {
                 const categoryTitles = await Category.find({}).select('title')
-                const products = await Product.find({})
+                const products = await Product.find({ }).select('categoryTitle').select('title').select('fields')
                 const userID = req.user.id
                 const adminDepartment = req.user.department
                 const userTickets = await Ticket.find({ $or: [{ user: userID }, { targetDepartment: adminDepartment }]})
@@ -126,13 +126,19 @@ module.exports = new class cardController extends controller {
                 const ticketNumber = ticketsReport(userTickets)
                 const recevedTicketsNumber = ticketNumber.newSentTicketsNumber
                 
-                const id = (req.params.id).trim()
-                const card = await Card.findOne({ _id: id })
-                const categoryTitles = await Category.find({}).select('title')
-                const products = await Product.find({})
-
                 const payments = await Payment.find({ isNewPaymentForAdmin: true })
                 const newPayments = payments.length
+ 
+                const id = (req.params.id).trim()
+                const card = await Card.findOne({ _id: id })
+                const productSelected = card.cardProduct
+                const count = await Product.findOne({title: productSelected}).select('count')
+                let updateCount = count.count
+                updateCount--
+                const productCountUpdate = await Product.updateOne({ title: productSelected }, {$set : { count: updateCount }})
+                
+                const categoryTitles = await Category.find({}).select('title')
+                const products = await Product.find({ }).select('categoryTitle').select('title').select('fields')
 
                 res.locals = {
                     persianDate,
@@ -175,6 +181,11 @@ module.exports = new class cardController extends controller {
                     cardProduct: req.body.cardProduct,
                     cardStatus: req.body.cardStatus                    
                 }
+                
+                const count = await Product.findOne({title: productSelected}).select('count')
+                let updateCount = count.count
+                updateCount++
+                const productCountUpdate = await Product.updateOne({ title: productSelected }, {$set : { count: updateCount }})
 
                 const id = (req.params.id).trim()
                 const updateCard = await Card.updateOne({ _id: id }, { $set: updateData})
@@ -190,6 +201,7 @@ module.exports = new class cardController extends controller {
         try {
             const id = (req.params.id).trim()
             const oneCard = await Card.findOne({ _id: id })
+
             const productSelected = oneCard.cardProduct
             const count = await Product.findOne({title: productSelected}).select('count')
             let updateCount = count.count

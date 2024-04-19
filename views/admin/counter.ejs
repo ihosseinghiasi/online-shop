@@ -61,12 +61,13 @@
                         const sellValuesArray = sellValues.split(",")
                         const barColors = [
                             "#2b5797",
-                            "#00aba9",
+                            "#0aba9",
                             "#b91df7",
-                            "#c91d47",
-                            "#bf1547",
-                            "#091247",
-                            "#baad47",
+                            "#bb1d47",
+                            "#bf154c",
+                            "#0912e7",
+                            "#e0ad40",
+                            "#ba2dc7",
                         ];
 
                         new Chart("myChart", {
@@ -105,11 +106,11 @@
                     const ticketTitles = [   "تیکت های جدبد دریافتی","تیکت های جدبد ارسالی", "تیکت های دریافتی", "تیکت های ارسالی", "کل تیکت ها"];
                     const ticketValues = [ "<%= recevedTicketsNumber %>" ,"<%= sentTicketsNumber %>", "<%= readRecevedTicketsNumber %>" , "<%= readSentTicketsNumber %>" , "<%= allTicketsNumber %>"];
                     const ticketBarColors = [
-                        "#2b5797",
+                        "#2ba797",
                         "#00aba9",
                         "#b91d47",
                         "#c00bc7",
-                        "#a91d40",
+                        "#a91d4b",
                     ];
 
                     new Chart("ticketChart", {

@@ -13,7 +13,7 @@ module.exports = new class ticketController extends controller {
             const userID = req.user.id
             const userTickets = await Ticket.find({ user: userID })
             const ticketNumber = ticketsReport(userTickets)
-            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+            const recevedTicketsNumber = ticketNumber.newRecevedTicketsNumber
 
             const payments = await Payment.find({ $and:[{ user: userID }, { isNewPaymentForUser: true }] })
             const newPayments = payments.length
@@ -43,7 +43,7 @@ module.exports = new class ticketController extends controller {
             const userID = req.user.id
             const userTickets = await Ticket.find({ user: userID })
             const ticketNumber = ticketsReport(userTickets)
-            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+            const recevedTicketsNumber = ticketNumber.newRecevedTicketsNumber
 
             const payments = await Payment.find({ $and:[{ user: userID }, { isNewPaymentForUser: true }] })
             const newPayments = payments.length
@@ -118,7 +118,7 @@ module.exports = new class ticketController extends controller {
             const userID = req.user.id
             const userTickets = await Ticket.find({ user: userID })
             const ticketNumber = ticketsReport(userTickets)
-            const recevedTicketsNumber = ticketNumber.recevedTicketsNumber
+            const recevedTicketsNumber = ticketNumber.newRecevedTicketsNumber
 
             const payments = await Payment.find({ $and:[{ user: userID }, { isNewPaymentForUser: true }] })
             const newPayments = payments.length
@@ -142,7 +142,8 @@ module.exports = new class ticketController extends controller {
         const id = (req.params.id).trim()
         let tickets = await Ticket.findOne({ _id: id })
         let ticketsNumber = ++(tickets.tickets)
-        let newTickets = tickets.newUserTickets
+        let newUserTickets = tickets.newUserTickets
+        let userTickets = tickets.userTickets
        
         let newTicketText = req.body.newTicket
         const tagIgnore = /(<([^>]+)>)/g
@@ -169,7 +170,8 @@ module.exports = new class ticketController extends controller {
             const data = {
                 ticket: myTickets,
                 tickets: ticketsNumber,
-                newUserTickets: ++newTickets
+                newUserTickets: ++newUserTickets,
+                userTickets: ++userTickets
             }
             const update = await Ticket.updateOne({ _id: id }, { $set: data })
 

@@ -75,10 +75,10 @@
                             <div class="userTicket mt-2 <%= tickets.sender %>">
                                 <div class="headerTicket">
                                     <div class="mt-2 me-3 position-absolute">
-                                        <% if (tickets.sender === "شما") { %>
-                                            <p> <%= tickets.sender %> در تاریخ <%= tickets.date %> گفتید : </p>
+                                        <% if (tickets.sender === "مدیریت") { %>
+                                            <p> شما در تاریخ <%= tickets.date %> گفتید : </p>
                                         <% } else { %> 
-                                            <p> <%= tickets.sender %> در تاریخ <%= tickets.date %> گفت : </p>
+                                            <p> کاربر در تاریخ <%= tickets.date %> گفت : </p>
                                         <% } %> 
                                     </div>
                                     <div class=" mt-5 me-3 position-absolute" id="ticket"> 

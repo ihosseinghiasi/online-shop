@@ -144,12 +144,6 @@ module.exports = new class ticketController extends controller {
     async updateTicket(req, res, next) {
     try {
             const id = (req.params.id).trim()
-            const errors = validationResult(req)
-            if (!errors.isEmpty()) {
-                req.flash('errors', errors.array()) 
-                return res.redirect(`/admin-cPanel/ticket/showTicket/${id}`)
-            }
-
             const ticket = await Ticket.findOne({ _id: id })
             const ticketsNumber = ++(ticket.tickets)
             const newAdminTicketsNumber = ++(ticket.newAdminTickets)
@@ -176,7 +170,8 @@ module.exports = new class ticketController extends controller {
                 ticket: myTickets,
                 tickets: ticketsNumber ,
                 adminTickets: adminTicketsNumber,
-                newAdminTickets: newAdminTicketsNumber
+                newAdminTickets: newAdminTicketsNumber,
+                status: "پاسخ مدیریت"
             }
             const update = await Ticket.updateOne({ _id: id }, { $set: data })
             return res.redirect(`/admin-cPanel/ticket/showTicket/${id}`)

@@ -54,12 +54,14 @@
                         </div>
 
                     <script>
-                    const xValues = ["تیکت های دریافتی", "تیکت های ارسالی", "کل تیکت ها"];
-                    const yValues = ["<%= recevedTicketsNumber %>" ,"<%= sentTicketsNumber %>", "<%= allTicketsNumber %>"];
-                    const barColors = [
+                    const xValues = [   "تیکت های جدبد دریافتی","تیکت های جدبد ارسالی", "تیکت های دریافتی", "تیکت های ارسالی", "کل تیکت ها"];
+                    const yValues = [ "<%= recevedTicketsNumber %>" ,"<%= sentTicketsNumber %>", "<%= readRecevedTicketsNumber %>" , "<%= readSentTicketsNumber %>" , "<%= allTicketsNumber %>"];
+                    const barColors = [ 
                         "#2b5797",
                         "#00aba9",
                         "#b91d47",
+                        "#c00bc7",
+                        "#a91d40",
                     ];
 
                     new Chart("myChart", {

@@ -41,7 +41,7 @@
                 <img src="/icons/user1.svg" alt="shopping">
               </a>
               <ul class="dropdown-menu dropdownMenu">
-                <% if (userType === "admin") { %>
+                <% if (userType === "admin" || userType === "support") { %>
                   <li><a class="dropdown-item dropdownItem" href="/admin-cPanel/counter"> ورود به پنل </a></li>
                  <% } else { %>
                   <li><a class="dropdown-item dropdownItem" href="/user-cPanel/counter"> ورود به پنل </a></li>
